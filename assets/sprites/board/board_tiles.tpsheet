@@ -1,0 +1,48 @@
+{
+	"textures": [
+		{
+			"image": "board_tiles.png",
+			"size": {
+				"w": 260,
+				"h": 130
+			},
+			"sprites": [
+				{
+					"filename": "tile_black.png",
+					"region": {
+						"x": 1,
+						"y": 1,
+						"w": 128,
+						"h": 128
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "tile_white.png",
+					"region": {
+						"x": 131,
+						"y": 1,
+						"w": 128,
+						"h": 128
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:84320960dd4be440f568163970028f01:22dec3c6cab44b4ecd740a0d18d5b3bd:4ba6bddeaba8ac9decd2146c2371a872$"
+	}
+}

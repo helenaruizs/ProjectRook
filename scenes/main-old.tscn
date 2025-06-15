@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://l71df52ljrth"]
+
+[ext_resource type="Script" uid="uid://du00nos67youy" path="res://scripts/_OLD/camera.gd" id="1_bu5sr"]
+[ext_resource type="PackedScene" uid="uid://d3sg15u3xpsr3" path="res://scenes/board/board.tscn" id="2_iis3v"]
+[ext_resource type="PackedScene" uid="uid://7fc8dbu3ea0w" path="res://scenes/_OLD/chess_piece.tscn" id="3_g7ovb"]
+
+[node name="Main" type="Node"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.855229, 0.518251, 0, -0.518251, 0.855229, 0, 3.13791, 5.47877)
+projection = 1
+current = true
+size = 5.25066
+script = ExtResource("1_bu5sr")
+
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 0.258819, -0.965926, 0, 0.965926, 0.258819, 0, 0, 0)
+target_position = Vector3(0, -1.845, 0)
+collision_mask = 7
+collide_with_areas = true
+
+[node name="Board" parent="." instance=ExtResource("2_iis3v")]
+
+[node name="ChessPieces" type="Node" parent="."]
+
+[node name="ChessPiece2" parent="ChessPieces" instance=ExtResource("3_g7ovb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.477664, 1.19209e-07, 0.66176)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.323884, 0.946097, 0, -0.946097, 0.323884, 0.0876713, 6.78015, 0.0436654)

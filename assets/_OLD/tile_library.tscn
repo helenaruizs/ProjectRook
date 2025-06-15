@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://ojic0kwxofg5"]
+
+[ext_resource type="ArrayMesh" uid="uid://damr68oypgrac" path="res://assets/_OLD/meshes/tile_black_fpo.res" id="1_0ih02"]
+[ext_resource type="ArrayMesh" uid="uid://42r7sffcpntr" path="res://assets/_OLD/meshes/tile_white_fpo.res" id="2_ebhvf"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kay2m"]
+size = Vector3(1, 0.137146, 1)
+
+[node name="TileLibrary" type="Node3D"]
+
+[node name="tile_black" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.12474)
+mesh = ExtResource("1_0ih02")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="tile_black"]
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="tile_black/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0472107, 0)
+shape = SubResource("BoxShape3D_kay2m")
+
+[node name="tile_white" type="MeshInstance3D" parent="."]
+mesh = ExtResource("2_ebhvf")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="tile_white"]
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="tile_white/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0472107, 0)
+shape = SubResource("BoxShape3D_kay2m")

@@ -1,0 +1,36 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="ProjectRook"
+run/main_scene="uid://l71df52ljrth"
+config/features=PackedStringArray("4.4", "GL Compatibility")
+config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=1440
+window/size/viewport_height=1024
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/script-ide/plugin.cfg")
+
+[layer_names]
+
+3d_physics/layer_1="Player"
+3d_physics/layer_2="Enemy"
+3d_physics/layer_3="Board"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

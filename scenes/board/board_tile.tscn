@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://btlgm7sipfims"]
+
+[ext_resource type="Script" uid="uid://d1hmvadn33pcp" path="res://scripts/board_tile.gd" id="1_la78r"]
+[ext_resource type="Material" uid="uid://btb1ynhv2jmhf" path="res://assets/materials/board_tile_white.tres" id="2_xwp66"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_tr27u"]
+size = Vector2(1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s78fa"]
+size = Vector3(1, 0.0606079, 1)
+
+[node name="BoardTile" type="Node3D" node_paths=PackedStringArray("mesh", "static_body")]
+script = ExtResource("1_la78r")
+mesh = NodePath("MeshInstance3D")
+static_body = NodePath("StaticBody3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = ExtResource("2_xwp66")
+mesh = SubResource("PlaneMesh_tr27u")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 4
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0293884, 0)
+shape = SubResource("BoxShape3D_s78fa")
