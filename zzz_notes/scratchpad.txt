@@ -32,3 +32,54 @@ MyGame/
 ├── tests/                   # unit & integration tests
 ├── docs/                    # design docs, art briefs
 └── ci/                      # CI/CD scripts & configs
+
+
+Piece Movement
+
+1) Store the coordinate on the Piece itself
+Have each Piece instance carry a board_pos: Vector2i that you set whenever you spawn or move it. Then emit that as part of the signal.
+
+Piece.gd
+gdscript
+Copy
+Edit
+extends Node3D
+class_name Piece
+
+signal clicked(piece: Piece, board_pos: Vector2i)
+
+# this gets set by Board when you spawn or move the piece
+var board_pos: Vector2i
+
+func _ready():
+	# for example, detect clicks via the mesh’s input event
+	$CollisionShape3D.input_event.connect(self, "_on_input_event")
+
+func _on_input_event(camera, event, position, normal, shape_idx):
+	if event is InputEventMouseButton and event.pressed:
+		emit_signal("clicked", self, board_pos)
+Board.gd (when you spawn/move)
+gdscript
+Copy
+Edit
+# whenever you place a piece at coord:
+p.board_pos = coord
+# …and when you move it:
+p.board_pos = to_coord
+GameManager.gd
+gdscript
+Copy
+Edit
+extends Node
+
+@onready var board := $Board
+
+func _ready():
+	# connect all existing pieces
+	for p in board.get_tree().get_nodes_in_group("pieces"):
+		p.clicked.connect(self, "_on_piece_clicked")
+
+func _on_piece_clicked(piece: Piece, pos: Vector2i):
+	print("Clicked piece at grid coord:", pos)
+	# now you know exactly where it is
+You don’t need to “search” for it—GameManager gets the coord directly from the signal.

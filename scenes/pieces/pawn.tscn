@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2vfbnll442qe"]
+
+[ext_resource type="PackedScene" uid="uid://4stpcb72rks0" path="res://scenes/pieces/base_pieces/piece.tscn" id="1_joqft"]
+[ext_resource type="Texture2D" uid="uid://dvukvocxf6i6c" path="res://assets/sprites/pieces/piece_pawn_FPO.png" id="2_chx7o"]
+
+[node name="Pawn" type="Node3D"]
+
+[node name="Piece" parent="." instance=ExtResource("1_joqft")]
+
+[node name="Sprite3D" parent="Piece" index="0"]
+texture = ExtResource("2_chx7o")
+
+[editable path="Piece"]

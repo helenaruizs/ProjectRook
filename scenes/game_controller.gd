@@ -18,9 +18,10 @@ const PIECE = preload("res://scenes/pieces/base_pieces/piece.tscn")
 var current_turn : GameTurn = GameTurn.PLAYER
 var board_map : Dictionary = {} 
 
-func _ready():
-	await board.ready
-	var test_tile = board.get_position_by_id("D4")
-	var test_piece = PIECE.instantiate()
-	player_pieces.add_child(test_piece)
-	test_piece.global_position = test_tile
+#func _ready():
+	#await board.ready
+	#var test_tile = board.get_position_by_id("D4")
+	#var test_piece = PIECE.instantiate()
+	#test_piece.board_pos = "D4"
+	#player_pieces.add_child(test_piece)
+	#test_piece.global_transform.origin = test_tile

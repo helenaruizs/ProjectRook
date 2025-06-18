@@ -10,8 +10,8 @@ func _ready():
 	for tile in get_children():
 		if tile is BoardTile:
 			# PConverting to nice string IDs like A1
-			var file_str = BoardTile.Files.keys()[tile.file]
-			var rank_str = BoardTile.Ranks.keys()[tile.rank].trim_prefix("_")
+			var file_str = Enums.Files.keys()[tile.file]
+			var rank_str = Enums.Ranks.keys()[tile.rank].trim_prefix("_")
 			var id_str   = file_str + rank_str
 			
 			# Populating dictionaries

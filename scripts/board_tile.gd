@@ -4,48 +4,21 @@ class_name BoardTile
 
 extends Node3D
 
-signal tile_hovered(file : Files, rank : Ranks)
+signal tile_hovered(file : Enums.Files, rank : Enums.Ranks)
 
 signal tile_clicked(ID : String)
-
-enum TileType {
-	BLACK,
-	WHITE,
-}
-
-enum Files {
-	A,
-	B,
-	C,
-	D,
-	E,
-	F,
-	G,
-	H,
-}
-
-enum Ranks {
-	_1,
-	_2,
-	_3,
-	_4,
-	_5,
-	_6,
-	_7,
-	_8,
-}
 
 # HACK: Hardcoded these materials
 const BOARD_TILE_BLACK = preload("res://assets/materials/board_tile_black.tres")
 const BOARD_TILE_WHITE = preload("res://assets/materials/board_tile_white.tres")
 
 @export_subgroup("Tile Instance Properties")
-@export var tile_type : TileType:
+@export var tile_type : Enums.PieceColor:
 	set(new_type):
 		tile_type = new_type
 		
-@export var file : Files # Files are the columns, from left to right, from A-H
-@export var rank : Ranks # Ranks are the rows, they go from bottom to top, from 1-8
+@export var file : Enums.Files # Files are the columns, from left to right, from A-H
+@export var rank : Enums.Ranks # Ranks are the rows, they go from bottom to top, from 1-8
 
 @export_subgroup("Children Setup")
 @export var mesh : MeshInstance3D
@@ -57,15 +30,15 @@ var tile_pos := Vector3(0, 0, 0)
 func _ready():
 	update_mesh_per_tile_type()
 	tile_pos = global_transform.origin
-	tile_ID = Files.keys()[file] + Ranks.keys()[rank].trim_prefix("_")
+	tile_ID = Enums.Files.keys()[file] + Enums.Ranks.keys()[rank].trim_prefix("_")
 	print(tile_ID)
 
 # HACK: Cheapest solution for this, pretty non scaleable
 func update_mesh_per_tile_type():
 	match tile_type:
-		TileType.BLACK:
+		Enums.PieceColor.BLACK:
 			mesh.material_override = BOARD_TILE_BLACK
-		TileType.WHITE:
+		Enums.PieceColor.WHITE:
 			mesh.material_override = BOARD_TILE_WHITE
 		_:
 			null
