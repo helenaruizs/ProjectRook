@@ -4,7 +4,9 @@ class_name BoardTile
 
 extends Node3D
 
-signal tile_hovered(x, y)
+signal tile_hovered(file : Files, rank : Ranks)
+
+signal tile_clicked(ID : String)
 
 enum TileType {
 	BLACK,
@@ -49,12 +51,14 @@ const BOARD_TILE_WHITE = preload("res://assets/materials/board_tile_white.tres")
 @export var mesh : MeshInstance3D
 @export var static_body : StaticBody3D
 
+var tile_ID : String
 var tile_pos := Vector3(0, 0, 0)
 
 func _ready():
 	update_mesh_per_tile_type()
 	tile_pos = global_transform.origin
-
+	tile_ID = Files.keys()[file] + Ranks.keys()[rank].trim_prefix("_")
+	print(tile_ID)
 
 # HACK: Cheapest solution for this, pretty non scaleable
 func update_mesh_per_tile_type():
@@ -68,5 +72,4 @@ func update_mesh_per_tile_type():
 
 
 func _mouse_hover_entered():
-	var array =[file, rank]
-	print(array)
+	emit_signal("tile_hovered", file, rank)

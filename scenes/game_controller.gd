@@ -5,6 +5,9 @@ enum GameTurn {
 	ENEMY,
 }
 
+# HACK hardcoded references
+const PIECE = preload("res://scenes/pieces/base_pieces/piece.tscn")
+
 # Scene references
 @export var board : Board
 @export var player_pieces : FactionPieces
@@ -17,5 +20,7 @@ var board_map : Dictionary = {}
 
 func _ready():
 	await board.ready
-	var test_tile = board.get_position_by_id("A4")
-	print(test_tile)
+	var test_tile = board.get_position_by_id("D4")
+	var test_piece = PIECE.instantiate()
+	player_pieces.add_child(test_piece)
+	test_piece.global_position = test_tile

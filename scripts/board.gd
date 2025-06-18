@@ -2,38 +2,25 @@ class_name Board
 
 extends Node3D
 
-#var files_in_numbers : Dictionary = {
-	#"A" = 1,
-	#"B" = 2,
-	#"C" = 3,
-	#"D" = 4,
-	#"E" = 5,
-	#"F" = 6,
-	#"G" = 7,
-	#"H" = 8,
-#}
+var tile_map_IDs : Dictionary[String, Vector3] = {}
 
-var tile_map_IDs : Dictionary = {}
-
-var board_grid : Dictionary = {}
+var board_grid : Dictionary[Vector2i, Vector3] = {}
 
 func _ready():
 	for tile in get_children():
 		if tile is BoardTile:
-			# Populating the ID dictionary
-			var file_str = BoardTile.Files.keys()[tile.file]  # Convert enum to string like "A"
-			var rank_str = BoardTile.Ranks.keys()[tile.rank]  # Convert enum to string like "_1"
-			var key = file_str + rank_str.trim_prefix("_")    # Get "A1", "B2", etc.
-			tile_map_IDs[key] = tile.global_transform.origin
+			# PConverting to nice string IDs like A1
+			var file_str = BoardTile.Files.keys()[tile.file]
+			var rank_str = BoardTile.Ranks.keys()[tile.rank].trim_prefix("_")
+			var id_str   = file_str + rank_str
 			
-			## Populating the 2d grid dictionary
-			var row = tile.file  # Convert enum to string like "A"
-			var column = tile.rank  # Convert enum to string like "_1"
-			var label = [row, column]   # Get "A1", "B2", etc.
-			board_grid[label] = tile.global_transform.origin
+			# Populating dictionaries
+			var pos : Vector3 = tile.global_position
+			tile_map_IDs[id_str] = pos
+			board_grid[Vector2i(tile.file, tile.rank)] = pos
 			
 			# Connecting to the mouse signals from the tiles
-			tile.tile_hovered.connect(self.on_tile_hover)
+			tile.tile_hovered.connect(Callable(self, "on_tile_hover"))
 	print(board_grid)
 
 
@@ -50,11 +37,27 @@ func get_position_by_id(tile_id: String) -> Vector3:
 		push_error("Not able to retrieve tile position")
 		return Vector3.ZERO  # Safe fallback
 
-func get_id_by_tile(tile: BoardTile) -> String:
-	for id in tile_map_IDs:
-		if tile_map_IDs[id] == tile:
-			return id
-	return ""
+#func get_id_by_tile(tile: BoardTile) -> String:
+	#for id in tile_map_IDs:
+		#if tile_map_IDs[id] == tile:
+			#return id
+	#return ""
 	
-func on_tile_hover():
-	print("Tile hovered!")
+func on_tile_hover(file_enum: int, rank_enum: int) -> void:
+	# recreate your keys
+	var file_str = BoardTile.Files.keys()[ file_enum ]
+	var rank_str = BoardTile.Ranks.keys()[ rank_enum ].trim_prefix("_")
+	var id_str   = file_str + rank_str
+	var coord    = Vector2i(file_enum, rank_enum)
+
+	## example 1: lookup world-pos by string
+	#if tile_map_IDs.has(id_str):
+		#print("Hovered “", id_str, "” at ", tile_map_IDs[id_str])
+	#else:
+		#push_error("no entry in tile_map_IDs for “%s”" % id_str)
+#
+	## example 2: lookup world-pos by Vector2i
+	#if board_grid.has(coord):
+		#print("  or by coord", coord, "→", board_grid[coord])
+	#else:
+		#push_error("no entry in board_grid for %s" % coord)

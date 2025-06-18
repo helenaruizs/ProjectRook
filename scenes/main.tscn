@@ -18,10 +18,10 @@ camera = NodePath("../../Camera3D")
 ui = NodePath("../../UI")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.855229, 0.518251, 0, -0.518251, 0.855229, 0, 3.13791, 5.47877)
+transform = Transform3D(1, 0, 0, 0, 0.855229, 0.518251, 0, -0.518251, 0.855229, 3.50183, 5.44557, 5.47877)
 projection = 1
 current = true
-size = 5.25066
+size = 6.381
 script = ExtResource("1_0wfyh")
 
 [node name="RayCast3D" type="RayCast3D" parent="Camera3D"]

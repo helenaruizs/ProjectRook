@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://4stpcb72rks0"]
-
-[ext_resource type="Script" uid="uid://orsjn0r1d61u" path="res://scenes/pieces/base_pieces/chess_piece.gd" id="1_m7oub"]
-
-[node name="ChessPiece" type="Node3D"]
-script = ExtResource("1_m7oub")
