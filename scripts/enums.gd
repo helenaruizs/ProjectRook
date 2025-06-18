@@ -37,3 +37,9 @@ enum Ranks {
 	_7,
 	_8,
 }
+
+
+enum GameTurn {
+	PLAYER,
+	ENEMY,
+}

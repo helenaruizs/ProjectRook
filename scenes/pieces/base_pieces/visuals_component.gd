@@ -1,3 +1,3 @@
 class_name VisualsComponent
 
-extends Node
+extends Node3D

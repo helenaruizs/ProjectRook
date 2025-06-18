@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://l71df52ljrth"]
+[gd_scene load_steps=5 format=3 uid="uid://l71df52ljrth"]
 
 [ext_resource type="Script" uid="uid://du00nos67youy" path="res://scripts/camera.gd" id="1_0wfyh"]
 [ext_resource type="Script" uid="uid://c6m8jg205cjb7" path="res://scenes/game_controller.gd" id="1_sugp2"]
-[ext_resource type="PackedScene" uid="uid://d3sg15u3xpsr3" path="res://scenes/board/board.tscn" id="2_sugp2"]
 [ext_resource type="Script" uid="uid://cxsu8sksx0iim" path="res://scripts/faction_pieces.gd" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://b3upasuhwsrkm" path="res://scenes/board/board_gridmap.tscn" id="4_tbgi4"]
 
@@ -12,7 +11,7 @@
 
 [node name="GameController" type="Node" parent="Controllers" node_paths=PackedStringArray("board", "player_pieces", "enemy_pieces", "camera", "ui")]
 script = ExtResource("1_sugp2")
-board = NodePath("../../Board")
+board = NodePath("../../BoardGridmap")
 player_pieces = NodePath("../../PlayerPieces")
 enemy_pieces = NodePath("../../EnemyPieces")
 camera = NodePath("../../Camera3D")
@@ -25,17 +24,7 @@ current = true
 size = 6.381
 script = ExtResource("1_0wfyh")
 
-[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 0.258819, -0.965926, 0, 0.965926, 0.258819, 0, 0, 0)
-target_position = Vector3(0, -1.845, 0)
-collision_mask = 7
-collide_with_areas = true
-
-[node name="Board" parent="." instance=ExtResource("2_sugp2")]
-
 [node name="BoardGridmap" parent="." instance=ExtResource("4_tbgi4")]
-
-[node name="ChessPieces" type="Node" parent="."]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.323884, 0.946097, 0, -0.946097, 0.323884, 0.0876713, 6.78015, 0.0436654)

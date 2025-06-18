@@ -9,12 +9,12 @@
 
 [node name="Piece" type="Node3D" node_paths=PackedStringArray("visuals", "movement", "stats", "modifiers")]
 script = ExtResource("1_m7oub")
-visuals = NodePath("VisualsComponent")
+visuals = NodePath("")
 movement = NodePath("MovementComponent")
 stats = NodePath("StatsComponent")
 modifiers = NodePath("ModifiersComponent")
 
-[node name="VisualsComponent" type="Node" parent="."]
+[node name="VisualsComponent" type="Node3D" parent="."]
 script = ExtResource("2_uyuhl")
 
 [node name="Sprite3D" type="Sprite3D" parent="VisualsComponent"]

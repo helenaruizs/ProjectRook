@@ -7,4 +7,4 @@ extends Node3D
 @export var stats : PieceStats
 @export var modifiers : ModifiersComponent
 
-var board_pos : String
+var board_pos : Vector2i
