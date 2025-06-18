@@ -4,6 +4,8 @@ class_name BoardTile
 
 extends Node3D
 
+signal tile_hovered(x, y)
+
 enum TileType {
 	BLACK,
 	WHITE,
@@ -47,8 +49,11 @@ const BOARD_TILE_WHITE = preload("res://assets/materials/board_tile_white.tres")
 @export var mesh : MeshInstance3D
 @export var static_body : StaticBody3D
 
+var tile_pos := Vector3(0, 0, 0)
+
 func _ready():
 	update_mesh_per_tile_type()
+	tile_pos = global_transform.origin
 
 
 # HACK: Cheapest solution for this, pretty non scaleable
@@ -60,3 +65,8 @@ func update_mesh_per_tile_type():
 			mesh.material_override = BOARD_TILE_WHITE
 		_:
 			null
+
+
+func _mouse_hover_entered():
+	var array =[file, rank]
+	print(array)
