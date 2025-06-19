@@ -1,15 +1,14 @@
 [gd_scene load_steps=7 format=3 uid="uid://4stpcb72rks0"]
 
-[ext_resource type="Script" uid="uid://orsjn0r1d61u" path="res://scenes/pieces/base_pieces/piece.gd" id="1_m7oub"]
+[ext_resource type="Script" uid="uid://orsjn0r1d61u" path="res://_pieces/piece.gd" id="1_m7oub"]
 [ext_resource type="Texture2D" uid="uid://cesnuaugwr2h4" path="res://assets/sprites/pieces/piece_rook_FPO.png" id="2_cq64i"]
-[ext_resource type="Script" uid="uid://dlrpytwbfemaa" path="res://scenes/pieces/base_pieces/visuals_component.gd" id="2_uyuhl"]
-[ext_resource type="Script" uid="uid://hud2tqdvqysw" path="res://scenes/pieces/base_pieces/movement_component.gd" id="4_54wly"]
-[ext_resource type="Script" uid="uid://b7mlauncabyke" path="res://scenes/pieces/base_pieces/stats_component.gd" id="5_gbxwr"]
-[ext_resource type="Script" uid="uid://b6feeqgteiaba" path="res://scenes/pieces/base_pieces/modifiers_component.gd" id="6_drro1"]
+[ext_resource type="Script" uid="uid://dlrpytwbfemaa" path="res://_pieces/components/visuals_component.gd" id="2_uyuhl"]
+[ext_resource type="Script" uid="uid://hud2tqdvqysw" path="res://_pieces/components/movement_component.gd" id="4_54wly"]
+[ext_resource type="Script" uid="uid://b7mlauncabyke" path="res://_pieces/components/stats_component.gd" id="5_gbxwr"]
+[ext_resource type="Script" uid="uid://b6feeqgteiaba" path="res://_pieces/components/modifiers_component.gd" id="6_drro1"]
 
-[node name="Piece" type="Node3D" node_paths=PackedStringArray("visuals", "movement", "stats", "modifiers")]
+[node name="Piece" type="Node3D" node_paths=PackedStringArray("movement", "stats", "modifiers")]
 script = ExtResource("1_m7oub")
-visuals = NodePath("")
 movement = NodePath("MovementComponent")
 stats = NodePath("StatsComponent")
 modifiers = NodePath("ModifiersComponent")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://btlgm7sipfims"]
 
-[ext_resource type="Script" uid="uid://d1hmvadn33pcp" path="res://scripts/board_tile.gd" id="1_la78r"]
+[ext_resource type="Script" uid="uid://d1hmvadn33pcp" path="res://_board/board_tile.gd" id="1_la78r"]
 [ext_resource type="Material" uid="uid://74tm4hpb4dh5" path="res://assets/materials/board_tile_black.tres" id="2_xwp66"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_tr27u"]

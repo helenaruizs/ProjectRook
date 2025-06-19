@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://ojic0kwxofg5"]
 
-[ext_resource type="ArrayMesh" uid="uid://damr68oypgrac" path="res://assets/_OLD/meshes/tile_black_fpo.res" id="1_0ih02"]
-[ext_resource type="ArrayMesh" uid="uid://42r7sffcpntr" path="res://assets/_OLD/meshes/tile_white_fpo.res" id="2_ebhvf"]
+[ext_resource type="ArrayMesh" uid="uid://damr68oypgrac" path="res://assets/meshes/tile_black_fpo.res" id="1_0ih02"]
+[ext_resource type="ArrayMesh" uid="uid://42r7sffcpntr" path="res://assets/meshes/tile_white_fpo.res" id="2_ebhvf"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kay2m"]
 size = Vector3(1, 0.137146, 1)

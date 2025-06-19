@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://b2vfbnll442qe"]
-
-[ext_resource type="PackedScene" uid="uid://4stpcb72rks0" path="res://scenes/pieces/base_pieces/piece.tscn" id="1_joqft"]
-
-[node name="Pawn" type="Node3D"]
-
-[node name="Piece" parent="." instance=ExtResource("1_joqft")]
-
-[editable path="Piece"]

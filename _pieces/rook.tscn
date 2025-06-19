@@ -1,11 +1,11 @@
 [gd_scene load_steps=7 format=3 uid="uid://bijmo4rywfsef"]
 
-[ext_resource type="Script" uid="uid://bljt6rik5b8qu" path="res://scenes/pieces/rook.gd" id="1_sh11o"]
-[ext_resource type="Script" uid="uid://dlrpytwbfemaa" path="res://scenes/pieces/base_pieces/visuals_component.gd" id="2_mds5g"]
+[ext_resource type="Script" uid="uid://bljt6rik5b8qu" path="res://_pieces/rook.gd" id="1_sh11o"]
+[ext_resource type="Script" uid="uid://dlrpytwbfemaa" path="res://_pieces/components/visuals_component.gd" id="2_mds5g"]
 [ext_resource type="Texture2D" uid="uid://cesnuaugwr2h4" path="res://assets/sprites/pieces/piece_rook_FPO.png" id="3_xgq38"]
-[ext_resource type="Script" uid="uid://hud2tqdvqysw" path="res://scenes/pieces/base_pieces/movement_component.gd" id="4_kabuu"]
-[ext_resource type="Script" uid="uid://b7mlauncabyke" path="res://scenes/pieces/base_pieces/stats_component.gd" id="5_cyw4j"]
-[ext_resource type="Script" uid="uid://b6feeqgteiaba" path="res://scenes/pieces/base_pieces/modifiers_component.gd" id="6_3ulne"]
+[ext_resource type="Script" uid="uid://hud2tqdvqysw" path="res://_pieces/components/movement_component.gd" id="4_kabuu"]
+[ext_resource type="Script" uid="uid://b7mlauncabyke" path="res://_pieces/components/stats_component.gd" id="5_cyw4j"]
+[ext_resource type="Script" uid="uid://b6feeqgteiaba" path="res://_pieces/components/modifiers_component.gd" id="6_3ulne"]
 
 [node name="Rook" type="Node3D"]
 script = ExtResource("1_sh11o")

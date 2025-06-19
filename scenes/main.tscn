@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://l71df52ljrth"]
 
 [ext_resource type="Script" uid="uid://du00nos67youy" path="res://scripts/camera.gd" id="1_0wfyh"]
-[ext_resource type="Script" uid="uid://c6m8jg205cjb7" path="res://scenes/game_controller.gd" id="1_sugp2"]
+[ext_resource type="Script" uid="uid://c6m8jg205cjb7" path="res://scripts/game_controller.gd" id="1_sugp2"]
 [ext_resource type="Script" uid="uid://cxsu8sksx0iim" path="res://scripts/faction_pieces.gd" id="4_jyhfs"]
-[ext_resource type="PackedScene" uid="uid://b3upasuhwsrkm" path="res://scenes/board/board_gridmap.tscn" id="4_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://b3upasuhwsrkm" path="res://_board/board_gridmap.tscn" id="4_tbgi4"]
 
 [node name="Main" type="Node"]
 

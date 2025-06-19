@@ -1,5 +1,5 @@
 @tool
-class_name BoardGrid
+class_name Board
 extends Node3D
 
 # Make sure your scene has a child GridMap node named “GridMap”
@@ -39,3 +39,20 @@ func scan_tiles() -> void:
 func get_grid_position(column: int, row: int) -> Vector3i:
 	var key : Vector2i = Vector2i(column, row)
 	return tile_grid_positions.get(key, Vector3i.ZERO) # Safe lookup, the method get() is used in case there is no key in the dict
+	
+	
+# Scan one direction up to N steps, stopping on blockers
+func scan_direction(origin: Vector2i, dir: Vector2i,
+					max_steps: int,
+					piece_map: Dictionary[Vector2i, Piece]) -> Array[Vector2i]:
+	var results: Array[Vector2i] = []
+	var pos : Vector2i = origin
+	for i in range(max_steps):
+		pos += dir
+		if not piece_map.board.is_inside(pos):
+			break
+		results.append(pos)
+		if piece_map.has(pos):
+			# stop after capturing or blocked by friend
+			break
+	return results
