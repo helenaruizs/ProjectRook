@@ -1,21 +1,12 @@
 [gd_scene load_steps=5 format=3 uid="uid://l71df52ljrth"]
 
-[ext_resource type="Script" uid="uid://du00nos67youy" path="res://scripts/camera.gd" id="1_0wfyh"]
-[ext_resource type="Script" uid="uid://c6m8jg205cjb7" path="res://scripts/game_controller.gd" id="1_sugp2"]
-[ext_resource type="Script" uid="uid://cxsu8sksx0iim" path="res://scripts/faction_pieces.gd" id="4_jyhfs"]
-[ext_resource type="PackedScene" uid="uid://b3upasuhwsrkm" path="res://_board/board_gridmap.tscn" id="4_tbgi4"]
+[ext_resource type="Script" uid="uid://du00nos67youy" path="res://scripts/components/camera.gd" id="1_0wfyh"]
+[ext_resource type="Script" uid="uid://c6m8jg205cjb7" path="res://scripts/core/game_manager.gd" id="1_sugp2"]
+[ext_resource type="Script" uid="uid://cxsu8sksx0iim" path="res://scripts/components/faction_pieces.gd" id="4_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://b3upasuhwsrkm" path="res://entities/board/board.tscn" id="4_tbgi4"]
 
 [node name="Main" type="Node"]
-
-[node name="Controllers" type="Node" parent="."]
-
-[node name="GameController" type="Node" parent="Controllers" node_paths=PackedStringArray("board", "player_pieces", "enemy_pieces", "camera", "ui")]
 script = ExtResource("1_sugp2")
-board = NodePath("../../BoardGridmap")
-player_pieces = NodePath("../../PlayerPieces")
-enemy_pieces = NodePath("../../EnemyPieces")
-camera = NodePath("../../Camera3D")
-ui = NodePath("../../UI")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.855229, 0.518251, 0, -0.518251, 0.855229, 3.50183, 5.44557, 5.47877)
@@ -24,7 +15,7 @@ current = true
 size = 6.381
 script = ExtResource("1_0wfyh")
 
-[node name="BoardGridmap" parent="." instance=ExtResource("4_tbgi4")]
+[node name="Board" parent="." instance=ExtResource("4_tbgi4")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.323884, 0.946097, 0, -0.946097, 0.323884, 0.0876713, 6.78015, 0.0436654)

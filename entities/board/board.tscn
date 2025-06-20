@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b3upasuhwsrkm"]
 
 [ext_resource type="MeshLibrary" uid="uid://cwvi1ov8ydct7" path="res://assets/meshes/mesh_library_tiles.tres" id="1_bll7j"]
-[ext_resource type="Script" uid="uid://3ympm436juyq" path="res://_board/board_gridmap.gd" id="1_m38ap"]
+[ext_resource type="Script" uid="uid://3ympm436juyq" path="res://entities/board/board.gd" id="1_m38ap"]
 
 [node name="BoardGridmap" type="Node3D"]
 script = ExtResource("1_m38ap")

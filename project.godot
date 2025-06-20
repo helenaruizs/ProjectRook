@@ -15,6 +15,11 @@ run/main_scene="uid://l71df52ljrth"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+EventBus="*res://scripts/autoload/event_bus.gd"
+Globals="*res://scripts/autoload/globals.gd"
+
 [debug]
 
 gdscript/warnings/untyped_declaration=2
