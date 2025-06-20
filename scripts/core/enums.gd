@@ -15,7 +15,23 @@ enum PieceColor {
 	WHITE,
 	BLACK,
 	}
-	
+
+enum MoveStyle {
+	SLIDE,
+	JUMP,
+}
+
+enum MovePattern {
+	STRAIGHT,
+	DIAGONAL,
+	L_SHAPE,
+}
+
+enum MoveLenght {
+	LONG,
+	SHORT,
+}
+
 enum Files {
 	A,
 	B,
