@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ihccfqryr7f0"]
+
+[ext_resource type="Script" uid="uid://c2lrpuc0kwrwl" path="res://scripts/autoload/skin_manager.gd" id="1_kjn6p"]
+
+[node name="SkinManager" type="Node"]
+script = ExtResource("1_kjn6p")
