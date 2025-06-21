@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="PieceSkin" load_steps=2 format=3 uid="uid://pybf8y8ujqkt"]
-
-[ext_resource type="Script" uid="uid://xtdjqckwv4bh" path="res://scripts/core/piece_skin.gd" id="1_08c42"]
-
-[resource]
-script = ExtResource("1_08c42")
-id = ""
-piece_type = 0
-metadata/_custom_type_script = "uid://xtdjqckwv4bh"

@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 EventBus="*res://scripts/autoload/event_bus.gd"
 Globals="*res://scripts/autoload/globals.gd"
+SkinManager="*res://scripts/autoload/skin_manager.gd"
 
 [debug]
 

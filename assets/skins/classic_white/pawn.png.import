@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dvukvocxf6i6c"
-path.s3tc="res://.godot/imported/piece_pawn_FPO.png-43c6bbe6900393fbbcb24c31871335a9.s3tc.ctex"
+path.s3tc="res://.godot/imported/pawn.png-092050d79a505550630ad4a996b0934e.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/sprites/pieces/piece_pawn_FPO.png"
-dest_files=["res://.godot/imported/piece_pawn_FPO.png-43c6bbe6900393fbbcb24c31871335a9.s3tc.ctex"]
+source_file="res://assets/skins/classic_white/pawn.png"
+dest_files=["res://.godot/imported/pawn.png-092050d79a505550630ad4a996b0934e.s3tc.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://w4y3fl6d73oo"
-path="res://.godot/imported/enemy_rook_FPO.png-908b4d96deb86abb9885f0d70aa93d51.ctex"
+uid="uid://bv62756048bu4"
+path="res://.godot/imported/king.png-e3d17fd6ffb26d9cd2c567f22daef90f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/pieces/enemy_rook_FPO.png"
-dest_files=["res://.godot/imported/enemy_rook_FPO.png-908b4d96deb86abb9885f0d70aa93d51.ctex"]
+source_file="res://assets/skins/classic_white/king.png"
+dest_files=["res://.godot/imported/king.png-e3d17fd6ffb26d9cd2c567f22daef90f.ctex"]
 
 [params]
 

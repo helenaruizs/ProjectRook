@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://esyuhih15dys" path="res://entities/pieces/king/king.gd" id="1_64ly2"]
 [ext_resource type="Script" uid="uid://dlrpytwbfemaa" path="res://entities/pieces/_components/visuals_component.gd" id="2_dyfmg"]
-[ext_resource type="Texture2D" uid="uid://cesnuaugwr2h4" path="res://assets/sprites/pieces/piece_rook_FPO.png" id="3_3agnt"]
+[ext_resource type="Texture2D" uid="uid://cesnuaugwr2h4" path="res://assets/skins/classic_white/rook.png" id="3_3agnt"]
 [ext_resource type="Script" uid="uid://hud2tqdvqysw" path="res://entities/pieces/_components/movement_component.gd" id="4_hgktj"]
 [ext_resource type="Script" uid="uid://b7mlauncabyke" path="res://entities/pieces/_components/stats_component.gd" id="5_jeq2c"]
 [ext_resource type="Script" uid="uid://b6feeqgteiaba" path="res://entities/pieces/_components/modifiers_component.gd" id="6_vwy4r"]

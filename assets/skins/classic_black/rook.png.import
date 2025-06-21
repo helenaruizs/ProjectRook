@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://yeqogwnd7ni2"
-path="res://.godot/imported/piece_queen_FPO.png-778551d7e93a0691cc0c2209dbeaff41.ctex"
+uid="uid://w4y3fl6d73oo"
+path="res://.godot/imported/rook.png-77a7b41b7093c7b2c254b79fd2a0ddfd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/pieces/piece_queen_FPO.png"
-dest_files=["res://.godot/imported/piece_queen_FPO.png-778551d7e93a0691cc0c2209dbeaff41.ctex"]
+source_file="res://assets/skins/classic_black/rook.png"
+dest_files=["res://.godot/imported/rook.png-77a7b41b7093c7b2c254b79fd2a0ddfd.ctex"]
 
 [params]
 

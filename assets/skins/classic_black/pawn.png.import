@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://1xpq6fue5eil"
-path="res://.godot/imported/enemy_knight_FPO.png-e58ea76276bf1b4de034f0be92d18092.ctex"
+uid="uid://bqes475goyaxd"
+path="res://.godot/imported/pawn.png-c8ce7400fdf551a1de7ee5ec373575bd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/pieces/enemy_knight_FPO.png"
-dest_files=["res://.godot/imported/enemy_knight_FPO.png-e58ea76276bf1b4de034f0be92d18092.ctex"]
+source_file="res://assets/skins/classic_black/pawn.png"
+dest_files=["res://.godot/imported/pawn.png-c8ce7400fdf551a1de7ee5ec373575bd.ctex"]
 
 [params]
 

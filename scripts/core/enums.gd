@@ -11,7 +11,7 @@ enum PieceType {
 	KING,
 	}
 
-enum PieceColor {
+enum FactionColor {
 	WHITE,
 	BLACK,
 	}

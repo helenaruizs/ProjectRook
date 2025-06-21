@@ -48,19 +48,3 @@ func get_grid_position(column: int, row: int) -> Vector3i:
 func get_size() -> int:
 	return board_size
 	
-
-# Scan one direction up to N steps, stopping on blockers
-func scan_direction(origin: Vector2i, dir: Vector2i,
-					max_steps: int,
-					piece_map: Dictionary[Vector2i, Piece]) -> Array[Vector2i]:
-	var results: Array[Vector2i] = []
-	var pos : Vector2i = origin
-	for i in range(max_steps):
-		pos += dir
-		if not piece_map.board.is_inside(pos):
-			break
-		results.append(pos)
-		if piece_map.has(pos):
-			# stop after capturing or blocked by friend
-			break
-	return results

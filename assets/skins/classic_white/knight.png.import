@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://wwmxjxyr0vwe"
-path="res://.godot/imported/piece_bishop_FPO.png-225b2411cca35af4d1143523325c1e64.ctex"
+uid="uid://chspe3vim3fwb"
+path="res://.godot/imported/knight.png-80190b3ea1c865398e7df88028b2d6ee.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/pieces/piece_bishop_FPO.png"
-dest_files=["res://.godot/imported/piece_bishop_FPO.png-225b2411cca35af4d1143523325c1e64.ctex"]
+source_file="res://assets/skins/classic_white/knight.png"
+dest_files=["res://.godot/imported/knight.png-80190b3ea1c865398e7df88028b2d6ee.ctex"]
 
 [params]
 

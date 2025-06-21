@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dq321jbn433k1"
-path="res://.godot/imported/enemy_queen_FPO.png-c2ff788826f7b18f6f310cc784f545c5.ctex"
+uid="uid://cudw7c8jw5rq2"
+path="res://.godot/imported/king.png-b523e7c92aece62c5b5d9d48726610de.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/pieces/enemy_queen_FPO.png"
-dest_files=["res://.godot/imported/enemy_queen_FPO.png-c2ff788826f7b18f6f310cc784f545c5.ctex"]
+source_file="res://assets/skins/classic_black/king.png"
+dest_files=["res://.godot/imported/king.png-b523e7c92aece62c5b5d9d48726610de.ctex"]
 
 [params]
 
