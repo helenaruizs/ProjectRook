@@ -1,6 +1,8 @@
 @tool
 class_name Board
+
 extends Node3D
+
 
 # Make sure your scene has a child GridMap node named “GridMap”
 @onready var grid_map: GridMap = $GridMap
@@ -8,6 +10,8 @@ extends Node3D
 # Stores each cell’s grid‐coord → true world‐space origin
 var tile_grid_positions: Dictionary[Vector2i, Vector3i] = {}
 
+# Standard chess is 8×8
+@export_range(1, 16, 1) var board_size: int = 8
 
 func _ready() -> void:
 	scan_tiles()
@@ -34,13 +38,17 @@ func scan_tiles() -> void:
 
 	print("Cached %d tiles" % tile_grid_positions.size())
 	print(tile_grid_positions)
-	
-	
+
+
 func get_grid_position(column: int, row: int) -> Vector3i:
 	var key : Vector2i = Vector2i(column, row)
 	return tile_grid_positions.get(key, Vector3i.ZERO) # Safe lookup, the method get() is used in case there is no key in the dict
+
+
+func get_size() -> int:
+	return board_size
 	
-	
+
 # Scan one direction up to N steps, stopping on blockers
 func scan_direction(origin: Vector2i, dir: Vector2i,
 					max_steps: int,

@@ -1,0 +1,27 @@
+[gd_scene load_steps=7 format=3 uid="uid://b826iogtnwbsi"]
+
+[ext_resource type="Script" uid="uid://cmcxu4tnn2eix" path="res://entities/pieces/bishop/bishop.gd" id="1_be8hr"]
+[ext_resource type="Script" uid="uid://dlrpytwbfemaa" path="res://entities/pieces/_components/visuals_component.gd" id="2_p0pur"]
+[ext_resource type="Texture2D" uid="uid://cesnuaugwr2h4" path="res://assets/sprites/pieces/piece_rook_FPO.png" id="3_h5ljk"]
+[ext_resource type="Script" uid="uid://hud2tqdvqysw" path="res://entities/pieces/_components/movement_component.gd" id="4_56438"]
+[ext_resource type="Script" uid="uid://b7mlauncabyke" path="res://entities/pieces/_components/stats_component.gd" id="5_wt0sx"]
+[ext_resource type="Script" uid="uid://b6feeqgteiaba" path="res://entities/pieces/_components/modifiers_component.gd" id="6_0qswx"]
+
+[node name="Bishop" type="Node3D"]
+script = ExtResource("1_be8hr")
+
+[node name="VisualsComponent" type="Node" parent="."]
+script = ExtResource("2_p0pur")
+
+[node name="Sprite3D" type="Sprite3D" parent="VisualsComponent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.309878, 0)
+texture = ExtResource("3_h5ljk")
+
+[node name="MovementComponent" type="Node" parent="."]
+script = ExtResource("4_56438")
+
+[node name="StatsComponent" type="Node" parent="."]
+script = ExtResource("5_wt0sx")
+
+[node name="ModifiersComponent" type="Node" parent="."]
+script = ExtResource("6_0qswx")

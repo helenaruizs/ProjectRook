@@ -7,6 +7,8 @@
 
 [node name="Main" type="Node"]
 script = ExtResource("1_sugp2")
+player_piece_count = null
+enemy_piece_count = null
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.855229, 0.518251, 0, -0.518251, 0.855229, 3.50183, 5.44557, 5.47877)

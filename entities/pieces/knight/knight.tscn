@@ -1,0 +1,27 @@
+[gd_scene load_steps=7 format=3 uid="uid://dctq8as1qotjo"]
+
+[ext_resource type="Script" uid="uid://ccmu5tq3m5pw0" path="res://entities/pieces/knight/knight.gd" id="1_amb4b"]
+[ext_resource type="Script" uid="uid://dlrpytwbfemaa" path="res://entities/pieces/_components/visuals_component.gd" id="2_vblm2"]
+[ext_resource type="Texture2D" uid="uid://cesnuaugwr2h4" path="res://assets/sprites/pieces/piece_rook_FPO.png" id="3_53exd"]
+[ext_resource type="Script" uid="uid://hud2tqdvqysw" path="res://entities/pieces/_components/movement_component.gd" id="4_ylus1"]
+[ext_resource type="Script" uid="uid://b7mlauncabyke" path="res://entities/pieces/_components/stats_component.gd" id="5_8g4he"]
+[ext_resource type="Script" uid="uid://b6feeqgteiaba" path="res://entities/pieces/_components/modifiers_component.gd" id="6_37in2"]
+
+[node name="Knight" type="Node3D"]
+script = ExtResource("1_amb4b")
+
+[node name="VisualsComponent" type="Node" parent="."]
+script = ExtResource("2_vblm2")
+
+[node name="Sprite3D" type="Sprite3D" parent="VisualsComponent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.309878, 0)
+texture = ExtResource("3_53exd")
+
+[node name="MovementComponent" type="Node" parent="."]
+script = ExtResource("4_ylus1")
+
+[node name="StatsComponent" type="Node" parent="."]
+script = ExtResource("5_8g4he")
+
+[node name="ModifiersComponent" type="Node" parent="."]
+script = ExtResource("6_37in2")

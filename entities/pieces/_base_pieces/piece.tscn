@@ -13,6 +13,9 @@ visuals = NodePath("VisualsComponent")
 movement = NodePath("MovementComponent")
 stats = NodePath("StatsComponent")
 modifiers = NodePath("ModifiersComponent")
+move_style = null
+move_pattern = null
+board_pos = null
 
 [node name="VisualsComponent" type="Node3D" parent="."]
 script = ExtResource("2_uyuhl")
