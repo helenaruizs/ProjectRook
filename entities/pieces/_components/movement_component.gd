@@ -27,6 +27,17 @@ func get_directions(move_pattern : Enums.MovePattern) -> Array[Vector2i]:
 				Const.DIRS["down_left"],
 				Const.DIRS["down_right"],
 			]
+		Enums.MovePattern.ALL_DIRS:
+			return [
+				Const.DIRS["up"],
+				Const.DIRS["down"],
+				Const.DIRS["left"],
+				Const.DIRS["right"],
+				Const.DIRS["up_left"],
+				Const.DIRS["up_right"],
+				Const.DIRS["down_left"],
+				Const.DIRS["down_right"],
+			]
 		Enums.MovePattern.L_SHAPE:
 			# knights—hard-coded offsets
 			return KNIGHT_OFFSETS

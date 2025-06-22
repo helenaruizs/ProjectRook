@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bijmo4rywfsef"]
+[gd_scene load_steps=7 format=3 uid="uid://ciorohdjes4ux"]
 
 [ext_resource type="Script" uid="uid://bljt6rik5b8qu" path="res://entities/pieces/rook/rook.gd" id="1_sh11o"]
 [ext_resource type="Script" uid="uid://dlrpytwbfemaa" path="res://entities/pieces/_components/visuals_component.gd" id="2_mds5g"]
@@ -7,14 +7,20 @@
 [ext_resource type="Script" uid="uid://b7mlauncabyke" path="res://entities/pieces/_components/stats_component.gd" id="5_cyw4j"]
 [ext_resource type="Script" uid="uid://b6feeqgteiaba" path="res://entities/pieces/_components/modifiers_component.gd" id="6_3ulne"]
 
-[node name="Rook" type="Node3D"]
+[node name="Rook" type="Node3D" node_paths=PackedStringArray("visuals", "movement", "stats", "modifiers") groups=["piece"]]
 script = ExtResource("1_sh11o")
+piece_type = 3
+visuals = NodePath("VisualsComponent")
+movement = NodePath("MovementComponent")
+stats = NodePath("StatsComponent")
+modifiers = NodePath("ModifiersComponent")
 
-[node name="VisualsComponent" type="Node" parent="."]
+[node name="VisualsComponent" type="Node3D" parent="."]
 script = ExtResource("2_mds5g")
 
 [node name="Sprite3D" type="Sprite3D" parent="VisualsComponent"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.309878, 0)
+billboard = 1
 texture = ExtResource("3_xgq38")
 
 [node name="MovementComponent" type="Node" parent="."]

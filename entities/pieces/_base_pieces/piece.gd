@@ -2,6 +2,8 @@ class_name Piece
 
 extends Node3D
 
+@export var piece_type : Enums.PieceType
+
 @export_subgroup("Basic Nodes Setup")
 @export var visuals : VisualsComponent
 @export var movement : MovementComponent
@@ -15,3 +17,7 @@ extends Node3D
 @export var move_length : Enums.MoveLength
 
 var board_pos : Vector2i
+
+func update_visuals(tex : Texture2D) -> void:
+	visuals.set_texture(tex)
+	

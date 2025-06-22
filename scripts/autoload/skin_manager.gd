@@ -3,6 +3,22 @@ extends Node
 # drop any new .tres into this folder and it just works.
 @export_dir var skin_dir: String = "res://resources/skins/"
 
+@export var bishop : PackedScene
+@export var king : PackedScene
+@export var knight : PackedScene
+@export var pawn : PackedScene
+@export var queen : PackedScene
+@export var rook : PackedScene
+
+var pieces : Dictionary[Enums.PieceType, PackedScene] = {
+	Enums.PieceType.BISHOP : bishop,
+	Enums.PieceType.KING : king,
+	Enums.PieceType.KNIGHT : knight,
+	Enums.PieceType.PAWN : pawn,
+	Enums.PieceType.QUEEN : queen,
+	Enums.PieceType.ROOK : rook,
+}
+
 # Internal lookup: (SkinNames, FactionColor) → SkinResource
 var skins: Dictionary[Vector2, SkinResource] = {}
 
@@ -58,3 +74,8 @@ func get_texture(
 		return skin_res.get_texture_for(piece_type)
 	# Otherwise, no texture available
 	return null
+
+
+func get_piece(piece: Enums.PieceType) -> PackedScene :
+	var key: int = piece
+	return pieces.get(key, null)

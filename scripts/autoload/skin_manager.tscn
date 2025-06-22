@@ -1,6 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://ihccfqryr7f0"]
+[gd_scene load_steps=8 format=3 uid="uid://ihccfqryr7f0"]
 
 [ext_resource type="Script" uid="uid://c2lrpuc0kwrwl" path="res://scripts/autoload/skin_manager.gd" id="1_kjn6p"]
+[ext_resource type="PackedScene" uid="uid://gtwl620nqfqf" path="res://entities/pieces/bishop/bishop.tscn" id="2_61jv3"]
+[ext_resource type="PackedScene" uid="uid://ic3c8rrmgbug" path="res://entities/pieces/king/king.tscn" id="3_7epln"]
+[ext_resource type="PackedScene" uid="uid://rw8jxfpbl4ge" path="res://entities/pieces/knight/knight.tscn" id="4_kr17b"]
+[ext_resource type="PackedScene" uid="uid://c2t6ljfpf3jxj" path="res://entities/pieces/pawn/pawn.tscn" id="5_426ky"]
+[ext_resource type="PackedScene" uid="uid://saw5f7ha4386" path="res://entities/pieces/queen/queen.tscn" id="6_o1bvi"]
+[ext_resource type="PackedScene" uid="uid://ciorohdjes4ux" path="res://entities/pieces/rook/rook.tscn" id="7_cui6h"]
 
 [node name="SkinManager" type="Node"]
 script = ExtResource("1_kjn6p")
+bishop = ExtResource("2_61jv3")
+king = ExtResource("3_7epln")
+knight = ExtResource("4_kr17b")
+pawn = ExtResource("5_426ky")
+queen = ExtResource("6_o1bvi")
+rook = ExtResource("7_cui6h")

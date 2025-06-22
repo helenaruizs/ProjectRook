@@ -1,27 +1,34 @@
-[gd_scene load_steps=7 format=3 uid="uid://bs6lpvrl30gnd"]
+[gd_scene load_steps=7 format=3 uid="uid://ic3c8rrmgbug"]
 
 [ext_resource type="Script" uid="uid://esyuhih15dys" path="res://entities/pieces/king/king.gd" id="1_64ly2"]
-[ext_resource type="Script" uid="uid://dlrpytwbfemaa" path="res://entities/pieces/_components/visuals_component.gd" id="2_dyfmg"]
-[ext_resource type="Texture2D" uid="uid://cesnuaugwr2h4" path="res://assets/skins/classic_white/rook.png" id="3_3agnt"]
-[ext_resource type="Script" uid="uid://hud2tqdvqysw" path="res://entities/pieces/_components/movement_component.gd" id="4_hgktj"]
-[ext_resource type="Script" uid="uid://b7mlauncabyke" path="res://entities/pieces/_components/stats_component.gd" id="5_jeq2c"]
-[ext_resource type="Script" uid="uid://b6feeqgteiaba" path="res://entities/pieces/_components/modifiers_component.gd" id="6_vwy4r"]
+[ext_resource type="Script" uid="uid://dlrpytwbfemaa" path="res://entities/pieces/_components/visuals_component.gd" id="2_2jfl1"]
+[ext_resource type="Texture2D" uid="uid://cesnuaugwr2h4" path="res://assets/skins/classic_white/rook.png" id="3_0fykr"]
+[ext_resource type="Script" uid="uid://hud2tqdvqysw" path="res://entities/pieces/_components/movement_component.gd" id="4_v8xkr"]
+[ext_resource type="Script" uid="uid://b7mlauncabyke" path="res://entities/pieces/_components/stats_component.gd" id="5_3i8jl"]
+[ext_resource type="Script" uid="uid://b6feeqgteiaba" path="res://entities/pieces/_components/modifiers_component.gd" id="6_momqs"]
 
-[node name="King" type="Node3D"]
+[node name="king" type="Node3D" node_paths=PackedStringArray("visuals", "movement", "stats", "modifiers") groups=["piece"]]
 script = ExtResource("1_64ly2")
+piece_type = 5
+visuals = NodePath("VisualsComponent")
+movement = NodePath("MovementComponent")
+stats = NodePath("StatsComponent")
+modifiers = NodePath("ModifiersComponent")
+move_pattern = 3
 
-[node name="VisualsComponent" type="Node" parent="."]
-script = ExtResource("2_dyfmg")
+[node name="VisualsComponent" type="Node3D" parent="."]
+script = ExtResource("2_2jfl1")
 
 [node name="Sprite3D" type="Sprite3D" parent="VisualsComponent"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.309878, 0)
-texture = ExtResource("3_3agnt")
+billboard = 1
+texture = ExtResource("3_0fykr")
 
 [node name="MovementComponent" type="Node" parent="."]
-script = ExtResource("4_hgktj")
+script = ExtResource("4_v8xkr")
 
 [node name="StatsComponent" type="Node" parent="."]
-script = ExtResource("5_jeq2c")
+script = ExtResource("5_3i8jl")
 
 [node name="ModifiersComponent" type="Node" parent="."]
-script = ExtResource("6_vwy4r")
+script = ExtResource("6_momqs")
