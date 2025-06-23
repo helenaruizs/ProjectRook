@@ -73,5 +73,6 @@ func scan_legal_tiles() -> Array:
 	return tiles
 
 
-func move_piece(from_pos: Vector2i, to_pos: Vector3) -> void:
-	pass
+func move_to_position(world_pos: Vector3) -> void:
+	# Move the parent Piece to the target position in world space
+	get_parent().global_transform.origin = world_pos

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="SkinResource" load_steps=8 format=3 uid="uid://dv1iqwxdif3cv"]
+
+[ext_resource type="Texture2D" uid="uid://d1vb3sbarns5c" path="res://assets/skins/classic_black/bishop.png" id="1_d8u4f"]
+[ext_resource type="Texture2D" uid="uid://cudw7c8jw5rq2" path="res://assets/skins/classic_black/king.png" id="2_ofi75"]
+[ext_resource type="Texture2D" uid="uid://1xpq6fue5eil" path="res://assets/skins/classic_black/knight.png" id="3_trdpm"]
+[ext_resource type="Texture2D" uid="uid://bqes475goyaxd" path="res://assets/skins/classic_black/pawn.png" id="4_hpaee"]
+[ext_resource type="Texture2D" uid="uid://dq321jbn433k1" path="res://assets/skins/classic_black/queen.png" id="5_4l7bn"]
+[ext_resource type="Texture2D" uid="uid://w4y3fl6d73oo" path="res://assets/skins/classic_black/rook.png" id="6_1kjep"]
+[ext_resource type="Script" uid="uid://xtdjqckwv4bh" path="res://scripts/core/skin_resource.gd" id="7_qriwv"]
+
+[resource]
+script = ExtResource("7_qriwv")
+id = 0
+faction_color = 1
+bishop = ExtResource("1_d8u4f")
+king = ExtResource("2_ofi75")
+knight = ExtResource("3_trdpm")
+pawn = ExtResource("4_hpaee")
+queen = ExtResource("5_4l7bn")
+rook = ExtResource("6_1kjep")
+metadata/_custom_type_script = "uid://xtdjqckwv4bh"

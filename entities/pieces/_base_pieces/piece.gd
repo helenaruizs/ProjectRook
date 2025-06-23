@@ -16,8 +16,12 @@ extends Node3D
 @export var move_pattern : Enums.MovePattern
 @export var move_length : Enums.MoveLength
 
+var piece_color : Enums.FactionColor
 var board_pos : Vector2i
 
 func update_visuals(tex : Texture2D) -> void:
 	visuals.set_texture(tex)
-	
+
+func update_position(world_pos: Vector3) -> void:
+	if movement != null:
+		movement.move_to_position(world_pos)

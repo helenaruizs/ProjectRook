@@ -5,8 +5,13 @@
 [ext_resource type="Script" uid="uid://cxsu8sksx0iim" path="res://scripts/components/faction_pieces.gd" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://b3upasuhwsrkm" path="res://entities/board/board.tscn" id="4_tbgi4"]
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node" node_paths=PackedStringArray("board", "player_container", "enemy_container", "camera", "ui")]
 script = ExtResource("1_sugp2")
+board = NodePath("Board")
+player_container = NodePath("PlayerPieces")
+enemy_container = NodePath("EnemyPieces")
+camera = NodePath("Camera3D")
+ui = NodePath("UI")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.855229, 0.518251, 0, -0.518251, 0.855229, 3.50183, 5.44557, 5.47877)

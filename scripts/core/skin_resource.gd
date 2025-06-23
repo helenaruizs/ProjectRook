@@ -2,6 +2,7 @@ class_name SkinResource
 
 extends Resource
 
+
 enum SkinNames {
 	CLASSIC,
 	RETRO,

@@ -3,20 +3,20 @@ extends Node
 # drop any new .tres into this folder and it just works.
 @export_dir var skin_dir: String = "res://resources/skins/"
 
-@export var bishop : PackedScene
-@export var king : PackedScene
-@export var knight : PackedScene
-@export var pawn : PackedScene
-@export var queen : PackedScene
-@export var rook : PackedScene
+const BISHOP = preload("res://entities/pieces/bishop/bishop.tscn")
+const KING = preload("res://entities/pieces/king/king.tscn")
+const KNIGHT = preload("res://entities/pieces/knight/knight.tscn")
+const PAWN = preload("res://entities/pieces/pawn/pawn.tscn")
+const QUEEN = preload("res://entities/pieces/queen/queen.tscn")
+const ROOK = preload("res://entities/pieces/rook/rook.tscn")
 
 var pieces : Dictionary[Enums.PieceType, PackedScene] = {
-	Enums.PieceType.BISHOP : bishop,
-	Enums.PieceType.KING : king,
-	Enums.PieceType.KNIGHT : knight,
-	Enums.PieceType.PAWN : pawn,
-	Enums.PieceType.QUEEN : queen,
-	Enums.PieceType.ROOK : rook,
+	Enums.PieceType.BISHOP : BISHOP,
+	Enums.PieceType.KING : KING,
+	Enums.PieceType.KNIGHT : KNIGHT,
+	Enums.PieceType.PAWN : PAWN,
+	Enums.PieceType.QUEEN : QUEEN,
+	Enums.PieceType.ROOK : ROOK,
 }
 
 # Internal lookup: (SkinNames, FactionColor) → SkinResource
@@ -24,6 +24,7 @@ var skins: Dictionary[Vector2, SkinResource] = {}
 
 func _ready() -> void:
 	_load_all_skins()
+	print("Loaded piece scenes:", pieces)
 	
 func _load_all_skins() -> void:
 	skins.clear()  # start fresh
