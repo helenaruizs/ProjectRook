@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://v1xmai71imsv"]
+
+[ext_resource type="Script" uid="uid://dlrpytwbfemaa" path="res://entities/pieces/_components/visuals_component.gd" id="1_i67yp"]
+[ext_resource type="Texture2D" uid="uid://cesnuaugwr2h4" path="res://assets/skins/classic_white/rook.png" id="2_v8o1n"]
+
+[node name="VisualsComponent" type="Node3D"]
+script = ExtResource("1_i67yp")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 0, 0.547305, 0)
+billboard = 1
+texture = ExtResource("2_v8o1n")

@@ -4,7 +4,6 @@ class_name Board
 extends Node3D
 
 
-# Make sure your scene has a child GridMap node named “GridMap”
 @onready var grid_map: GridMap = $GridMap
 
 # Stores each cell’s grid‐coord → true world‐space origin
@@ -26,24 +25,24 @@ func _ready() -> void:
 func scan_tiles() -> void:
 	tile_grid_positions.clear()
 
-	# 1) get_used_cells() returns an Array of Vector3i for every occupied cell
-	# 
+	# get_used_cells() returns an Array of Vector3i for every occupied cell
+
 	var used_cells: Array[Vector3i] = grid_map.get_used_cells()
 	var tile_size: Vector3 = grid_map.cell_size # For later calculating the offset needed to place the pieces in the middle of the tile
 
-	# 2) For each cell, map_to_local returns a Vector3 (local coords),
-	#    then to_global turns that into a world‐space Vector3
+	# For each cell, map_to_local returns a Vector3 (local coords),
+	# then to_global turns that into a world‐space Vector3
 	for cell: Vector3i in used_cells:
-		# 1) drop the Y axis—chess is flat
+		# drop the Y axis—chess is flat
 		var coord2d := Vector2i(cell.x, cell.z)
-		# 2) get world‐space pos
+		# get world‐space pos
 		var local_pos: Vector3i = grid_map.map_to_local(cell)
 		var world_pos: Vector3 = grid_map.to_global(local_pos)
 		
 		# Center the piece on the tile by offsetting by half a tile in X and Z
-		world_pos += Vector3(tile_size.x * 0.5, 0, -tile_size.z * 0.5)
+		world_pos += Vector3(tile_size.x * 0.5, 0, -tile_size.z * 0.45 - (world_pos.z * 0.01)) # HACK: This was a way to try and "pull" pieces to their correct z placement to compensate for the camera lens distortion
 
-		# 3) store under a Vector2i key
+		# store under a Vector2i key
 		tile_grid_positions[coord2d] = world_pos
 		
 

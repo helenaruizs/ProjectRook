@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://4stpcb72rks0"]
+[gd_scene load_steps=6 format=3 uid="uid://4stpcb72rks0"]
 
 [ext_resource type="Script" uid="uid://orsjn0r1d61u" path="res://entities/pieces/_base_pieces/piece.gd" id="1_m7oub"]
-[ext_resource type="Texture2D" uid="uid://cesnuaugwr2h4" path="res://assets/skins/classic_white/rook.png" id="2_cq64i"]
-[ext_resource type="Script" uid="uid://dlrpytwbfemaa" path="res://entities/pieces/_components/visuals_component.gd" id="2_uyuhl"]
+[ext_resource type="PackedScene" uid="uid://v1xmai71imsv" path="res://entities/pieces/_components/visuals_component.tscn" id="2_mccw4"]
 [ext_resource type="Script" uid="uid://hud2tqdvqysw" path="res://entities/pieces/_components/movement_component.gd" id="4_54wly"]
 [ext_resource type="Script" uid="uid://b7mlauncabyke" path="res://entities/pieces/_components/stats_component.gd" id="5_gbxwr"]
 [ext_resource type="Script" uid="uid://b6feeqgteiaba" path="res://entities/pieces/_components/modifiers_component.gd" id="6_drro1"]
@@ -14,13 +13,7 @@ movement = NodePath("MovementComponent")
 stats = NodePath("StatsComponent")
 modifiers = NodePath("ModifiersComponent")
 
-[node name="VisualsComponent" type="Node3D" parent="."]
-script = ExtResource("2_uyuhl")
-
-[node name="Sprite3D" type="Sprite3D" parent="VisualsComponent"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.309878, 0)
-billboard = 1
-texture = ExtResource("2_cq64i")
+[node name="VisualsComponent" parent="." instance=ExtResource("2_mccw4")]
 
 [node name="MovementComponent" type="Node" parent="."]
 script = ExtResource("4_54wly")

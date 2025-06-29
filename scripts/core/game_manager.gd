@@ -19,7 +19,7 @@ extends Node
 @export var player_faction : Enums.FactionColor = Enums.FactionColor.WHITE
 @export var enemy_faction : Enums.FactionColor = Enums.FactionColor.BLACK
 
-# ——— Editor‐tweakable piece‐order arrays ———
+
 @export var pawn_row: Array[Enums.PieceType] = [
 	Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN,
 	Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN,
@@ -28,10 +28,6 @@ extends Node
 	Enums.PieceType.ROOK,   Enums.PieceType.KNIGHT, Enums.PieceType.BISHOP, Enums.PieceType.QUEEN,
 	Enums.PieceType.KING,   Enums.PieceType.BISHOP, Enums.PieceType.KNIGHT, Enums.PieceType.ROOK,
 ]
-# ————————————————————————
-
-#var current_turn : GameTurn = GameTurn.PLAYER
-#var board_map : Dictionary = {} 
 
 func _ready() -> void:
 	clear_board()
