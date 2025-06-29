@@ -3,6 +3,7 @@ class_name Enums
 extends Object
 
 enum PieceType {
+	NONE,
 	PAWN,
 	KNIGHT,
 	BISHOP,

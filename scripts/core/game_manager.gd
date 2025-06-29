@@ -9,9 +9,7 @@ extends Node
 @export var camera : Camera3D
 @export var ui : Control
 
-@export_subgroup("Pieces")
-@export_range(0, 64, 1) var player_piece_count : int = 16
-@export_range(0, 64, 1) var enemy_piece_count : int = 16
+@export_subgroup("Skins & Factions")
 
 @export var player_skin : SkinResource.SkinNames
 @export var enemy_skin : SkinResource.SkinNames
@@ -19,20 +17,43 @@ extends Node
 @export var player_faction : Enums.FactionColor = Enums.FactionColor.WHITE
 @export var enemy_faction : Enums.FactionColor = Enums.FactionColor.BLACK
 
+@export_subgroup("Piece Layout: Player")
 
-@export var pawn_row: Array[Enums.PieceType] = [
+@export var player_pawn_rows: Array[Enums.PieceType] = [
 	Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN,
 	Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN,
 ]
-@export var back_row: Array[Enums.PieceType] = [
+@export var player_back_rows: Array[Enums.PieceType] = [
 	Enums.PieceType.ROOK,   Enums.PieceType.KNIGHT, Enums.PieceType.BISHOP, Enums.PieceType.QUEEN,
 	Enums.PieceType.KING,   Enums.PieceType.BISHOP, Enums.PieceType.KNIGHT, Enums.PieceType.ROOK,
 ]
+
+@export_subgroup("Piece Layout: Enemy")
+
+@export var enemy_pawn_rows: Array[Enums.PieceType] = [
+	Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN,
+	Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN,
+]
+@export var enemy_back_rows: Array[Enums.PieceType] = [
+	Enums.PieceType.ROOK,   Enums.PieceType.KNIGHT, Enums.PieceType.BISHOP, Enums.PieceType.QUEEN,
+	Enums.PieceType.KING,   Enums.PieceType.BISHOP, Enums.PieceType.KNIGHT, Enums.PieceType.ROOK,
+]
+
+var player_piece_count: int:
+	get:
+		return player_pawn_rows.size() + player_back_rows.size()
+var enemy_piece_count: int:
+	get:
+		return enemy_pawn_rows.size() + enemy_back_rows.size()
 
 func _ready() -> void:
 	clear_board()
 	spawn_faction(player_container, false)
 	spawn_faction(enemy_container, true)
+	
+	# HACK: For testing the mouse handler signals
+	EventBus.connect("tile_hovered", Callable(self, "on_tile_hover"))
+	EventBus.connect("piece_hovered", Callable(self, "on_piece_hover"))
 
 func clear_board() -> void:
 	var placed_pieces: Array[Node] = get_tree().get_nodes_in_group("pieces")
@@ -48,24 +69,43 @@ func spawn_faction(container: FactionPieces, is_enemy: bool) -> void:
 	else:
 		color = player_faction
 
-	# Determine the next row inward for the back-rank pieces
-	var row0 : int
-	var row1 : int
+	# Compute board rows based on actual GridMap coordinates
 	var first_row: int = board.get_first_row()
+	var row0: int
 	if is_enemy:
 		row0 = first_row
-		row1 = row0 + 1
 	else:
 		row0 = first_row + board.board_size - 1
+
+	var row1: int
+	if is_enemy:
+		row1 = row0 + 1
+	else:
 		row1 = row0 - 1
 
-	# ... now use `color`, `row0`, and `row1` below ...
-	for file in pawn_row.size():
-		spawn_one(pawn_row[file], color, container, file, row1)
-		print(file)
+	# Select piece type arrays for this faction
+	var pawn_types: Array[Enums.PieceType]
+	var back_types: Array[Enums.PieceType]
+	if is_enemy:
+		pawn_types = enemy_pawn_rows
+		back_types = enemy_back_rows
+	else:
+		pawn_types = player_pawn_rows
+		back_types = player_back_rows
 
-	for file in back_row.size():
-		spawn_one(back_row[file], color, container, file, row0)
+	# Spawn pawns, skipping any 'NONE' placeholders
+	for file in pawn_types.size():
+		var pt: Enums.PieceType = pawn_types[file]
+		if pt == Enums.PieceType.NONE:
+			continue
+		spawn_one(pt, color, container, file, row1)
+
+	# Spawn back‐rank pieces, skipping 'NONE' placeholders
+	for file in back_types.size():
+		var pt: Enums.PieceType = back_types[file]
+		if pt == Enums.PieceType.NONE:
+			continue
+		spawn_one(pt, color, container, file, row0)
 		
 func spawn_one(
 	piece_type: Enums.PieceType,
@@ -110,3 +150,8 @@ func spawn_one(
 			[piece_type, skin_id])
 	
 	
+func on_tile_hover(tile : Vector2i) -> void:
+	print("tile hovered", tile)
+
+func on_piece_hover(piece: Piece, coord: Vector2i) -> void:
+	print("piece hovered", piece)

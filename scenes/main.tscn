@@ -21,6 +21,8 @@ ui = NodePath("UI")
 
 [node name="MouseInputHandler" type="Node" parent="Controllers"]
 script = ExtResource("2_tbgi4")
+camera_path = NodePath("../../Camera3D")
+board_path = NodePath("../../Board")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.801014, 0.598646, 0, -0.598646, 0.801014, 3.932, 17.5203, 19.4232)

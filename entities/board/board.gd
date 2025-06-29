@@ -14,12 +14,6 @@ var tile_grid_positions: Dictionary[Vector2i, Vector3] = {}
 
 func _ready() -> void:
 	scan_tiles()
-	var test1 : Vector3 = get_grid_position(1,-1)
-	var test2 : Vector3 = get_grid_position(3,-5)
-	var test3 : Vector3 = get_grid_position(1,0)
-	var test4 : Vector3 = get_grid_position(6,0)
-	var test5 : Vector3 = get_grid_position(6,-1)
-	print(test1, test2, test3, test4, test5)
 
 
 func scan_tiles() -> void:
@@ -45,9 +39,6 @@ func scan_tiles() -> void:
 		# store under a Vector2i key
 		tile_grid_positions[coord2d] = world_pos
 		
-
-	print("Cached %d tiles" % tile_grid_positions.size())
-	print(tile_grid_positions)
 
 
 func get_grid_position(column: int, row: int) -> Vector3:
