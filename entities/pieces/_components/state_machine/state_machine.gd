@@ -2,8 +2,6 @@ class_name StateMachine
 
 extends Node
 
-@onready var label_3d := $Label3D # FIXME: This was for debugging only!
-
 enum States {
 	IDLE,
 	HIGHLIGHTED,
@@ -12,10 +10,9 @@ enum States {
 }
 
 @export var state_scripts: Dictionary[States, Script]
+@export var starting_state: States  # the enum value you want to start in
+@onready var current_state: State = null
 
-@onready var current_state: State  = starting_state
-
-var starting_state: State = null ## Hook up to the initial state (usually idle)
 var animation_tree : AnimationTree = null # TODO: Animation tree for the pieces
 
 # Sensible state defaults
@@ -30,30 +27,50 @@ func _init() -> void:
 		}
 
 func _ready() -> void:
-	pass
-
-func _unhandled_input(event: InputEvent) -> void:
-	current_state.handle_input(event)
-
-
-func _process(delta: float) -> void:
-	current_state.update(delta)
-
-
-func _physics_process(delta: float) -> void:
-	current_state.physics_update(delta)
-
-#Here’s the _transition_to_next_state() function. It changes the active state when the state emits the signal.
-func _transition_to_next_state(target_state: String, data: Dictionary = {}) -> void:
-	var new_state: State = null
 	
-	# If no matching state was found, print an error and return.
-	if new_state == null:
-		printerr(owner.name + ": Trying to transition to state " + target_state + " but it does not exist.")
+	# === ENTER INITIAL STATE ===
+	var state_id: States = starting_state
+	if not state_scripts.has(state_id):
+		state_id = state_scripts.keys()[0] as States
+
+	# Instantiate and enter the initial state
+	var state_script: GDScript = state_scripts.get(starting_state, null)
+	if state_script == null:
+		push_error("StateMachine: no script for starting_state %s" % starting_state)
 		return
 
-	var previous_state: State = current_state
-	current_state.exit()
+# `.new()` constructs a fresh instance of your state class
+	var inst: Node = state_script.new()
+	if not inst is State:
+		push_error("StateMachine: script for %s is not a PieceState" % starting_state)
+		return
+
+	change_state(inst as State)
+
+func change_state(new_state: State) -> void:
+	# Tear down the old state
+	if current_state != null:
+		current_state.exit()
+		current_state.set_process(false)
+		current_state.set_process_input(false)
+		remove_child(current_state)
+
+	# Install the new state
 	current_state = new_state
-	current_state.enter(previous_state)
-	label_3d.text = current_state.debug_label
+	add_child(current_state)
+	current_state.set_process(true)
+	current_state.set_process_input(true)
+
+	# Initialize it
+	current_state.enter(self)
+	
+	# FIXME: For debugging purposes only
+	print(current_state)
+
+func _process(delta: float) -> void:
+	if current_state != null:
+		current_state.state_process(delta)
+
+func _input(event: InputEvent) -> void:
+	if current_state != null:
+		current_state.handle_input(event)

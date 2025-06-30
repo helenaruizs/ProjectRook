@@ -60,3 +60,10 @@ enum GameTurn {
 	PLAYER,
 	ENEMY,
 }
+
+static func enum_to_string(enum_dict: Dictionary, value: int) -> String:
+	for key : String in enum_dict.keys():
+		if enum_dict[key] == value:
+			return key
+	# fallback
+	return str(value)

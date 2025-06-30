@@ -2,5 +2,5 @@ class_name HighlightedState
 
 extends State
 
-func enter(previous_state: State)-> void:
-	print("Entered Idle")
+func _init() -> void:
+	state_name = StateMachine.States.HIGHLIGHTED

@@ -1,31 +1,44 @@
-extends Node
 class_name State
+# Base class for all piece states using the “direct push” API.
+# States call `machine.change_state(...)` to move to the next state.
 
-var next_state: State = null
-var playback: AnimationNodeStateMachinePlayback #TODO: Animation system
+extends Node
 
-var debug_label : String = "test" # FIXME: Did this to debug the states
+# Reference to the parent StateMachine
+var machine: StateMachine
 
-# This base enter() resets the transition guard.
-func enter(previous_state: State) -> void:
-	pass
+# State's name for quicker referencing
+var state_name : StateMachine.States
 
+# Called once, immediately after this state node has been added as a child of the StateMachine.
+# The argument is the StateMachine instance, so states can invoke:
+#   machine.change_state(NextState.new())
+func enter(machine_ref: StateMachine) -> void:
+	machine = machine_ref
+	# FIXME: Debug
+	# Print this state’s class_name to the console
+	var name_to_print : String = Enums.enum_to_string(StateMachine.States, state_name)
+	print("Entering state:", name_to_print)
+
+# Called just before this state is removed. Override to clean up.
 func exit() -> void:
-	# Optional: clear any state-specific variables
 	pass
 
-# Use this helper to finish the state. It will only emit the finished signal once.
-func finish(next_state: State) -> void:
+# Called from StateMachine._input() only on the active state.
+# Override to react to InputEvents. To change state, call:
+#   machine.change_state(NextState.new())
+func handle_input(event: InputEvent) -> void:
 	pass
 
-# Called on unhandled input events.
-func handle_input(_event: InputEvent) -> void:
+# Called from StateMachine._physics_process() only on the active state.
+# Override for per-frame physics logic. To change state, call:
+#   machine.change_state(NextState.new())
+func physics_state_process(delta: float) -> void:
 	pass
 
-# Called on every main loop tick.
-func update(_delta: float) -> void:
-	pass
-
-# Called on every physics update tick.
-func physics_update(_delta: float) -> void:
+# Called from StateMachine._process() only on the active state.
+# Override for non-physics per-frame logic.
+# To change state, call:
+#   machine.change_state(NextState.new())
+func state_process(delta: float) -> void:
 	pass

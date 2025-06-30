@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://ciorohdjes4ux"]
+[gd_scene load_steps=7 format=3 uid="uid://ciorohdjes4ux"]
 
 [ext_resource type="Script" uid="uid://bljt6rik5b8qu" path="res://entities/pieces/rook/rook.gd" id="1_sh11o"]
 [ext_resource type="PackedScene" uid="uid://v1xmai71imsv" path="res://entities/pieces/_components/visuals_component.tscn" id="2_peyj8"]
@@ -6,10 +6,6 @@
 [ext_resource type="Script" uid="uid://b7mlauncabyke" path="res://entities/pieces/_components/stats_component.gd" id="5_cyw4j"]
 [ext_resource type="PackedScene" uid="uid://fkqpt5w4tjhq" path="res://entities/pieces/_components/state_machine/state_machine.tscn" id="5_nl3tb"]
 [ext_resource type="Script" uid="uid://b6feeqgteiaba" path="res://entities/pieces/_components/modifiers_component.gd" id="6_3ulne"]
-[ext_resource type="Script" uid="uid://btxraun0k7824" path="res://entities/pieces/_components/state_machine/idle_state.gd" id="6_bnfmw"]
-[ext_resource type="Script" uid="uid://decphredkmk3b" path="res://entities/pieces/_components/state_machine/highlighted_state.gd" id="7_pdotg"]
-[ext_resource type="Script" uid="uid://k1l23fbcauy" path="res://entities/pieces/_components/state_machine/selected_state.gd" id="8_r2awy"]
-[ext_resource type="Script" uid="uid://dy1pb08bw0xcl" path="res://entities/pieces/_components/state_machine/moving_state.gd" id="9_gb7g7"]
 
 [node name="Rook" type="Node3D" node_paths=PackedStringArray("visuals", "movement", "stats", "modifiers") groups=["piece"]]
 script = ExtResource("1_sh11o")
@@ -29,11 +25,5 @@ script = ExtResource("5_cyw4j")
 script = ExtResource("6_3ulne")
 
 [node name="StateMachine" parent="." instance=ExtResource("5_nl3tb")]
-state_scripts = Dictionary[int, Script]({
-0: ExtResource("6_bnfmw"),
-1: ExtResource("7_pdotg"),
-2: ExtResource("8_r2awy"),
-3: ExtResource("9_gb7g7")
-})
 
 [node name="VisualsComponent" parent="." instance=ExtResource("2_peyj8")]

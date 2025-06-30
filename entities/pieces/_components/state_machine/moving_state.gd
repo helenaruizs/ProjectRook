@@ -2,5 +2,5 @@ class_name MovingState
 
 extends State
 
-func enter(previous_state: State)-> void:
-	print("Entered Moving")
+func _init() -> void:
+	state_name = StateMachine.States.MOVING

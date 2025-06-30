@@ -1,10 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://fkqpt5w4tjhq"]
+[gd_scene load_steps=6 format=3 uid="uid://fkqpt5w4tjhq"]
 
 [ext_resource type="Script" uid="uid://dyts13fp2xveu" path="res://entities/pieces/_components/state_machine/state_machine.gd" id="1_8iolt"]
+[ext_resource type="Script" uid="uid://btxraun0k7824" path="res://entities/pieces/_components/state_machine/idle_state.gd" id="2_u56lj"]
+[ext_resource type="Script" uid="uid://decphredkmk3b" path="res://entities/pieces/_components/state_machine/highlighted_state.gd" id="3_tdnoq"]
+[ext_resource type="Script" uid="uid://k1l23fbcauy" path="res://entities/pieces/_components/state_machine/selected_state.gd" id="4_ek3x6"]
+[ext_resource type="Script" uid="uid://dy1pb08bw0xcl" path="res://entities/pieces/_components/state_machine/moving_state.gd" id="5_fel51"]
 
 [node name="StateMachine" type="Node"]
 script = ExtResource("1_8iolt")
-
-[node name="Label3D" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26885, 0.339512)
-text = "Hello!"
+state_scripts = Dictionary[int, Script]({
+0: ExtResource("2_u56lj"),
+1: ExtResource("3_tdnoq"),
+2: ExtResource("4_ek3x6"),
+3: ExtResource("5_fel51")
+})
