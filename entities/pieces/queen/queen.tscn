@@ -1,10 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://saw5f7ha4386"]
+[gd_scene load_steps=11 format=3 uid="uid://saw5f7ha4386"]
 
 [ext_resource type="Script" uid="uid://w6ffk65qc0wm" path="res://entities/pieces/queen/queen.gd" id="1_lhr55"]
 [ext_resource type="PackedScene" uid="uid://v1xmai71imsv" path="res://entities/pieces/_components/visuals_component.tscn" id="2_7vkv1"]
 [ext_resource type="Script" uid="uid://hud2tqdvqysw" path="res://entities/pieces/_components/movement_component.gd" id="4_hxboq"]
+[ext_resource type="PackedScene" uid="uid://fkqpt5w4tjhq" path="res://entities/pieces/_components/state_machine/state_machine.tscn" id="5_e5ggh"]
 [ext_resource type="Script" uid="uid://b7mlauncabyke" path="res://entities/pieces/_components/stats_component.gd" id="5_uv57n"]
+[ext_resource type="Script" uid="uid://btxraun0k7824" path="res://entities/pieces/_components/state_machine/idle_state.gd" id="6_8l42g"]
 [ext_resource type="Script" uid="uid://b6feeqgteiaba" path="res://entities/pieces/_components/modifiers_component.gd" id="6_ya1q1"]
+[ext_resource type="Script" uid="uid://decphredkmk3b" path="res://entities/pieces/_components/state_machine/highlighted_state.gd" id="7_irvb2"]
+[ext_resource type="Script" uid="uid://k1l23fbcauy" path="res://entities/pieces/_components/state_machine/selected_state.gd" id="8_l46ek"]
+[ext_resource type="Script" uid="uid://dy1pb08bw0xcl" path="res://entities/pieces/_components/state_machine/moving_state.gd" id="9_k4d64"]
 
 [node name="queen" type="Node3D" node_paths=PackedStringArray("visuals", "movement", "stats", "modifiers") groups=["piece"]]
 script = ExtResource("1_lhr55")
@@ -15,8 +20,6 @@ stats = NodePath("StatsComponent")
 modifiers = NodePath("ModifiersComponent")
 move_pattern = 3
 
-[node name="VisualsComponent" parent="." instance=ExtResource("2_7vkv1")]
-
 [node name="MovementComponent" type="Node" parent="."]
 script = ExtResource("4_hxboq")
 
@@ -25,3 +28,13 @@ script = ExtResource("5_uv57n")
 
 [node name="ModifiersComponent" type="Node" parent="."]
 script = ExtResource("6_ya1q1")
+
+[node name="StateMachine" parent="." instance=ExtResource("5_e5ggh")]
+state_scripts = Dictionary[int, Script]({
+0: ExtResource("6_8l42g"),
+1: ExtResource("7_irvb2"),
+2: ExtResource("8_l46ek"),
+3: ExtResource("9_k4d64")
+})
+
+[node name="VisualsComponent" parent="." instance=ExtResource("2_7vkv1")]

@@ -36,9 +36,8 @@ enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/
 
 [layer_names]
 
-3d_physics/layer_1="Player"
-3d_physics/layer_2="Enemy"
-3d_physics/layer_3="Board"
+3d_physics/layer_1="Board"
+3d_physics/layer_2="Pieces"
 
 [rendering]
 

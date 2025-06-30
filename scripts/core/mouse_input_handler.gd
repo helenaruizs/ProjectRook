@@ -42,10 +42,7 @@ func _process_hover(event: InputEventMouseMotion) -> void:
 	var cell        : Vector3i  = board.grid_map.local_to_map(local_pos)
 	var tile  : Vector2i  = Vector2i(cell.x, cell.z)
 
-	if collider is Piece:
-		EventBus.emit_signal("piece_hovered", collider, tile)
-	else:
-		EventBus.emit_signal("tile_hovered", tile)
+	EventBus.emit_signal("tile_hovered", tile)
 
 func _process_click(event: InputEventMouseButton) -> void:
 	var mouse_pos : Vector2 = event.position
@@ -59,11 +56,7 @@ func _process_click(event: InputEventMouseButton) -> void:
 	var local_pos   : Vector3   = board.grid_map.to_local(world_pos)
 	var cell        : Vector3i  = board.grid_map.local_to_map(local_pos)
 	var tile  : Vector2i  = Vector2i(cell.x, cell.z)
-
-	if collider is Piece:
-		EventBus.emit_signal("piece_clicked", collider, tile)
-	else:
-		EventBus.emit_signal("tile_clicked", tile)
+	EventBus.emit_signal("tile_clicked", tile)
 
 func _cast_ray(screen_pos: Vector2) -> Dictionary:
 	var from: Vector3 = camera.project_ray_origin(screen_pos)

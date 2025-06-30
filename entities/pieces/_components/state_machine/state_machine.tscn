@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://fkqpt5w4tjhq"]
+
+[ext_resource type="Script" uid="uid://dyts13fp2xveu" path="res://entities/pieces/_components/state_machine/state_machine.gd" id="1_8iolt"]
+
+[node name="StateMachine" type="Node"]
+script = ExtResource("1_8iolt")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26885, 0.339512)
+text = "Hello!"

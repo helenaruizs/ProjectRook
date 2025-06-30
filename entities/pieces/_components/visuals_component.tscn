@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://v1xmai71imsv"]
+[gd_scene load_steps=4 format=3 uid="uid://v1xmai71imsv"]
 
 [ext_resource type="Script" uid="uid://dlrpytwbfemaa" path="res://entities/pieces/_components/visuals_component.gd" id="1_i67yp"]
 [ext_resource type="Texture2D" uid="uid://cesnuaugwr2h4" path="res://assets/skins/classic_white/rook.png" id="2_v8o1n"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i67yp"]
+size = Vector3(0.665588, 1.07324, 0.0373535)
 
 [node name="VisualsComponent" type="Node3D"]
 script = ExtResource("1_i67yp")
@@ -10,3 +13,11 @@ script = ExtResource("1_i67yp")
 transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 0, 0.547305, 0)
 billboard = 1
 texture = ExtResource("2_v8o1n")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00326538, 0.565918, 0)
+shape = SubResource("BoxShape3D_i67yp")
