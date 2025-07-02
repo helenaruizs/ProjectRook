@@ -11,7 +11,6 @@ var skin : SkinResource
 func _ready() -> void:
 	hover_area.input_ray_pickable = true
 	hover_area.mouse_entered.connect(_on_mouse_entered)
-	#hover_area.input_event.connect(_on_input_event)
 	
 	
 func set_texture(tex: Texture2D) -> void:

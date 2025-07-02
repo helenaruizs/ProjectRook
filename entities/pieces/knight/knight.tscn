@@ -7,13 +7,14 @@
 [ext_resource type="Script" uid="uid://b6feeqgteiaba" path="res://entities/pieces/_components/modifiers_component.gd" id="6_bgfam"]
 [ext_resource type="PackedScene" uid="uid://fkqpt5w4tjhq" path="res://entities/pieces/_components/state_machine/state_machine.tscn" id="6_ktqv0"]
 
-[node name="knight" type="Node3D" node_paths=PackedStringArray("visuals", "movement", "stats", "modifiers") groups=["piece"]]
+[node name="knight" type="Node3D" node_paths=PackedStringArray("visuals", "movement", "stats", "modifiers", "state_machine") groups=["piece"]]
 script = ExtResource("1_amb4b")
 piece_type = 1
 visuals = NodePath("VisualsComponent")
 movement = NodePath("MovementComponent")
 stats = NodePath("StatsComponent")
 modifiers = NodePath("ModifiersComponent")
+state_machine = NodePath("StateMachine")
 move_style = 1
 move_pattern = 2
 move_length = 1

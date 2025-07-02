@@ -8,9 +8,18 @@
 
 [node name="StateMachine" type="Node"]
 script = ExtResource("1_8iolt")
-state_scripts = Dictionary[int, Script]({
-0: ExtResource("2_u56lj"),
-1: ExtResource("3_tdnoq"),
-2: ExtResource("4_ek3x6"),
-3: ExtResource("5_fel51")
-})
+
+[node name="Idle" type="Node" parent="."]
+script = ExtResource("2_u56lj")
+
+[node name="Highlighted" type="Node" parent="."]
+script = ExtResource("3_tdnoq")
+state_id = 1
+
+[node name="Selected" type="Node" parent="."]
+script = ExtResource("4_ek3x6")
+state_id = 2
+
+[node name="Moving" type="Node" parent="."]
+script = ExtResource("5_fel51")
+state_id = 3

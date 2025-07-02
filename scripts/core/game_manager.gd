@@ -53,7 +53,6 @@ func _ready() -> void:
 	
 	# HACK: For testing the mouse handler signals
 	EventBus.connect("tile_hovered", Callable(self, "on_tile_hover"))
-	EventBus.connect("piece_hovered", Callable(self, "on_piece_hover"))
 
 func clear_board() -> void:
 	var placed_pieces: Array[Node] = get_tree().get_nodes_in_group("pieces")
@@ -152,6 +151,3 @@ func spawn_one(
 	
 func on_tile_hover(tile : Vector2i) -> void:
 	print("tile hovered", tile)
-
-func on_piece_hover(piece: Piece, coord: Vector2i) -> void:
-	print("piece hovered", piece)
