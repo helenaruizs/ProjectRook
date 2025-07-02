@@ -150,4 +150,6 @@ func spawn_one(
 	
 	
 func on_tile_hover(tile : Vector2i) -> void:
-	print("tile hovered", tile)
+	# FIXME: Debug
+	# print("tile hovered", tile)
+	pass

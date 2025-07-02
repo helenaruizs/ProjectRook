@@ -23,6 +23,8 @@ var board_pos : Vector2i
 func _ready() -> void:
 	# Signal Subscriptions
 	EventBus.connect("piece_hovered", Callable(self, "_on_piece_hovered"))
+	EventBus.connect("piece_hover_end", Callable(self, "_on_piece_hover_end"))
+	EventBus.connect("piece_click", Callable(self, "_on_piece_click"))
 
 func update_visuals(tex : Texture2D) -> void:
 	visuals.set_texture(tex)
@@ -39,3 +41,11 @@ func _on_piece_hovered(piece: Piece, coord: Vector2i) -> void:
 
 	# Tell *this* piece’s FSM to highlight
 	state_machine.change_state(State.States.HIGHLIGHTED)
+	
+func _on_piece_hover_end(piece: Piece, coord: Vector2i) -> void:
+	# Ignore hovers meant for other pieces
+	if piece != self:
+		return
+
+	# Tell *this* piece’s FSM to highlight
+	state_machine.change_state(State.States.IDLE)
