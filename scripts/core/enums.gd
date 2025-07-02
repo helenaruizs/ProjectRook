@@ -8,6 +8,13 @@ enum Conditions {
 	CLICK,
 }
 
+enum States {
+	IDLE,
+	HIGHLIGHTED,
+	SELECTED,
+	MOVING,
+}
+
 enum PieceType {
 	NONE,
 	PAWN,

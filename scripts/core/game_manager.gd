@@ -46,10 +46,17 @@ var enemy_piece_count: int:
 	get:
 		return enemy_pawn_rows.size() + enemy_back_rows.size()
 
+var selected_piece : Piece = null
+
 func _ready() -> void:
 	clear_board()
 	spawn_faction(player_container, false)
 	spawn_faction(enemy_container, true)
+	
+	# hook only your own pieces
+	for piece in player_container.get_children():
+		var state_machine : StateMachine = piece.state_machine
+		state_machine.connect("state_changed", Callable(piece, "_on_state_changed"))
 	
 	# HACK: For testing the mouse handler signals
 	EventBus.connect("tile_hovered", Callable(self, "on_tile_hover"))
@@ -122,6 +129,8 @@ func spawn_one(
 	# 2) Instance & add to the scene tree
 	var piece : Node = packed.instantiate() as Piece
 	parent.add_child(piece)
+	if faction == player_faction:
+		piece.state_machine.is_player_controlled = true
 
 	## 3) Initialize piece data
 	#piece.piece_stats.piece_type  = piece_type

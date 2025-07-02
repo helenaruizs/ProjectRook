@@ -2,9 +2,10 @@ class_name StateMachine
 
 extends Node
 
-signal state_changed(new_state: StateMachine.States)
+signal state_changed(piece: Piece, new_state: Enums.States)
 
 @export var starting_state: State
+@export var is_player_controlled: bool = false
 # The code bellow is something called an “immediately‐invoked function expression”
 #(IIFE) in GDScript: you define a tiny anonymous function right where you need it,
 #then immediately call it to compute your default value
@@ -12,7 +13,7 @@ signal state_changed(new_state: StateMachine.States)
 	return starting_state if starting_state != null else get_child(0)
 ).call()
 
-var state_nodes: Dictionary[State.States, NodePath] = {}
+var state_nodes: Dictionary[Enums.States, NodePath] = {}
 var animation_tree : AnimationTree = null # TODO: Animation tree for the pieces
 
 
@@ -24,7 +25,7 @@ func _ready() -> void:
 		state_node.machine = self
 		
 		# Populate dictionary for quick state calls
-		var key : State.States = state_node.state_id
+		var key : Enums.States = state_node.state_id
 		var path : NodePath = get_path_to(state_node)
 		state_nodes[key] = path
 		
@@ -40,11 +41,13 @@ func _ready() -> void:
 	current_state.enter()
 	
 	
-func change_state(new_state: State.States) -> void:
+func change_state(new_state: Enums.States) -> void:
 	var previous_state := current_state.name
 	var next_state := state_nodes[new_state]
+	var piece := get_parent() as Piece
 	current_state = get_node(next_state)
 	current_state.enter()
+	emit_signal("state_changed", piece, new_state)
 
 
 func _process(delta: float) -> void:

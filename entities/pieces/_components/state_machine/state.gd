@@ -4,18 +4,12 @@ class_name State
 
 extends Node
 
-enum States {
-	IDLE,
-	HIGHLIGHTED,
-	SELECTED,
-	MOVING,
-}
 
 # Reference to the parent StateMachine
 var machine: StateMachine
 
 # State's name for quicker referencing
-@export var state_id : States
+@export var state_id : Enums.States
 
 # Called once, immediately after this state node has been added as a child of the StateMachine.
 # The argument is the StateMachine instance, so states can invoke:
@@ -23,7 +17,7 @@ var machine: StateMachine
 func enter() -> void:
 	# FIXME: Debug
 	# Print this state’s class_name to the console
-	var name_to_print : String = Enums.enum_to_string(States, state_id)
+	var name_to_print : String = Enums.enum_to_string(Enums.States, state_id)
 	print("Entering state:", name_to_print)
 
 # Called just before this state is removed. Override to clean up.

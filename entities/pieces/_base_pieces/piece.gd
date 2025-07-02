@@ -23,6 +23,7 @@ var board_pos : Vector2i
 func _ready() -> void:
 	# Signal Subscriptions
 	visuals.connect("condition_emitted", Callable(self, "_on_condition"))
+	#state_machine.connect("state_changed", Callable(self, "_on_state_changed"))
 
 func update_visuals(tex : Texture2D) -> void:
 	visuals.set_texture(tex)
@@ -34,3 +35,6 @@ func update_position(world_pos: Vector3) -> void:
 func _on_condition(cond: int) -> void:
 	# forward the semantic event to your FSM
 	state_machine.on_condition(cond)
+
+func _on_state_changed(piece: Piece, new_state: int) -> void:
+	visuals.on_state_changed(new_state)
