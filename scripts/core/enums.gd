@@ -2,6 +2,12 @@ class_name Enums
 
 extends Object
 
+enum Conditions {
+	HOVER_ENTER,
+	HOVER_EXIT,
+	CLICK,
+}
+
 enum PieceType {
 	NONE,
 	PAWN,

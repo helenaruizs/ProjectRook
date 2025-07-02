@@ -2,6 +2,8 @@ class_name StateMachine
 
 extends Node
 
+signal state_changed(new_state: StateMachine.States)
+
 @export var starting_state: State
 # The code bellow is something called an “immediately‐invoked function expression”
 #(IIFE) in GDScript: you define a tiny anonymous function right where you need it,
@@ -27,7 +29,7 @@ func _ready() -> void:
 		state_nodes[key] = path
 		
 	if state_nodes.size() == 0:
-		push_warning("States in State Machine were not configured")	
+		push_warning("States in State Machine were not configured")
 	# FIXME: Debug
 
 	print(state_nodes)
@@ -49,6 +51,12 @@ func _process(delta: float) -> void:
 	if current_state != null:
 		current_state.state_process(delta)
 
+
 func _input(event: InputEvent) -> void:
 	if current_state != null:
 		current_state.handle_input(event)
+
+
+func on_condition(cond: int) -> void:
+	# give your current state a chance to handle it
+	current_state.handle_condition(cond)

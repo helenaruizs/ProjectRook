@@ -48,3 +48,7 @@ func physics_state_process(delta: float) -> void:
 #   machine.change_state(NextState.new())
 func state_process(delta: float) -> void:
 	pass
+
+# Condition handler
+func handle_condition(cond: int) -> void:
+	pass

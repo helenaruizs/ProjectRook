@@ -22,9 +22,7 @@ var board_pos : Vector2i
 
 func _ready() -> void:
 	# Signal Subscriptions
-	EventBus.connect("piece_hovered", Callable(self, "_on_piece_hovered"))
-	EventBus.connect("piece_hover_end", Callable(self, "_on_piece_hover_end"))
-	EventBus.connect("piece_click", Callable(self, "_on_piece_click"))
+	visuals.connect("condition_emitted", Callable(self, "_on_condition"))
 
 func update_visuals(tex : Texture2D) -> void:
 	visuals.set_texture(tex)
@@ -33,19 +31,6 @@ func update_position(world_pos: Vector3) -> void:
 	if movement != null:
 		movement.move_to_position(world_pos)
 
-
-func _on_piece_hovered(piece: Piece, coord: Vector2i) -> void:
-	# Ignore hovers meant for other pieces
-	if piece != self:
-		return
-
-	# Tell *this* piece’s FSM to highlight
-	state_machine.change_state(State.States.HIGHLIGHTED)
-	
-func _on_piece_hover_end(piece: Piece, coord: Vector2i) -> void:
-	# Ignore hovers meant for other pieces
-	if piece != self:
-		return
-
-	# Tell *this* piece’s FSM to highlight
-	state_machine.change_state(State.States.IDLE)
+func _on_condition(cond: int) -> void:
+	# forward the semantic event to your FSM
+	state_machine.on_condition(cond)
