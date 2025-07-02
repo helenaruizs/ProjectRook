@@ -53,8 +53,10 @@ func _ready() -> void:
 	spawn_faction(player_container, false)
 	spawn_faction(enemy_container, true)
 	
-	# hook only your own pieces
+	# Wire up player related FSM signals
 	for piece in player_container.get_children():
+		var visuals : VisualsComponent = piece.visuals
+		visuals.connect("condition_emitted", Callable(piece, "_on_condition"))
 		var state_machine : StateMachine = piece.state_machine
 		state_machine.connect("state_changed", Callable(piece, "_on_state_changed"))
 	
@@ -132,16 +134,12 @@ func spawn_one(
 	if faction == player_faction:
 		piece.state_machine.is_player_controlled = true
 
-	## 3) Initialize piece data
-	#piece.piece_stats.piece_type  = piece_type
+	#3) Initialize piece data
 	piece.piece_color = faction
-#
-	## 4) Register with the Board’s map
-	#piece.board_pos = Vector2i(file, rank)
-	#board.register_piece(piece)
 #
 	# Position piece in world
 	piece.global_transform.origin = board.get_grid_position(file, rank)
+	# TEST: Print Board info
 	#print("Board pos:", file, rank, "→ world pos:", board.get_grid_position(file, rank))
 	
 	# Assign the appropriate visual texture via SkinManager & VisualsComponent
@@ -159,6 +157,6 @@ func spawn_one(
 	
 	
 func on_tile_hover(tile : Vector2i) -> void:
-	# FIXME: Debug
+	# TEST: Print Tile state
 	# print("tile hovered", tile)
 	pass

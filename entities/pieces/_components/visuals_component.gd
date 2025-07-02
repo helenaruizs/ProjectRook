@@ -2,7 +2,7 @@ class_name VisualsComponent
 
 extends Node3D
 
-signal condition_emitted(cond: int)
+signal condition_emitted(cond: Enums.Conditions)
 
 var skin : SkinResource
 
@@ -33,7 +33,7 @@ func _on_hover_exit() -> void:
 #endregion
 
 
-func on_state_changed(new_state: int) -> void:
+func on_state_changed(new_state: Enums.States) -> void:
 	match new_state:
 		Enums.States.HIGHLIGHTED:
 			sprite.modulate = Color(1,1,0)   # yellow

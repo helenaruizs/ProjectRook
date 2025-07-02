@@ -4,6 +4,7 @@ class_name State
 
 extends Node
 
+# NOTE: To call the next state, use machine.change_state(next_state : Enum.States)
 
 # Reference to the parent StateMachine
 var machine: StateMachine
@@ -12,10 +13,8 @@ var machine: StateMachine
 @export var state_id : Enums.States
 
 # Called once, immediately after this state node has been added as a child of the StateMachine.
-# The argument is the StateMachine instance, so states can invoke:
-#   machine.change_state(NextState.new())
 func enter() -> void:
-	# FIXME: Debug
+	# TEST: Print State name
 	# Print this state’s class_name to the console
 	var name_to_print : String = Enums.enum_to_string(Enums.States, state_id)
 	print("Entering state:", name_to_print)
@@ -25,24 +24,20 @@ func exit() -> void:
 	pass
 
 # Called from StateMachine._input() only on the active state.
-# Override to react to InputEvents. To change state, call:
-#   machine.change_state(NextState.new())
+# Override to react to InputEvents.
 func handle_input(event: InputEvent) -> void:
 	pass
 
 # Called from StateMachine._physics_process() only on the active state.
-# Override for per-frame physics logic. To change state, call:
-#   machine.change_state(NextState.new())
+# Override for per-frame physics logic.
 func physics_state_process(delta: float) -> void:
 	pass
 
 # Called from StateMachine._process() only on the active state.
 # Override for non-physics per-frame logic.
-# To change state, call:
-#   machine.change_state(NextState.new())
 func state_process(delta: float) -> void:
 	pass
 
-# Condition handler
-func handle_condition(cond: int) -> void:
+# Condition handler, signal based
+func handle_condition(cond: Enums.Conditions) -> void:
 	pass
