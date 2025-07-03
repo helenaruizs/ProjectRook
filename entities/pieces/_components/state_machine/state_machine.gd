@@ -9,6 +9,7 @@ signal state_changed(piece: Piece, new_state: Enums.States)
 # The code bellow is something called an “immediately‐invoked function expression”
 #(IIFE) in GDScript: you define a tiny anonymous function right where you need it,
 #then immediately call it to compute your default value
+# NOTE: Immediate style of function calling, useful
 @onready var current_state: State = (func get_initial_state() -> State:
 	return starting_state if starting_state != null else get_child(0)
 ).call()

@@ -9,7 +9,7 @@
 
 [node name="bishop" type="Node3D" node_paths=PackedStringArray("visuals", "movement", "stats", "modifiers", "state_machine") groups=["piece"]]
 script = ExtResource("1_be8hr")
-piece_type = 2
+piece_type = 3
 visuals = NodePath("VisualsComponent")
 movement = NodePath("MovementComponent")
 stats = NodePath("StatsComponent")

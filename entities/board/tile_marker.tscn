@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://l8xlrrql4hsu"]
+
+[ext_resource type="Script" uid="uid://de3qo2i3hjxob" path="res://entities/board/tile_marker.gd" id="1_t5obc"]
+[ext_resource type="Material" uid="uid://cu22j75jdsc5a" path="res://assets/materials/tile_marker_mat.tres" id="2_xnynr"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_t5obc"]
+material = ExtResource("2_xnynr")
+
+[node name="TileMarker" type="Node3D"]
+script = ExtResource("1_t5obc")
+
+[node name="MarkerMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("QuadMesh_t5obc")

@@ -3,17 +3,16 @@
 [ext_resource type="Script" uid="uid://du00nos67youy" path="res://scripts/components/camera.gd" id="1_0wfyh"]
 [ext_resource type="Script" uid="uid://c6m8jg205cjb7" path="res://scripts/core/game_manager.gd" id="1_sugp2"]
 [ext_resource type="Script" uid="uid://bn6j6k0ct4siw" path="res://scripts/core/mouse_input_handler.gd" id="2_tbgi4"]
-[ext_resource type="Script" uid="uid://cxsu8sksx0iim" path="res://scripts/components/faction_pieces.gd" id="4_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://b3ax1wa0881wo" path="res://entities/players/player.tscn" id="3_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://b3upasuhwsrkm" path="res://entities/board/board.tscn" id="4_tbgi4"]
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_jyhfs"]
 frustum_focal_length = 100.0
 
-[node name="Main" type="Node" node_paths=PackedStringArray("board", "player_container", "enemy_container", "camera", "ui")]
+[node name="Main" type="Node" node_paths=PackedStringArray("board", "camera", "ui")]
 script = ExtResource("1_sugp2")
 board = NodePath("Board")
-player_container = NodePath("PlayerPieces")
-enemy_container = NodePath("EnemyPieces")
+players_container = NodePath("Players")
 camera = NodePath("Camera3D")
 ui = NodePath("UI")
 
@@ -23,6 +22,15 @@ ui = NodePath("UI")
 script = ExtResource("2_tbgi4")
 camera_path = NodePath("../../Camera3D")
 board_path = NodePath("../../Board")
+
+[node name="Players" type="Node" parent="."]
+
+[node name="Player1" parent="Players" instance=ExtResource("3_o6xl0")]
+
+[node name="Player2" parent="Players" instance=ExtResource("3_o6xl0")]
+player_id = 1
+faction = 1
+board_placement = 1
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.801014, 0.598646, 0, -0.598646, 0.801014, 3.932, 17.5203, 19.4232)
@@ -35,12 +43,6 @@ script = ExtResource("1_0wfyh")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.323884, 0.946097, 0, -0.946097, 0.323884, 0.0876713, 6.78015, 0.0436654)
-
-[node name="PlayerPieces" type="Node3D" parent="."]
-script = ExtResource("4_jyhfs")
-
-[node name="EnemyPieces" type="Node3D" parent="."]
-script = ExtResource("4_jyhfs")
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3

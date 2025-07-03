@@ -9,7 +9,7 @@
 
 [node name="queen" type="Node3D" node_paths=PackedStringArray("visuals", "movement", "stats", "modifiers", "state_machine") groups=["piece"]]
 script = ExtResource("1_lhr55")
-piece_type = 4
+piece_type = 5
 visuals = NodePath("VisualsComponent")
 movement = NodePath("MovementComponent")
 stats = NodePath("StatsComponent")

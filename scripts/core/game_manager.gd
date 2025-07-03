@@ -2,66 +2,36 @@ class_name GameManager
 
 extends Node
 
-@export_subgroup("Basic Nodes Setup")
+@export_category("Basic Nodes Setup")
 @export var board : Board
-@export var player_container : FactionPieces
-@export var enemy_container : FactionPieces
+@export var players_container: NodePath
 @export var camera : Camera3D
 @export var ui : Control
 
-@export_subgroup("Skins & Factions")
-
-@export var player_skin : SkinResource.SkinNames
-@export var enemy_skin : SkinResource.SkinNames
-
-@export var player_faction : Enums.FactionColor = Enums.FactionColor.WHITE
-@export var enemy_faction : Enums.FactionColor = Enums.FactionColor.BLACK
-
-@export_subgroup("Piece Layout: Player")
-
-@export var player_pawn_rows: Array[Enums.PieceType] = [
-	Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN,
-	Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN,
-]
-@export var player_back_rows: Array[Enums.PieceType] = [
-	Enums.PieceType.ROOK,   Enums.PieceType.KNIGHT, Enums.PieceType.BISHOP, Enums.PieceType.QUEEN,
-	Enums.PieceType.KING,   Enums.PieceType.BISHOP, Enums.PieceType.KNIGHT, Enums.PieceType.ROOK,
-]
-
-@export_subgroup("Piece Layout: Enemy")
-
-@export var enemy_pawn_rows: Array[Enums.PieceType] = [
-	Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN,
-	Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN,
-]
-@export var enemy_back_rows: Array[Enums.PieceType] = [
-	Enums.PieceType.ROOK,   Enums.PieceType.KNIGHT, Enums.PieceType.BISHOP, Enums.PieceType.QUEEN,
-	Enums.PieceType.KING,   Enums.PieceType.BISHOP, Enums.PieceType.KNIGHT, Enums.PieceType.ROOK,
-]
-
-var player_piece_count: int:
-	get:
-		return player_pawn_rows.size() + player_back_rows.size()
-var enemy_piece_count: int:
-	get:
-		return enemy_pawn_rows.size() + enemy_back_rows.size()
-
-var selected_piece : Piece = null
-
 func _ready() -> void:
 	clear_board()
-	spawn_faction(player_container, false)
-	spawn_faction(enemy_container, true)
-	
+	_spawn_all_players()
 	# Wire up player related FSM signals
-	for piece in player_container.get_children():
-		var visuals : VisualsComponent = piece.visuals
-		visuals.connect("condition_emitted", Callable(piece, "_on_condition"))
-		var state_machine : StateMachine = piece.state_machine
-		state_machine.connect("state_changed", Callable(piece, "_on_state_changed"))
-	
-	# HACK: For testing the mouse handler signals
-	EventBus.connect("tile_hovered", Callable(self, "on_tile_hover"))
+	var players_node := get_node(players_container) as Node
+	for child in players_node.get_children():
+		if not (child is PlayerConfig):
+			continue
+		var cfg : PlayerConfig = child
+		var player_id : Enums.Players = cfg.player_id
+		var player_pieces : FactionPieces = cfg.pieces   # <- use your exported container
+		match player_id:
+			# NOTE: This is where the state machine is being hooked up, might need more control support later, expand here
+			Enums.Players.PLAYER_1:
+				for piece_node in player_pieces.get_children():
+					if not (piece_node is Piece):
+						continue
+					var piece : Piece = piece_node as Piece
+					var visuals : VisualsComponent = piece.visuals
+					visuals.connect("condition_emitted", Callable(piece, "_on_condition"))
+					var fsm : StateMachine = piece.state_machine
+					fsm.connect("state_changed", Callable(piece, "_on_state_changed"))
+			_:
+				pass
 
 func clear_board() -> void:
 	var placed_pieces: Array[Node] = get_tree().get_nodes_in_group("pieces")
@@ -69,94 +39,123 @@ func clear_board() -> void:
 		if piece_node is Node:
 			piece_node.queue_free()
 
-func spawn_faction(container: FactionPieces, is_enemy: bool) -> void:
-	# Determine faction color
-	var color: Enums.FactionColor
-	if is_enemy:
-		color = enemy_faction
-	else:
-		color = player_faction
+func _spawn_all_players() -> void:
+	var root := get_node(players_container) as Node
+	for child in root.get_children():
+		if child is PlayerConfig:
+			var config : PlayerConfig = child
+			var container : FactionPieces = config.pieces
+			spawn_pieces(config, container)
 
+func spawn_pieces(config: PlayerConfig, container: FactionPieces) -> void:
+	## Determine faction color
+	var color: Enums.FactionColor = config.faction
+	
+	## Determine skin
+	var skin: SkinResource.SkinNames = config.skin # FIXME: I should move all enums to the Enums global class
+	
 	# Compute board rows based on actual GridMap coordinates
 	var first_row: int = board.get_first_row()
-	var row0: int
-	if is_enemy:
-		row0 = first_row
-	else:
-		row0 = first_row + board.board_size - 1
-
 	var row1: int
-	if is_enemy:
-		row1 = row0 + 1
-	else:
-		row1 = row0 - 1
+	var row2: int
+	
+	# Determine rows based on Board Placement
+	var board_placement : Enums.BoardPlacement = config.board_placement
+	
+	match board_placement:
+		Enums.BoardPlacement.FRONT:
+			row1 = first_row + board.board_size - 1
+			row2 = row1 - 1
+		Enums.BoardPlacement.BACK:
+			row1 = first_row
+			row2 = row1 + 1
+		_:
+			pass
 
-	# Select piece type arrays for this faction
-	var pawn_types: Array[Enums.PieceType]
-	var back_types: Array[Enums.PieceType]
-	if is_enemy:
-		pawn_types = enemy_pawn_rows
-		back_types = enemy_back_rows
-	else:
-		pawn_types = player_pawn_rows
-		back_types = player_back_rows
-
-	# Spawn pawns, skipping any 'NONE' placeholders
-	for file in pawn_types.size():
-		var pt: Enums.PieceType = pawn_types[file]
-		if pt == Enums.PieceType.NONE:
+	## Select piece type arrays for this faction
+	var front_row: Array[Enums.PieceType] = config.front_row
+	var back_row: Array[Enums.PieceType] = config.back_row
+	
+	## Spawn pawns, skipping any 'NONE' placeholders
+	for file in front_row.size():
+		var piece: Enums.PieceType = front_row[file]
+		if piece == Enums.PieceType.NONE:
 			continue
-		spawn_one(pt, color, container, file, row1)
-
-	# Spawn back‐rank pieces, skipping 'NONE' placeholders
-	for file in back_types.size():
-		var pt: Enums.PieceType = back_types[file]
-		if pt == Enums.PieceType.NONE:
+		spawn_one(piece, skin, color, file, row2, container)
+#
+	## Spawn back‐rank pieces, skipping 'NONE' placeholders
+	for file in back_row.size():
+		var piece: Enums.PieceType = back_row[file]
+		if piece == Enums.PieceType.NONE:
 			continue
-		spawn_one(pt, color, container, file, row0)
-		
+		spawn_one(piece, skin, color, file, row1, container)
+
 func spawn_one(
 	piece_type: Enums.PieceType,
-	faction:   Enums.FactionColor,
-	parent:    Node,
+	skin: SkinResource.SkinNames,
+	color:   Enums.FactionColor,
 	file:      int,
-	rank:      int
+	rank:      int,
+	container: FactionPieces
 ) -> void:
 	# 1) Get the correct PackedScene from SkinManager
 	var packed: PackedScene = SkinManager.get_piece(piece_type)
 	if packed == null:
-		push_error("No scene for %s %s" % [piece_type, faction])
+		push_error("No scene for %s %s" % [piece_type, color])
 		return
 
 	# 2) Instance & add to the scene tree
 	var piece : Node = packed.instantiate() as Piece
-	parent.add_child(piece)
-	if faction == player_faction:
-		piece.state_machine.is_player_controlled = true
+	container.add_child(piece)
 
 	#3) Initialize piece data
-	piece.piece_color = faction
+	piece.piece_color = color
 #
 	# Position piece in world
 	piece.global_transform.origin = board.get_grid_position(file, rank)
+	
+	# Register piece in board's piece map
+	board.register_piece(piece, file, rank)
+	
 	# TEST: Print Board info
 	#print("Board pos:", file, rank, "→ world pos:", board.get_grid_position(file, rank))
 	
 	# Assign the appropriate visual texture via SkinManager & VisualsComponent
-	var skin_id: SkinResource.SkinNames
-	if faction == player_faction:
-		skin_id = player_skin
-	else:
-		skin_id = enemy_skin
-	var texture: Texture2D = SkinManager.get_texture(skin_id, faction, piece_type)
+	var texture: Texture2D = SkinManager.get_texture(skin, color, piece_type)
 	if texture != null:
 		piece.update_visuals(texture)
 	else:
 		push_warning("No texture found for %s using skin %s" %
-			[piece_type, skin_id])
+			[piece_type, skin])
 	
 	
 func on_tile_hover(tile : Vector2i) -> void:
-	# TEST: Print Tile state
-	# print("tile hovered", tile)
+	## TEST: Print Tile state
+	## print("tile hovered", tile)
 	pass
+#
+#func _on_piece_state_changed(piece: Piece, new_state: Enums.States) -> void:
+	## always clear our old highlights first
+	#board.clear_tile_states()
+#
+	#match new_state:
+		#Enums.States.HIGHLIGHTED:
+			## piece is under the cursor: show its legal moves
+			#var moves: Array[Vector2i] = piece.movement_component.generate_moves(
+				#piece.board_pos, piece.move_config, board.piece_map, board
+			#)
+			## highlight path (thin) and targets (bright)
+			#board.show_legal_moves(moves)           # green
+			#board.highlight_targets(moves)          # yellow
+#
+		#Enums.States.SELECTED:
+			## piece was clicked: show everything more emphatically
+			#var moves: Array[Vector2i] = piece.movement_component.generate_moves(
+				#piece.board_pos, piece.move_config, board.piece_map, board
+			#)
+			#board.show_legal_moves(moves, true)     # pass `true` to use a stronger color
+			#board.highlight_targets(moves, true)
+#
+		#_:
+			## on any other state, we leave the board in its occupancy-only state
+			#board.refresh_tile_states(piece.piece_color)

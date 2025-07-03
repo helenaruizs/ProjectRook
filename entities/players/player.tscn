@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3ax1wa0881wo"]
+
+[ext_resource type="Script" uid="uid://eivkyyjgx2y0" path="res://entities/players/player_config.gd" id="1_1oc8d"]
+[ext_resource type="Script" uid="uid://cxsu8sksx0iim" path="res://entities/players/faction_pieces.gd" id="2_j1vey"]
+
+[node name="Player" type="Node" node_paths=PackedStringArray("pieces")]
+script = ExtResource("1_1oc8d")
+pieces = NodePath("PlayerPieces")
+
+[node name="PlayerPieces" type="Node3D" parent="."]
+script = ExtResource("2_j1vey")

@@ -83,3 +83,6 @@ func _on_piece_clicked(piece: Piece, pos: Vector2i):
 	print("Clicked piece at grid coord:", pos)
 	# now you know exactly where it is
 You don’t need to “search” for it—GameManager gets the coord directly from the signal.
+
+# TODO: 
+	Faction Management: Right now, both player and enemy pieces are placed under separate parent nodes (PlayerPieces and EnemyPieces) for organization. However, methods like clear_board() and clear_faction_node() use get_nodes_in_group("pieces"), which actually collects all pieces from both sides. As written, clearing one faction would clear both. In a larger project you’d typically track each side’s pieces separately (e.g. with separate groups or lists) for turn management or selective removal.

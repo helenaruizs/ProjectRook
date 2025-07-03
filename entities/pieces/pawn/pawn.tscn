@@ -9,6 +9,7 @@
 
 [node name="pawn" type="Node3D" node_paths=PackedStringArray("visuals", "movement", "stats", "modifiers", "state_machine") groups=["piece"]]
 script = ExtResource("1_ahoi2")
+piece_type = 1
 visuals = NodePath("VisualsComponent")
 movement = NodePath("MovementComponent")
 stats = NodePath("StatsComponent")

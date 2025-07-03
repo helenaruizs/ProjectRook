@@ -9,7 +9,7 @@
 
 [node name="knight" type="Node3D" node_paths=PackedStringArray("visuals", "movement", "stats", "modifiers", "state_machine") groups=["piece"]]
 script = ExtResource("1_amb4b")
-piece_type = 1
+piece_type = 2
 visuals = NodePath("VisualsComponent")
 movement = NodePath("MovementComponent")
 stats = NodePath("StatsComponent")

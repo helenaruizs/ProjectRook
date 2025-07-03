@@ -15,6 +15,17 @@ enum States {
 	MOVING,
 }
 
+enum TileStates {
+	NORMAL,
+	LEGAL_MOVE,
+	LEGAL_MOVE_HOVERED,
+	SELECTED,
+	MOVE_PATH,
+	HOVERED,
+	OCCUPIED_PLAYER,  # tile has one of your own pieces
+	OCCUPIED_OPPONENT,    # tile has an enemy piece (a capture target)
+}
+
 enum PieceType {
 	NONE,
 	PAWN,
@@ -69,9 +80,19 @@ enum Ranks {
 	_8,
 }
 
+enum Players {
+	PLAYER_1,
+	PLAYER_2
+}
+
 enum GameTurn {
 	PLAYER,
 	ENEMY,
+}
+
+enum BoardPlacement {
+	FRONT,
+	BACK,
 }
 
 static func enum_to_string(enum_dict: Dictionary, value: int) -> String:
