@@ -24,6 +24,7 @@ func _ready() -> void:
 	for state_node: State in find_children("*", "State"): # "*" is a glob-style pattern on the node’s name. * by itself matches every name.
 		# Wire up state machine for direct calls to change states
 		state_node.machine = self
+		state_node.piece = self.get_parent()
 		
 		# Populate dictionary for quick state calls
 		var key : Enums.States = state_node.state_id
@@ -43,10 +44,11 @@ func _ready() -> void:
 	
 	
 func change_state(new_state: Enums.States) -> void:
-	var previous_state := current_state.name
+	var previous_state := current_state
 	var next_state := state_nodes[new_state]
 	var piece := get_parent() as Piece
 	current_state = get_node(next_state)
+	previous_state.exit()
 	current_state.enter()
 	emit_signal("state_changed", piece, new_state)
 

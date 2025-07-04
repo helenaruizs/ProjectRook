@@ -33,7 +33,7 @@ faction = 1
 board_placement = 1
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.801014, 0.598646, 0, -0.598646, 0.801014, 3.932, 17.5203, 19.4232)
+transform = Transform3D(0.920621, -0.233746, 0.312762, 0, 0.801014, 0.598646, -0.390458, -0.551126, 0.73743, 14.0547, 19.6589, 20.8963)
 attributes = SubResource("CameraAttributesPhysical_jyhfs")
 current = true
 size = 6.381

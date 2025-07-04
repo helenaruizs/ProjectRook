@@ -6,11 +6,14 @@ extends Node
 
 # NOTE: To call the next state, use machine.change_state(next_state : Enum.States)
 
+# State's name for quicker referencing
+@export var state_id : Enums.States
+
 # Reference to the parent StateMachine
 var machine: StateMachine
 
-# State's name for quicker referencing
-@export var state_id : Enums.States
+# Reference to the parent piece
+var piece : Piece
 
 # Called once, immediately after this state node has been added as a child of the StateMachine.
 func enter() -> void:

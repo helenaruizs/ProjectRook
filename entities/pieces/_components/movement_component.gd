@@ -46,6 +46,10 @@ func get_directions(pattern: Enums.MovePattern) -> Array[Vector2i]:
 			]
 		Enums.MovePattern.L_SHAPE:
 			return KNIGHT_OFFSETS
+		Enums.MovePattern.SINGLE_DIR:
+			return [
+				Const.DIRS.up,
+			]
 		_:
 			return []
 
@@ -57,11 +61,10 @@ func _pawn_double_step_allowed(origin: Vector2i) -> bool:
 	return true
 
 #— Public API —#
-
 func get_all_moves(origin: Vector2i) -> Array[Vector2i]:
 	var moves: Array[Vector2i] = []  # type: Array[Vector2i]
 
-	# 1) Knights are just their offsets, once each
+	# 1) Knights (L-shape) are a special case
 	if piece.move_pattern == Enums.MovePattern.L_SHAPE:
 		for offset in KNIGHT_OFFSETS:
 			moves.append(origin + offset)
@@ -71,17 +74,20 @@ func get_all_moves(origin: Vector2i) -> Array[Vector2i]:
 	var dirs := get_directions(piece.move_pattern)
 
 	if piece.move_length == Enums.MoveLength.LONG:
-		# Slide up to (board_size - 1) steps
+		# Slide in each direction, stopping when we hit any piece
 		var max_steps := piece.board.board_size
 		for d in dirs:
 			for step in range(1, max_steps):
-				moves.append(origin + d * step)
+				var pos := origin + d * step
+				moves.append(pos)
+				# If there's any piece here, stop further sliding
+				if piece.board.piece_map.has(pos):
+					break
 	else:
 		# SHORT: exactly 1 step, except pawn’s first move can be 2
 		var max_steps := 1
 		if _pawn_double_step_allowed(origin):
 			max_steps = 2
-		# note: range(1, max_steps + 1) yields 1..max_steps inclusive
 		for d in dirs:
 			for step in range(1, max_steps + 1):
 				moves.append(origin + d * step)

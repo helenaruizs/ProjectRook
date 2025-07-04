@@ -86,3 +86,132 @@ You don’t need to “search” for it—GameManager gets the coord directly fr
 
 # TODO: 
 	Faction Management: Right now, both player and enemy pieces are placed under separate parent nodes (PlayerPieces and EnemyPieces) for organization. However, methods like clear_board() and clear_faction_node() use get_nodes_in_group("pieces"), which actually collects all pieces from both sides. As written, clearing one faction would clear both. In a larger project you’d typically track each side’s pieces separately (e.g. with separate groups or lists) for turn management or selective removal.
+
+
+VISUAL STYLE
+
+You absolutely can get fully dynamic lighting (and even shadows) on your “flat” chess‐piece sprites by treating them as 3D geometry with a normal map, rather than pure CanvasItem billboards. Here’s the simplest way in Godot 4:
+
+1) Use a QuadMesh + SpatialMaterial instead of Sprite3D
+While Sprite3D is handy, it doesn’t expose all of the PBR/light/shadow settings you need. Instead:
+
+In your TileMarker scene (or wherever you instanced your piece):
+
+Replace the Sprite3D node with a MeshInstance3D using a QuadMesh.
+
+Set its Size to (1,1) so it matches your tile.
+
+In Geometry → Billboard Mode, pick Y_AXIS so it always faces the camera.
+
+Create a SpatialMaterial (or StandardMaterial3D) for that mesh:
+
+Albedo Texture → your piece PNG.
+
+Normal Map → a hand-painted (or auto-generated) normal map for that sprite.
+
+Roughness/Specular → tweak so you get the right crisp shadows.
+
+Flags → Cast Shadow: if you want that sprite to throw a shadow onto the board.
+
+Flags → Receive Shadow: if you want the board light to darken the sprite under it.
+
+Now your chess piece is literally a 3D plane in the world. Godot’s DirectionalLight3D / SpotLight3D / PointLight3D will light it just like any other mesh, giving you real-time shading and even dynamic shadows.
+
+2) Hook it up in your VisualsComponent
+gdscript
+Copy
+Edit
+# VisualsComponent.gd
+@onready var mesh_inst: MeshInstance3D = $QuadMeshInstance
+
+func set_texture(tex: Texture2D, normal: Texture2D) -> void:
+	var mat := mesh_inst.get_active_material(0) as StandardMaterial3D
+	mat.albedo_texture = tex
+	mat.normal_texture = normal
+	# optionally tweak metalness/roughness here
+In the editor you preload/create a StandardMaterial3D with placeholder textures, assign it to the Quad, and then your code just swaps in the correct sprite + normal.
+
+3) Lights & Shadows
+DirectionalLight3D: give it Shadows → Enabled. Now your quads will cast a hard shadow across the board.
+
+PointLight3D (e.g. for lanterns at the corners): they’ll produce soft, radial falloff.
+
+Because each piece is a physical 3D plane with normals, the highlights and shadows will track your camera and lights dynamically—exactly like Mike Mignola’s heavy-shadow style but in real time.
+
+Alternative: ShaderMaterial on Sprite3D
+If you really want to stick with Sprite3D, you can write a small ShaderMaterial that samples a normal map and does a lambert/diffuse calculation against LIGHT builtin:
+
+glsl
+Copy
+Edit
+shader_type spatial;
+
+uniform sampler2D albedo_tex : hint_albedo;
+uniform sampler2D normal_tex : hint_normal;
+
+void fragment() {
+	vec4 c = texture(albedo_tex, UV);
+	vec3 n = texture(normal_tex, UV).rgb * 2.0 - 1.0;
+	// transform n from tangent → world if you need; for flat quads, object normal is OK
+	vec3 L = normalize(LIGHT[0].direction);
+	float diff = max(dot(n, -L), 0.0);
+	ALBEDO = c.rgb * (0.3 + diff * 0.7);
+	ALPHA = c.a;
+}
+Then assign that ShaderMaterial to your Sprite3D. It’ll approximate dynamic light on a 2D billboard.
+
+Wrap-up
+QuadMesh + SpatialMaterial is the easiest, most “Godot-native” way to get full 3D lighting and shadows on your sprites.
+
+A tiny ShaderMaterial can also light a Sprite3D if you prefer to keep that node type.
+
+In both cases you supply an albedo and a normal map for each piece, and Godot’s lights do the rest.
+
+Let me know which approach fits your needs and I can help you set up the exact materials or shaders!
+
+
+
+
+
+
+
+You said:
+Can you show me what a piece with that approach could look like?
+
+
+ChatGPT said:
+
+Image created
+
+
+
+
+
+
+Here’s how you’d set that up in Godot:
+
+QuadMesh Setup
+
+Change each piece’s Sprite3D to a MeshInstance3D with a QuadMesh (Size: 1×1).
+
+In the Quad’s Geometry → Billboard Mode, set Y_AXIS so it always faces the camera.
+
+SpatialMaterial
+
+On the QuadMesh’s Material Override, assign a StandardMaterial3D.
+
+Under Textures, load:
+
+Albedo Texture: your Mignola‐style PNG sprite.
+
+Normal Texture: a corresponding normal map (baked or hand‐painted).
+
+Under Flags, enable Cast Shadow and Receive Shadow.
+
+Lighting
+
+Add a DirectionalLight3D angled to cast dramatic shadows.
+
+Tweak its Shadow → Bias and Contact Shadow settings for crisp edges.
+
+Result: that flat comic‐book knight now sits in 3D space with real-time shading and a hard shadow on the board—exactly like the concept above.

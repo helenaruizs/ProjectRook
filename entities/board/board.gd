@@ -41,7 +41,7 @@ func scan_tiles() -> void:
 		var world_pos: Vector3 = grid_map.to_global(local_pos)
 		
 		# Center the piece on the tile by offsetting by half a tile in X and Z
-		world_pos += Vector3(tile_size.x * 0.5, 0, -tile_size.z * 0.45 - (world_pos.z * 0.01)) # HACK: This was a way to try and "pull" pieces to their correct z placement to compensate for the camera lens distortion
+		world_pos += Vector3(tile_size.x * 0.5, 0, -tile_size.z * 0.5) # HACK: This was a way to try and "pull" pieces to their correct z placement to compensate for the camera lens distortion
 
 		# store under a Vector2i key
 		tile_grid_positions[coord2d] = world_pos
@@ -62,7 +62,7 @@ func _spawn_markers() -> void:
 		# parent it under the board (so it moves/rotates with you)
 		add_child(marker)
 		# nudge it up slightly so it renders over the tile
-		marker.global_transform.origin = world_pos + Vector3(0, 0.1, 0)
+		marker.global_transform.origin = world_pos + Vector3(0, 0.01, 0)
 		# name it (optional, but useful)
 		marker.name = "Marker_%d_%d" % [coord.x, coord.y]
 		# store it for later lookups
@@ -110,7 +110,7 @@ func get_first_row() -> int:
 			min_row = min(min_row, coord.y)
 	return min_row
 
-func get_legal_markers(positions: Array[Vector2i]) -> Array[TileMarker]:
+func get_available_markers(positions: Array[Vector2i]) -> Array[TileMarker]:
 	var legal_markers: Array[TileMarker] = []
 	for pos in positions:
 		# 1) is this square on our board?

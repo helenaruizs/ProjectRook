@@ -6,8 +6,9 @@
 [ext_resource type="Script" uid="uid://k1l23fbcauy" path="res://entities/pieces/_components/state_machine/selected_state.gd" id="4_ek3x6"]
 [ext_resource type="Script" uid="uid://dy1pb08bw0xcl" path="res://entities/pieces/_components/state_machine/moving_state.gd" id="5_fel51"]
 
-[node name="StateMachine" type="Node"]
+[node name="StateMachine" type="Node" node_paths=PackedStringArray("starting_state")]
 script = ExtResource("1_8iolt")
+starting_state = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="."]
 script = ExtResource("2_u56lj")

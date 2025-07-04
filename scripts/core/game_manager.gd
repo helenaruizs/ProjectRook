@@ -27,6 +27,9 @@ func _ready() -> void:
 						continue
 					var piece : Piece = piece_node as Piece
 					piece.connect("piece_hovered", Callable(self, "on_piece_hover"))
+					piece.connect("piece_hovered_exit", Callable(self, "on_piece_hover_out"))
+					piece.connect("piece_selected", Callable(self, "on_piece_selection"))
+					piece.connect("piece_selected_exit", Callable(self, "on_piece_selection_out"))
 					var visuals : VisualsComponent = piece.visuals
 					visuals.connect("condition_emitted", Callable(piece, "_on_condition"))
 					var fsm : StateMachine = piece.state_machine
@@ -143,10 +146,19 @@ func on_tile_hover(tile : Vector2i) -> void:
 
 func on_piece_hover(piece: Piece, coord: Vector2i) -> void:
 	var moves: Array[Vector2i] = piece.movement.get_all_moves(coord)
-	var legal_markers : Array[TileMarker] = board.get_legal_markers(moves)
-	print(legal_markers)
+	var available_markers : Array[TileMarker] = board.get_available_markers(moves)
+	board.change_markers_state(Enums.TileStates.HOVERED, available_markers)
+
+func on_piece_hover_out(piece: Piece, coord: Vector2i) -> void:
 	board.reset_markers()
-	board.change_markers_state(Enums.TileStates.HOVERED, legal_markers)
+	
+func on_piece_selection(piece: Piece, coord: Vector2i) -> void:
+	var moves: Array[Vector2i] = piece.movement.get_all_moves(coord)
+	var available_markers : Array[TileMarker] = board.get_available_markers(moves)
+	board.change_markers_state(Enums.TileStates.HOVERED, available_markers)
+
+func on_piece_selection_out(piece: Piece, coord: Vector2i) -> void:
+	board.reset_markers()
 
 #func _on_piece_state_changed(piece: Piece, new_state: Enums.States) -> void:
 	## always clear our old highlights first

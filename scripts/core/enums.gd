@@ -51,6 +51,7 @@ enum MovePattern {
 	DIAGONAL,
 	L_SHAPE,
 	ALL_DIRS,
+	SINGLE_DIR,
 }
 
 enum MoveLength {
