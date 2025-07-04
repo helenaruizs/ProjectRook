@@ -150,7 +150,8 @@ func on_piece_hover(piece: Piece, coord: Vector2i) -> void:
 	board.change_markers_state(moves)
 
 func on_piece_hover_out(piece: Piece, coord: Vector2i) -> void:
-	board.reset_markers()
+	if not piece.is_selected:
+		board.reset_markers()
 	
 func on_piece_selection(piece: Piece, coord: Vector2i) -> void:
 	var moves: Dictionary = piece.movement.get_all_moves(coord)

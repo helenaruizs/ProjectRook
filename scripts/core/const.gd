@@ -13,3 +13,5 @@ const DIRS := {
 	"down_left": Vector2i( -1, 1),
 	"down_right": Vector2i( 1, 1),
 }
+
+const RAY_LENGTH: float = 1000.0

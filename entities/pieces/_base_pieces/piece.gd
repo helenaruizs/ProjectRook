@@ -26,6 +26,8 @@ var piece_color : Enums.FactionColor
 var board_pos : Vector2i
 
 var has_moved: bool = false
+var is_hovered: bool = false
+var is_selected: bool = false
 var board : Board
 
 # NOTE: Signal subscriptions are being derrived from the Game Manager, for differentiation between player and opponent pieces
