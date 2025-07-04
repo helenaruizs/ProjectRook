@@ -16,9 +16,10 @@ var machine: StateMachine
 func enter() -> void:
 	# TEST: Print State name
 	# Print this state’s class_name to the console
-	var name_to_print : String = Enums.enum_to_string(Enums.States, state_id)
-	print("Entering state:", name_to_print)
-
+	#var name_to_print : String = Enums.enum_to_string(Enums.States, state_id)
+	#print("Entering state:", name_to_print)
+	pass
+	
 # Called just before this state is removed. Override to clean up.
 func exit() -> void:
 	pass

@@ -32,9 +32,9 @@ func _ready() -> void:
 		
 	if state_nodes.size() == 0:
 		push_warning("States in State Machine were not configured")
-	# FIXME: Debug
+	# TEST: Print state nodes
 
-	print(state_nodes)
+	#print(state_nodes)
 	
 #endregion
 

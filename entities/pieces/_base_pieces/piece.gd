@@ -2,6 +2,9 @@ class_name Piece
 
 extends Node3D
 
+signal piece_hovered(piece: Piece, board_pos: Vector2i)
+signal piece_selected(piece: Piece, board_pos: Vector2i)
+
 @export var piece_type : Enums.PieceType
 
 @export_subgroup("Basic Nodes Setup")
@@ -19,6 +22,9 @@ extends Node3D
 
 var piece_color : Enums.FactionColor
 var board_pos : Vector2i
+
+var has_moved: bool = false
+var board : Board = null
 
 # NOTE: Signal subscriptions are being derrived from the Game Manager, for differentiation between player and opponent pieces
 

@@ -110,6 +110,27 @@ func get_first_row() -> int:
 			min_row = min(min_row, coord.y)
 	return min_row
 
+func get_legal_markers(positions: Array[Vector2i]) -> Array[TileMarker]:
+	var legal_markers: Array[TileMarker] = []
+	for pos in positions:
+		# 1) is this square on our board?
+		if not tile_grid_positions.has(pos):
+			continue
+		# 2) do we have a marker for it?
+		if tile_markers.has(pos):
+			legal_markers.append(tile_markers[pos])
+		# (if you created markers for every tile in scan_tiles(),
+		#  you could skip the has() check and just append)
+	return legal_markers
+
+func change_markers_state(new_state: Enums.TileStates, markers: Array[TileMarker]) -> void:
+	for marker in markers:
+		marker.set_state(new_state)
+
+func reset_markers() -> void:
+	for marker : TileMarker in tile_markers.values():
+		if marker.state != Enums.TileStates.NORMAL:
+			marker.set_state(Enums.TileStates.NORMAL)
 
 ## show_legal_moves(moves, selected=false)
 #func show_legal_moves(moves: Array[Vector2i], selected: bool = false) -> void:

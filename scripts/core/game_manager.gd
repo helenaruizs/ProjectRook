@@ -26,6 +26,7 @@ func _ready() -> void:
 					if not (piece_node is Piece):
 						continue
 					var piece : Piece = piece_node as Piece
+					piece.connect("piece_hovered", Callable(self, "on_piece_hover"))
 					var visuals : VisualsComponent = piece.visuals
 					visuals.connect("condition_emitted", Callable(piece, "_on_condition"))
 					var fsm : StateMachine = piece.state_machine
@@ -117,6 +118,12 @@ func spawn_one(
 	# Register piece in board's piece map
 	board.register_piece(piece, file, rank)
 	
+	# Store board postition in the piece's data
+	piece.board_pos = Vector2i(file, rank)
+	
+	# Store board for ref
+	piece.board = board
+	
 	# TEST: Print Board info
 	#print("Board pos:", file, rank, "→ world pos:", board.get_grid_position(file, rank))
 	
@@ -133,7 +140,14 @@ func on_tile_hover(tile : Vector2i) -> void:
 	## TEST: Print Tile state
 	## print("tile hovered", tile)
 	pass
-#
+
+func on_piece_hover(piece: Piece, coord: Vector2i) -> void:
+	var moves: Array[Vector2i] = piece.movement.get_all_moves(coord)
+	var legal_markers : Array[TileMarker] = board.get_legal_markers(moves)
+	print(legal_markers)
+	board.reset_markers()
+	board.change_markers_state(Enums.TileStates.HOVERED, legal_markers)
+
 #func _on_piece_state_changed(piece: Piece, new_state: Enums.States) -> void:
 	## always clear our old highlights first
 	#board.clear_tile_states()
