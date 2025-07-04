@@ -24,6 +24,7 @@ enum TileStates {
 	HOVERED,
 	OCCUPIED_PLAYER,  # tile has one of your own pieces
 	OCCUPIED_OPPONENT,    # tile has an enemy piece (a capture target)
+	TARGET,
 }
 
 enum PieceType {

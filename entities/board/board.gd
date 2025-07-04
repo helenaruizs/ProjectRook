@@ -123,9 +123,14 @@ func get_available_markers(positions: Array[Vector2i]) -> Array[TileMarker]:
 		#  you could skip the has() check and just append)
 	return legal_markers
 
-func change_markers_state(new_state: Enums.TileStates, markers: Array[TileMarker]) -> void:
-	for marker in markers:
-		marker.set_state(new_state)
+func change_markers_state(moves: Dictionary[Enums.TileStates, Array]) -> void:
+	# 'moves' maps a TileState -> Array of board coords
+	for tile_state: Enums.TileStates in moves.keys():
+		var positions: Array = moves[tile_state]
+		for pos: Vector2i in positions:
+			if tile_markers.has(pos):
+				var marker: TileMarker = tile_markers[pos]
+				marker.set_state(tile_state)
 
 func reset_markers() -> void:
 	for marker : TileMarker in tile_markers.values():

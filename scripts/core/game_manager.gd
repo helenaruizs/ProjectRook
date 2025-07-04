@@ -145,17 +145,16 @@ func on_tile_hover(tile : Vector2i) -> void:
 	pass
 
 func on_piece_hover(piece: Piece, coord: Vector2i) -> void:
-	var moves: Array[Vector2i] = piece.movement.get_all_moves(coord)
-	var available_markers : Array[TileMarker] = board.get_available_markers(moves)
-	board.change_markers_state(Enums.TileStates.HOVERED, available_markers)
+	var moves: Dictionary = piece.movement.get_all_moves(coord)
+	#var available_markers : Array[TileMarker] = board.get_available_markers(moves)
+	board.change_markers_state(moves)
 
 func on_piece_hover_out(piece: Piece, coord: Vector2i) -> void:
 	board.reset_markers()
 	
 func on_piece_selection(piece: Piece, coord: Vector2i) -> void:
-	var moves: Array[Vector2i] = piece.movement.get_all_moves(coord)
-	var available_markers : Array[TileMarker] = board.get_available_markers(moves)
-	board.change_markers_state(Enums.TileStates.HOVERED, available_markers)
+	var moves: Dictionary = piece.movement.get_all_moves(coord)
+	board.change_markers_state(moves)
 
 func on_piece_selection_out(piece: Piece, coord: Vector2i) -> void:
 	board.reset_markers()

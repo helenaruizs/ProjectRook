@@ -6,7 +6,7 @@ extends Node
 static var KNIGHT_OFFSETS: Array[Vector2i] = compute_knight_offsets()
 
 # Quick access to the piece and the board
-@onready var piece : Piece = get_parent() as Piece
+@onready var piece := get_parent()
 @onready var board : Board = piece.board
 
 #— Helpers —#
@@ -61,126 +61,79 @@ func _pawn_double_step_allowed(origin: Vector2i) -> bool:
 	return true
 
 #— Public API —#
-func get_all_moves(origin: Vector2i) -> Array[Vector2i]:
-	var moves: Array[Vector2i] = []  # type: Array[Vector2i]
+func get_all_moves(origin: Vector2i) -> Dictionary[Enums.TileStates, Array]:
+	var moves: Dictionary[Enums.TileStates, Array] = {
+		Enums.TileStates.SELECTED:        [], 
+		Enums.TileStates.TARGET:        [], 
+		Enums.TileStates.MOVE_PATH:        [], 
+		Enums.TileStates.OCCUPIED_PLAYER:   [],
+		Enums.TileStates.OCCUPIED_OPPONENT: [],
+	}
+	
+	moves[Enums.TileStates.SELECTED].append(origin)
 
 	# 1) Knights (L-shape) are a special case
 	if piece.move_pattern == Enums.MovePattern.L_SHAPE:
 		for offset in KNIGHT_OFFSETS:
-			moves.append(origin + offset)
+			var pos: Vector2i = origin + offset
+			if not piece.board.tile_grid_positions.has(pos): # Stop within boundaries of the board
+				continue
+			if piece.board.piece_map.has(pos):
+				# There is a piece on this square
+				var occupant: Piece = piece.board.piece_map[pos]
+				if occupant.piece_color == piece.piece_color:
+				# It’s one of your own pieces
+					moves[Enums.TileStates.OCCUPIED_PLAYER].append(pos)
+				else:
+				# It’s an opponent’s piece
+					moves[Enums.TileStates.OCCUPIED_OPPONENT].append(pos)
+			else:
+				moves[Enums.TileStates.TARGET].append(pos)
 		return moves
+
 
 	# 2) Everybody else uses directions
 	var dirs := get_directions(piece.move_pattern)
-
+	
+#region Step Calculation
+	var is_long : bool
 	if piece.move_length == Enums.MoveLength.LONG:
-		# Slide in each direction, stopping when we hit any piece
-		var max_steps := piece.board.board_size
-		for d in dirs:
-			for step in range(1, max_steps):
-				var pos := origin + d * step
-				moves.append(pos)
-				# If there's any piece here, stop further sliding
-				if piece.board.piece_map.has(pos):
-					break
+		is_long = true
 	else:
-		# SHORT: exactly 1 step, except pawn’s first move can be 2
-		var max_steps := 1
-		if _pawn_double_step_allowed(origin):
-			max_steps = 2
-		for d in dirs:
-			for step in range(1, max_steps + 1):
-				moves.append(origin + d * step)
-
+		is_long = false
+	var max_steps : int
+	if is_long:
+		max_steps = piece.board.board_size
+	else:
+		max_steps = 1
+	if not is_long and _pawn_double_step_allowed(origin):
+		max_steps = 2
+#endregion
+	
+	for d in dirs:
+		var dir_positions: Array[Vector2i] = []
+		for step in range(1, max_steps + (0 if is_long else 1)):
+			var pos := origin + d * step
+			if not piece.board.tile_grid_positions.has(pos): # Stop within boundaries of the board
+				break
+				
+			if piece.board.piece_map.has(pos):
+				# There is a piece on this square
+				var occupant: Piece = piece.board.piece_map[pos]
+				if occupant.piece_color == piece.piece_color:
+				# It’s one of your own pieces
+					moves[Enums.TileStates.OCCUPIED_PLAYER].append(pos)
+				else:
+				# It’s an opponent’s piece
+					moves[Enums.TileStates.OCCUPIED_OPPONENT].append(pos)
+				break # stop further sliding/stepping        else:
+			else:
+				dir_positions.append(pos)
+		# bucket path vs target
+		if dir_positions.size() > 0:
+			# path is all but last
+			for i in range(dir_positions.size() - 1):
+				moves[Enums.TileStates.MOVE_PATH].append(dir_positions[i])
+			# last is the target
+			moves[Enums.TileStates.TARGET].append(dir_positions[dir_positions.size() - 1])
 	return moves
-#
-## Public API: returns Array of Vector2i legal destination coords
-#func generate_moves(
-	#board_pos   : Vector2i,
-	#piece_map   : Dictionary[Vector2i, Piece],
-	#board_size  : int
-#) -> Array[Vector2i]:
-	#var moves : Array[Vector2i] = []
-#
-	## 1) Get all base directions or offsets for our pattern
-	#var dirs : Array[Vector2i] = get_directions(piece.move_pattern)
-#
-	#for d in dirs:
-		#if piece.move_style == Enums.MoveStyle.JUMP:
-			## single‐step jump (knight, pawn captures, etc.)
-			#var target : Vector2i = board_pos + d
-			#if _inside_board(target, board_size):
-				#_maybe_add_move(board_pos, target, piece_map, moves)
-		#else:
-			## slide: keep stepping until blocked or reach limit
-			## Determine how many steps we’ll take in this direction
-			#var steps: int
-			#if piece.move_length == Enums.MoveLength.SHORT:
-				#steps = 1
-			#else:
-				#steps = board_size
-#
-			#var current : Vector2i = board_pos
-			#for i in range(steps):
-				#current += d
-				#if not _inside_board(current, board_size):
-					#break
-				#if not _maybe_add_move(board_pos, current, piece_map, moves):
-					#break  # blocked by a friendly or after an enemy capture
-#
-	#return moves
-#
-## Public API: returns the path (list of intermediate coords) from start→end
-## Useful for move animations.
-#func compute_path(
-	#start : Vector2i,
-	#end   : Vector2i
-#) -> Array[Vector2i]:
-	#var path : Array[Vector2i] = []
-	#var delta := end - start
-	## derive a unit‐step in the correct direction
-	#var step := Vector2i(sign(delta.x), sign(delta.y))
-	## knights/jumps have no path
-	#if piece.move_style == Enums.MoveStyle.JUMP:
-		#return path
-#
-	#var current := start + step
-	#while current != end:
-		#path.append(current)
-		#current += step
-	#return path
-#
-#
-#
-#func scan_legal_tiles() -> Array:
-	#var tiles := []
-	#return tiles
-#
-#
-#func move_to_position(world_pos: Vector3) -> void:
-	## Move the parent Piece to the target position in world space
-	#get_parent().global_transform.origin = world_pos
-	#
-## Attempts to add `target` to `out` if legal.
-## Returns `true` if we should continue sliding past this tile;
-## `false` if we must stop (friendly block or after capture).
-#func _maybe_add_move(
-	#from : Vector2i,
-	#target : Vector2i,
-	#piece_map : Dictionary[Vector2i, Piece],
-	#moves : Array[Vector2i]
-#) -> bool:
-	#var occupant: Piece = piece_map.get(target, null)
-	#if occupant == null:
-		#moves.append(target)
-		#return true      # empty square: can continue sliding
-	#elif occupant.piece_color != piece.piece_color:
-		## enemy capture
-		#moves.append(target)
-		#return false     # stop after capturing
-	#else:
-		## friendly block
-		#return false     # cannot move here, and stops slide
-#
-#func _inside_board(cell: Vector2i, size: int) -> bool:
-	#return cell.x >= 0 and cell.x < size and cell.y >= 0 and cell.y < size

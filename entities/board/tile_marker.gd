@@ -6,14 +6,15 @@ extends Node3D
 @onready var mesh: MeshInstance3D = $MarkerMesh
 
 @export_category("Materials")
-@export var mat_normal           : Material
-@export var mat_legal_move       : Material
-@export var mat_legal_hovered    : Material
-@export var mat_selected         : Material
-@export var mat_move_path        : Material
-@export var mat_hovered          : Material
-@export var mat_occupied_player  : Material
+@export var mat_normal: Material
+@export var mat_legal_move: Material
+@export var mat_legal_hovered: Material
+@export var mat_selected: Material
+@export var mat_move_path: Material
+@export var mat_hovered: Material
+@export var mat_occupied_player: Material
 @export var mat_occupied_opponent: Material
+@export var mat_target: Material
 
 # Build a lookup once
 @onready var _materials: Dictionary = {
@@ -25,6 +26,7 @@ extends Node3D
 	Enums.TileStates.HOVERED:           mat_hovered,
 	Enums.TileStates.OCCUPIED_PLAYER:   mat_occupied_player,
 	Enums.TileStates.OCCUPIED_OPPONENT: mat_occupied_opponent,
+	Enums.TileStates.TARGET: mat_target,
 }
 
 func _ready() -> void:
