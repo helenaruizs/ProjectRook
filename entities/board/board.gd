@@ -21,6 +21,12 @@ var piece_map: Dictionary[Vector2i, Piece] = {}
 var active_piece: Piece = null
 var active_markers: Dictionary = {}
 
+var player_one: PlayerConfig
+var friendly_color: Enums.FactionColor
+
+var opponent: PlayerConfig
+var enemy_color: Enums.FactionColor
+
 func _ready() -> void:
 	scan_tiles()
 	_spawn_markers()    # lay out all the TileMarkers
@@ -75,25 +81,39 @@ func _spawn_markers() -> void:
 func register_piece(piece: Piece, column: int, row: int) -> void:
 	var coord := Vector2i(column, row)
 	piece_map[coord] = piece
+	
+	var marker: TileMarker = tile_markers[coord]
+	#if there's a piece, it's oocupied
+	marker.add_condition(marker.Conditions.OCCUPIED)
+
+	# Friend vs enemy
+	if piece.piece_color == friendly_color:
+		marker.add_condition(marker.Conditions.HAS_FRIEND)
+	else:
+		marker.add_condition(marker.Conditions.HAS_ENEMY)
+
+	# King
+	if piece.piece_type == Enums.PieceType.KING:
+		marker.add_condition(marker.Conditions.HAS_KING)
 
 func clear_tile_states() -> void:
 	for marker : TileMarker in tile_markers.values():
 		marker.set_state(Enums.TileStates.NORMAL)
 		
-func refresh_tile_states(player_faction: Enums.FactionColor) -> void:
-	for coord : Vector2i in tile_markers.keys():
-		var marker : TileMarker = tile_markers[coord]
-		var occupant : Piece = piece_map.get(coord, null)
-
-		if occupant == null:
-			# no piece here
-			marker.set_state(Enums.TileStates.NORMAL)
-		else:
-			# we have a piece—decide friend vs enemy
-			if occupant.piece_color == player_faction:
-				marker.set_state(Enums.TileStates.OCCUPIED_PLAYER)
-			else:
-				marker.set_state(Enums.TileStates.OCCUPIED_OPPONENT)
+#func refresh_tile_states(player_faction: Enums.FactionColor) -> void:
+	#for coord : Vector2i in tile_markers.keys():
+		#var marker : TileMarker = tile_markers[coord]
+		#var occupant : Piece = piece_map.get(coord, null)
+#
+		#if occupant == null:
+			## no piece here
+			#marker.set_state(Enums.TileStates.NORMAL)
+		#else:
+			## we have a piece—decide friend vs enemy
+			#if occupant.piece_color == player_faction:
+				#marker.set_state(Enums.TileStates.OCCUPIED_PLAYER)
+			#else:
+				#marker.set_state(Enums.TileStates.OCCUPIED_OPPONENT)
 
 
 func get_grid_position(column: int, row: int) -> Vector3:
@@ -183,3 +203,16 @@ func filter_moves_against_active(moves: Dictionary[Enums.TileStates, Array]) -> 
 				filtered.append(pos)
 		out[state_key] = filtered
 	return out
+
+func update_marker_conditions(markers: Array[TileMarker], conditions : int, add: bool = true) -> void:
+	for marker: TileMarker in markers:
+		if add:
+			marker.add_condition(conditions)
+		else:
+			marker.remove_condition(conditions)
+
+func register_players(_player_one: PlayerConfig, _opponent: PlayerConfig) -> void:
+	player_one = _player_one
+	friendly_color = player_one.faction
+	opponent = _opponent
+	enemy_color = opponent.faction

@@ -10,33 +10,52 @@ extends Node
 
 func _ready() -> void:
 	clear_board()
-	_spawn_all_players()
-	# Wire up player related FSM signals
 	var players_node := get_node(players_container) as Node
-	for child in players_node.get_children():
-		if not (child is PlayerConfig):
-			continue
-		var cfg : PlayerConfig = child
-		var player_id : Enums.Players = cfg.player_id
-		var player_pieces : FactionPieces = cfg.pieces   # <- use your exported container
-		match player_id:
-			# NOTE: This is where the state machine is being hooked up, might need more control support later, expand here
-			Enums.Players.PLAYER_1:
-				for piece_node in player_pieces.get_children():
-					if not (piece_node is Piece):
-						continue
-					var piece : Piece = piece_node as Piece
-					piece.connect("piece_hovered", Callable(self, "on_piece_hover"))
-					piece.connect("piece_hovered_exit", Callable(self, "on_piece_hover_out"))
-					piece.connect("piece_selected", Callable(self, "on_piece_selection"))
-					piece.connect("piece_selected_exit", Callable(self, "on_piece_selection_out"))
-					var visuals : VisualsComponent = piece.visuals
-					visuals.connect("condition_emitted", Callable(piece, "_on_condition"))
-					var fsm : StateMachine = piece.state_machine
-					fsm.connect("state_changed", Callable(piece, "_on_state_changed"))
-			_:
-				pass
-
+	var all_players: Array[Node] = players_node.get_children()
+	
+	 # Gather both PlayerConfig references
+	var p1_cfg: PlayerConfig
+	var p2_cfg: PlayerConfig
+	for child in all_players:
+		if child is PlayerConfig:
+			match child.player_id:
+				Enums.Players.PLAYER_1:
+					p1_cfg = child
+				Enums.Players.PLAYER_2:
+					p2_cfg = child
+				_:
+					pass
+	# Tell the board who's who
+	if p1_cfg and p2_cfg:
+		board.register_players(p1_cfg, p2_cfg)
+	else:
+		push_error("Game Manager: Could not find player configs at _ready")
+	
+	_spawn_all_players()
+		
+	for child in all_players:
+		if child is PlayerConfig:
+			var cfg : PlayerConfig = child
+			var player_id : Enums.Players = cfg.player_id
+			var player_pieces : FactionPieces = cfg.pieces   # <- use your exported container
+			match player_id:
+				# NOTE: This is where the state machine is being hooked up, might need more control support later, expand here
+				Enums.Players.PLAYER_1:
+					for piece_node in player_pieces.get_children():
+						if not (piece_node is Piece):
+							continue
+						var piece : Piece = piece_node as Piece
+						piece.connect("piece_hovered", Callable(self, "on_piece_hover"))
+						piece.connect("piece_hovered_exit", Callable(self, "on_piece_hover_out"))
+						piece.connect("piece_selected", Callable(self, "on_piece_selection"))
+						piece.connect("piece_selected_exit", Callable(self, "on_piece_selection_out"))
+						var visuals : VisualsComponent = piece.visuals
+						visuals.connect("condition_emitted", Callable(piece, "_on_condition"))
+						var fsm : StateMachine = piece.state_machine
+						fsm.connect("state_changed", Callable(piece, "_on_state_changed"))
+				_:
+					pass
+	
 func clear_board() -> void:
 	var placed_pieces: Array[Node] = get_tree().get_nodes_in_group("pieces")
 	for piece_node in placed_pieces:
@@ -145,20 +164,23 @@ func on_tile_hover(tile : Vector2i) -> void:
 	pass
 
 func on_piece_hover(piece: Piece, coord: Vector2i, moves: Dictionary) -> void:
-	var available_moves := board.filter_moves_against_active(moves)
-	board.change_markers_state(available_moves)
+	#var available_moves := board.filter_moves_against_active(moves)
+	#board.change_markers_state(available_moves)
+	pass
 
 func on_piece_hover_out(piece: Piece, coord: Vector2i, moves: Dictionary) -> void:
-	var active_markers := board.get_markers_from_moves(moves)
-	board.reset_markers(active_markers)
+	#var active_markers := board.get_markers_from_moves(moves)
+	#board.reset_markers(active_markers)
+	pass
 	
 func on_piece_selection(piece: Piece, coord: Vector2i, moves: Dictionary) -> void:
-	board.set_active_piece(piece, moves)
-	board.change_markers_state(moves)
+	#board.set_active_piece(piece, moves)
+	#board.change_markers_state(moves)
+	pass
 
 func on_piece_selection_out(piece: Piece, coord: Vector2i, moves: Dictionary) -> void:
-	board.clear_active_piece()
-
+	#board.clear_active_piece()
+	pass
 #func _on_piece_state_changed(piece: Piece, new_state: Enums.States) -> void:
 	## always clear our old highlights first
 	#board.clear_tile_states()
