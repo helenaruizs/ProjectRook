@@ -18,6 +18,9 @@ var tile_markers: Dictionary[Vector2i, TileMarker] = {}
 # Stores which piece is in which tile, needs to be updated whenever pieces spawn or move
 var piece_map: Dictionary[Vector2i, Piece] = {}
 
+var active_piece: Piece = null
+var active_markers: Dictionary = {}
+
 func _ready() -> void:
 	scan_tiles()
 	_spawn_markers()    # lay out all the TileMarkers
@@ -72,7 +75,7 @@ func _spawn_markers() -> void:
 func register_piece(piece: Piece, column: int, row: int) -> void:
 	var coord := Vector2i(column, row)
 	piece_map[coord] = piece
-	
+
 func clear_tile_states() -> void:
 	for marker : TileMarker in tile_markers.values():
 		marker.set_state(Enums.TileStates.NORMAL)
@@ -123,7 +126,18 @@ func get_available_markers(positions: Array[Vector2i]) -> Array[TileMarker]:
 		#  you could skip the has() check and just append)
 	return legal_markers
 
-func change_markers_state(moves: Dictionary[Enums.TileStates, Array]) -> void:
+func get_markers_from_moves(moves: Dictionary[int, Array]) -> Array[TileMarker]:
+	var markers: Array[TileMarker] = []
+	for coord_array: Array in moves.values():
+		for coord : Vector2i in coord_array:
+			# Make sure we actually have a marker for that tile
+			if tile_markers.has(coord):
+				# Using `get()` avoids a second lookup if you want
+				var marker: TileMarker = tile_markers.get(coord)
+				markers.append(marker)
+	return markers
+
+func change_markers_state(moves: Dictionary[Enums.TileStates, Array], selected: bool = false) -> void:
 	# 'moves' maps a TileState -> Array of board coords
 	for tile_state: Enums.TileStates in moves.keys():
 		var positions: Array = moves[tile_state]
@@ -131,34 +145,41 @@ func change_markers_state(moves: Dictionary[Enums.TileStates, Array]) -> void:
 			if tile_markers.has(pos):
 				var marker: TileMarker = tile_markers[pos]
 				marker.set_state(tile_state)
+	
+# Call this when a piece becomes selected
+func set_active_piece(piece: Piece, moves: Dictionary[int, Array]) -> void:
+	active_piece = piece
+	active_markers = moves.duplicate()
+	#change_markers_state(active_markers)
 
-func reset_markers() -> void:
-	for marker : TileMarker in tile_markers.values():
-		if marker.state != Enums.TileStates.NORMAL:
-			marker.set_state(Enums.TileStates.NORMAL)
+# Call this when a piece is deselected
+func clear_active_piece() -> void:
+	active_piece = null
+	active_markers.clear()
+	#reset_markers(true)  # force a full clear
 
-## show_legal_moves(moves, selected=false)
-#func show_legal_moves(moves: Array[Vector2i], selected: bool = false) -> void:
-	#for coord in moves:
-		#if not tile_markers.has(coord):
-			#continue
-		#var occ = piece_map.get(coord, null)
-		#if occ == null:
-			#var state = selected
-				#? Enums.TileStates.LEGAL_MOVE_HIGHLIGHTED
-				#: Enums.TileStates.LEGAL_MOVE
-			#tile_markers[coord].set_state(state)
-		#else:
-			## capture spots always use OCCUPIED_ENEMY
-			#tile_markers[coord].set_state(Enums.TileStates.OCCUPIED_OPPONENT)
-#
-## highlight_targets(moves, selected=false)
-#func highlight_targets(moves: Array[Vector2i], selected: bool = false) -> void:
-	#for coord in moves:
-		## only where a move actually ends
-		#if not tile_markers.has(coord):
-			#continue
-		#var state = selected
-			#? Enums.TileState.LEGAL_MOVE_HOVERED  # or a new SELECTED_TARGET state
-			#: Enums.TileState.LEGAL_MOVE_HOVERED
-		#tile_markers[coord].set_state(state)
+func reset_markers(markers: Array[TileMarker]) -> void:
+	for marker : TileMarker in markers:
+		marker.set_state(Enums.TileStates.NORMAL)
+
+func filter_moves_against_active(moves: Dictionary[Enums.TileStates, Array]) -> Dictionary[Enums.TileStates, Array]:
+	# If nothing is selected, don’t filter
+	if active_piece == null:
+		return moves
+
+	# Flatten all of the active piece’s marker coords into a Set for fast lookup
+	var locked: Array = []
+	for arr: Array in active_markers.values():
+		for pos: Vector2i in arr:
+			if not locked.has(pos):
+				locked.append(pos)
+
+	# Build a new dict, skipping any locked coords
+	var out: Dictionary[Enums.TileStates, Array] = {}
+	for state_key: Enums.TileStates in moves.keys():
+		var filtered: Array[Vector2i] = []
+		for pos: Vector2i in moves[state_key]:
+			if not locked.has(pos):
+				filtered.append(pos)
+		out[state_key] = filtered
+	return out

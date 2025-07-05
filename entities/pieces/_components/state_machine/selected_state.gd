@@ -4,11 +4,12 @@ extends State
 
 func enter() -> void:
 	piece.is_selected = true
-	piece.emit_signal("piece_selected", piece, piece.board_pos)
+	piece.moves = piece.movement.get_all_moves(piece.board_pos)
+	piece.emit_signal("piece_selected", piece, piece.board_pos, piece.moves)
 
 func exit() -> void:
+	piece.emit_signal("piece_selected_exit", piece, piece.board_pos, piece.moves)
 	piece.is_selected = false
-	piece.emit_signal("piece_selected_exit", piece, piece.board_pos)
 
 func handle_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:

@@ -1,12 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://l8xlrrql4hsu"]
+[gd_scene load_steps=11 format=3 uid="uid://l8xlrrql4hsu"]
 
 [ext_resource type="Script" uid="uid://de3qo2i3hjxob" path="res://entities/board/tile_marker.gd" id="1_t5obc"]
 [ext_resource type="Material" uid="uid://cu22j75jdsc5a" path="res://assets/materials/tile_markers/tile_marker_normal_mat.tres" id="2_xnynr"]
 [ext_resource type="Material" uid="uid://jkadjhj6msy1" path="res://assets/materials/tile_markers/tile_marker_target_mat.tres" id="3_6grd0"]
-[ext_resource type="Material" uid="uid://cnhuaxutp88sb" path="res://assets/materials/tile_markers/tile_marker_highlighted_mat.tres" id="3_ibjfw"]
+[ext_resource type="Material" uid="uid://cnhuaxutp88sb" path="res://assets/materials/tile_markers/tile_marker_path_mat.tres" id="3_ibjfw"]
 [ext_resource type="Material" uid="uid://d3vqrpj3yuufh" path="res://assets/materials/tile_markers/tile_marker_enemy_mat.tres" id="4_633x3"]
 [ext_resource type="Material" uid="uid://b35arj46ph2nu" path="res://assets/materials/tile_markers/tile_marker_selected_mat.tres" id="5_ru7yn"]
 [ext_resource type="Material" uid="uid://lhr8uxpj40ol" path="res://assets/materials/tile_markers/tile_marker_player_mat.tres" id="6_ru7yn"]
+[ext_resource type="Material" uid="uid://df63vhb3ft51s" path="res://assets/materials/tile_markers/tile_marker_target_selected_mat.tres" id="8_te6fg"]
+[ext_resource type="Material" uid="uid://0w2c6mcy7fgb" path="res://assets/materials/tile_markers/tile_marker_path_selected_mat.tres" id="9_pl8ar"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_t5obc"]
 material = ExtResource("2_xnynr")
@@ -16,12 +18,17 @@ script = ExtResource("1_t5obc")
 mat_normal = ExtResource("2_xnynr")
 mat_legal_move = ExtResource("3_6grd0")
 mat_legal_hovered = ExtResource("3_ibjfw")
-mat_selected = ExtResource("5_ru7yn")
+mat_selected_piece = ExtResource("5_ru7yn")
 mat_move_path = ExtResource("3_ibjfw")
 mat_hovered = ExtResource("3_ibjfw")
 mat_occupied_player = ExtResource("6_ru7yn")
 mat_occupied_opponent = ExtResource("4_633x3")
 mat_target = ExtResource("3_6grd0")
+mat_occupied_player_selected = ExtResource("6_ru7yn")
+mat_occupied_opponent_selected = ExtResource("4_633x3")
+mat_target_selected = ExtResource("8_te6fg")
+mat_move_path_selected = ExtResource("9_pl8ar")
+mat_selected_piece_selected = ExtResource("5_ru7yn")
 
 [node name="MarkerMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)

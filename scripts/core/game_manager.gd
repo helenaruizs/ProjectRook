@@ -144,21 +144,20 @@ func on_tile_hover(tile : Vector2i) -> void:
 	## print("tile hovered", tile)
 	pass
 
-func on_piece_hover(piece: Piece, coord: Vector2i) -> void:
-	var moves: Dictionary = piece.movement.get_all_moves(coord)
-	#var available_markers : Array[TileMarker] = board.get_available_markers(moves)
-	board.change_markers_state(moves)
+func on_piece_hover(piece: Piece, coord: Vector2i, moves: Dictionary) -> void:
+	var available_moves := board.filter_moves_against_active(moves)
+	board.change_markers_state(available_moves)
 
-func on_piece_hover_out(piece: Piece, coord: Vector2i) -> void:
-	if not piece.is_selected:
-		board.reset_markers()
+func on_piece_hover_out(piece: Piece, coord: Vector2i, moves: Dictionary) -> void:
+	var active_markers := board.get_markers_from_moves(moves)
+	board.reset_markers(active_markers)
 	
-func on_piece_selection(piece: Piece, coord: Vector2i) -> void:
-	var moves: Dictionary = piece.movement.get_all_moves(coord)
+func on_piece_selection(piece: Piece, coord: Vector2i, moves: Dictionary) -> void:
+	board.set_active_piece(piece, moves)
 	board.change_markers_state(moves)
 
-func on_piece_selection_out(piece: Piece, coord: Vector2i) -> void:
-	board.reset_markers()
+func on_piece_selection_out(piece: Piece, coord: Vector2i, moves: Dictionary) -> void:
+	board.clear_active_piece()
 
 #func _on_piece_state_changed(piece: Piece, new_state: Enums.States) -> void:
 	## always clear our old highlights first

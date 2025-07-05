@@ -62,15 +62,23 @@ func _pawn_double_step_allowed(origin: Vector2i) -> bool:
 
 #— Public API —#
 func get_all_moves(origin: Vector2i) -> Dictionary[Enums.TileStates, Array]:
+	var piece_is_selected : bool = piece.is_selected
+	
+	var KEY_SELECTED_PIECE : Enums.TileStates = Enums.TileStates.SELECTED_PIECE_SELECTED if piece_is_selected else Enums.TileStates.SELECTED_PIECE
+	var KEY_MOVE_PATH : Enums.TileStates = Enums.TileStates.MOVE_PATH_SELECTED if piece_is_selected else Enums.TileStates.MOVE_PATH
+	var KEY_TARGET : Enums.TileStates = Enums.TileStates.TARGET_SELECTED if piece_is_selected else Enums.TileStates.TARGET
+	var KEY_OCCUPIED_PLAYER : Enums.TileStates = Enums.TileStates.OCCUPIED_PLAYER_SELECTED if piece_is_selected else Enums.TileStates.OCCUPIED_PLAYER
+	var KEY_OCCUPIED_OPPONENT : Enums.TileStates = Enums.TileStates.OCCUPIED_OPPONENT_SELECTED if piece_is_selected else Enums.TileStates.OCCUPIED_OPPONENT
+	
 	var moves: Dictionary[Enums.TileStates, Array] = {
-		Enums.TileStates.SELECTED:        [], 
-		Enums.TileStates.TARGET:        [], 
-		Enums.TileStates.MOVE_PATH:        [], 
-		Enums.TileStates.OCCUPIED_PLAYER:   [],
-		Enums.TileStates.OCCUPIED_OPPONENT: [],
+		KEY_SELECTED_PIECE: [], 
+		KEY_MOVE_PATH: [], 
+		KEY_TARGET: [], 
+		KEY_OCCUPIED_PLAYER: [],
+		KEY_OCCUPIED_OPPONENT: [],
 	}
 	
-	moves[Enums.TileStates.SELECTED].append(origin)
+	moves[KEY_SELECTED_PIECE].append(origin)
 
 	# 1) Knights (L-shape) are a special case
 	if piece.move_pattern == Enums.MovePattern.L_SHAPE:
@@ -83,12 +91,12 @@ func get_all_moves(origin: Vector2i) -> Dictionary[Enums.TileStates, Array]:
 				var occupant: Piece = piece.board.piece_map[pos]
 				if occupant.piece_color == piece.piece_color:
 				# It’s one of your own pieces
-					moves[Enums.TileStates.OCCUPIED_PLAYER].append(pos)
+					moves[KEY_OCCUPIED_PLAYER].append(pos)
 				else:
 				# It’s an opponent’s piece
-					moves[Enums.TileStates.OCCUPIED_OPPONENT].append(pos)
+					moves[KEY_OCCUPIED_OPPONENT].append(pos)
 			else:
-				moves[Enums.TileStates.TARGET].append(pos)
+				moves[KEY_TARGET].append(pos)
 		return moves
 
 
@@ -122,10 +130,10 @@ func get_all_moves(origin: Vector2i) -> Dictionary[Enums.TileStates, Array]:
 				var occupant: Piece = piece.board.piece_map[pos]
 				if occupant.piece_color == piece.piece_color:
 				# It’s one of your own pieces
-					moves[Enums.TileStates.OCCUPIED_PLAYER].append(pos)
+					moves[KEY_OCCUPIED_PLAYER].append(pos)
 				else:
 				# It’s an opponent’s piece
-					moves[Enums.TileStates.OCCUPIED_OPPONENT].append(pos)
+					moves[KEY_OCCUPIED_OPPONENT].append(pos)
 				break # stop further sliding/stepping        else:
 			else:
 				dir_positions.append(pos)
@@ -133,7 +141,7 @@ func get_all_moves(origin: Vector2i) -> Dictionary[Enums.TileStates, Array]:
 		if dir_positions.size() > 0:
 			# path is all but last
 			for i in range(dir_positions.size() - 1):
-				moves[Enums.TileStates.MOVE_PATH].append(dir_positions[i])
+				moves[KEY_MOVE_PATH].append(dir_positions[i])
 			# last is the target
-			moves[Enums.TileStates.TARGET].append(dir_positions[dir_positions.size() - 1])
+			moves[KEY_TARGET].append(dir_positions[dir_positions.size() - 1])
 	return moves

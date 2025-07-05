@@ -4,7 +4,7 @@ extends Node
 
 signal state_changed(piece: Piece, new_state: Enums.States)
 
-@export var starting_state: State
+@export var starting_state: State = null
 @export var is_player_controlled: bool = false
 # The code bellow is something called an “immediately‐invoked function expression”
 #(IIFE) in GDScript: you define a tiny anonymous function right where you need it,
@@ -50,6 +50,9 @@ func change_state(new_state: Enums.States) -> void:
 	current_state = get_node(next_state)
 	previous_state.exit()
 	current_state.enter()
+	# TEST: Printing marker info for debug
+	print(piece.board.active_piece)
+	print(piece.board.active_markers)
 	emit_signal("state_changed", piece, new_state)
 
 

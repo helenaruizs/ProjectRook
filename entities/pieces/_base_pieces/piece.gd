@@ -2,10 +2,10 @@ class_name Piece
 
 extends Node3D
 
-signal piece_hovered(piece: Piece, board_pos: Vector2i)
-signal piece_hovered_exit(piece: Piece, board_pos: Vector2i)
-signal piece_selected(piece: Piece, board_pos: Vector2i)
-signal piece_selected_exit(piece: Piece, board_pos: Vector2i)
+signal piece_hovered(piece: Piece, board_pos: Vector2i, moves: Dictionary)
+signal piece_hovered_exit(piece: Piece, board_pos: Vector2i, moves: Dictionary)
+signal piece_selected(piece: Piece, board_pos: Vector2i, moves: Dictionary)
+signal piece_selected_exit(piece: Piece, board_pos: Vector2i, moves: Dictionary)
 
 @export var piece_type : Enums.PieceType
 
@@ -25,6 +25,7 @@ signal piece_selected_exit(piece: Piece, board_pos: Vector2i)
 var piece_color : Enums.FactionColor
 var board_pos : Vector2i
 
+var moves: Dictionary = {}
 var has_moved: bool = false
 var is_hovered: bool = false
 var is_selected: bool = false
