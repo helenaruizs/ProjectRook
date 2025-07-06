@@ -2,8 +2,8 @@ class_name TileMarker
 
 extends Node3D
 
-signal marker_hovered(tile_marker: TileMarker)
-signal marker_hovered_out(tile_marker: TileMarker)
+signal marker_hovered(tile_marker: TileMarker, piece: Piece )
+signal marker_hovered_out(tile_marker: TileMarker, piece: Piece)
 
 @onready var area3d: Area3D = $Area3D
 
@@ -122,6 +122,8 @@ const DEFAULT_TILE_STATE := Enums.TileStates.NORMAL
 
 var state:= DEFAULT_TILE_STATE
 
+var occupant: Piece = null   # ← who sits on this tile, if any
+
 # Scene References
 # NOTE: Gotta make sure these don't change names
 @onready var mesh: MeshInstance3D = $MarkerMesh
@@ -165,10 +167,10 @@ var board : Board
 
 func _ready() -> void:
 	board = get_parent()
-	_check_state_and_apply()
 	area3d.input_ray_pickable = true
 	area3d.mouse_entered.connect(_on_hover_enter)
 	area3d.mouse_exited.connect(_on_hover_exit)
+	_check_state_and_apply()
 	
 
 #
@@ -226,14 +228,12 @@ func _trigger_state(state: Enums.TileStates) -> void:
 		#
 
 func _on_hover_enter() -> void:
-	print("Tile hovered")
 	hover_overlay.show()
-	#emit_signal("marker_hovered", self)
+	emit_signal("marker_hovered", self, occupant)
 
 func _on_hover_exit() -> void:
-	print("Tile UN-hovered")
 	hover_overlay.hide()
-	#emit_signal("marker_hovered_out", self)
+	emit_signal("marker_hovered_out", self, occupant)
 
 #func _update_overlays() -> void:
 	#hover_overlay.visible  = has_condition(Conditions.IS_HOVERED)

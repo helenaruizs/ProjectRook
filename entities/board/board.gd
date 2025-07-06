@@ -88,7 +88,8 @@ func register_piece(piece: Piece, column: int, row: int) -> void:
 	var marker: TileMarker = tile_markers[coord]
 	#if there's a piece, it's oocupied
 	marker.add_condition(marker.Conditions.OCCUPIED)
-
+	marker.occupant = piece
+	
 	# Friend vs enemy
 	if piece.piece_color == friendly_color:
 		marker.add_condition(marker.Conditions.HAS_FRIEND)
@@ -98,6 +99,10 @@ func register_piece(piece: Piece, column: int, row: int) -> void:
 	# King
 	if piece.piece_type == Enums.PieceType.KING:
 		marker.add_condition(marker.Conditions.HAS_KING)
+		
+	# Connect Marker signals to the pieces
+	marker.connect("marker_hovered", Callable(piece, "_on_piece_hover"))
+	marker.connect("marker_hovered_out", Callable(piece, "_on_piece_hover_out"))
 
 func clear_tile_states() -> void:
 	for marker : TileMarker in tile_markers.values():

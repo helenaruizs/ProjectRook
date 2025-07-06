@@ -15,7 +15,7 @@ func _ready() -> void:
 	piece = get_parent() as Piece
 	var state_machine  := piece.state_machine
 	#state_machine.connect("state_changed", Callable(self, "_on_state_changed"))
-	area3d.input_ray_pickable = true
+	area3d.input_ray_pickable = false
 	area3d.mouse_entered.connect(_on_hover_enter)
 	area3d.mouse_exited.connect(_on_hover_exit)
 	

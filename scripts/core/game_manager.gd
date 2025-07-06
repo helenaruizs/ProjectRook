@@ -53,7 +53,7 @@ func _ready() -> void:
 						piece.connect("piece_selected", Callable(self, "on_piece_selection"))
 						piece.connect("piece_selected_exit", Callable(self, "on_piece_selection_out"))
 						var visuals : VisualsComponent = piece.visuals
-						visuals.connect("condition_emitted", Callable(piece, "_on_condition"))
+						#visuals.connect("condition_emitted", Callable(piece, "_on_condition"))
 						var fsm : StateMachine = piece.state_machine
 						fsm.connect("state_changed", Callable(piece, "_on_state_changed"))
 				_:

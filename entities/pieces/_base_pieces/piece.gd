@@ -46,3 +46,9 @@ func _on_condition(cond: Enums.Conditions) -> void:
 
 func _on_state_changed(piece: Piece, new_state: Enums.States) -> void:
 	visuals.on_state_changed(new_state)
+
+func _on_piece_hover(tile_marker: TileMarker, piece: Piece) -> void :
+	state_machine.on_condition(Enums.Conditions.HOVER_ENTER)
+	
+func _on_piece_hover_out(tile_marker: TileMarker, piece: Piece) -> void :
+	state_machine.on_condition(Enums.Conditions.HOVER_EXIT)
