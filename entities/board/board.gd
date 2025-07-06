@@ -18,6 +18,9 @@ var tile_markers: Dictionary[Vector2i, TileMarker] = {}
 # Stores which piece is in which tile, needs to be updated whenever pieces spawn or move
 var piece_map: Dictionary[Vector2i, Piece] = {}
 
+var hovered_piece_markers: Array[TileMarker] = []
+
+
 var active_piece: Piece = null
 var active_markers: Dictionary = {}
 
@@ -133,7 +136,7 @@ func get_first_row() -> int:
 			min_row = min(min_row, coord.y)
 	return min_row
 
-func get_available_markers(positions: Array[Vector2i]) -> Array[TileMarker]:
+func get_existing_markers(positions: Array[Vector2i]) -> Array[TileMarker]:
 	var legal_markers: Array[TileMarker] = []
 	for pos in positions:
 		# 1) is this square on our board?
@@ -177,6 +180,12 @@ func clear_active_piece() -> void:
 	active_piece = null
 	active_markers.clear()
 	#reset_markers(true)  # force a full clear
+
+func set_hovered_piece_markers(target_markers: Array[TileMarker], path_markers: Array[TileMarker]) -> void:
+	hovered_piece_markers = target_markers.duplicate() + path_markers.duplicate()
+
+func clear_hovered_piece_markers() -> void:
+	hovered_piece_markers.clear()
 
 func reset_markers(markers: Array[TileMarker]) -> void:
 	for marker : TileMarker in markers:

@@ -164,45 +164,31 @@ func on_tile_hover(tile : Vector2i) -> void:
 	pass
 
 func on_piece_hover(piece: Piece, coord: Vector2i, moves: Dictionary) -> void:
-	#var available_moves := board.filter_moves_against_active(moves)
-	#board.change_markers_state(available_moves)
-	pass
+	# From piece's movement calculations
+	var target_positions: Array[Vector2i] = moves["targets"]
+	var path_positions: Array[Vector2i] = moves["paths"]
+	
+	var target_markers: Array[TileMarker] = board.get_existing_markers(target_positions)
+	var path_markers: Array[TileMarker] = board.get_existing_markers(path_positions)
+	
+	board.update_marker_conditions(target_markers, TileMarker.Conditions.TARGET, true)
+	board.update_marker_conditions(target_markers, TileMarker.Conditions.PATH, true)
+	for marker: TileMarker in target_markers + path_markers:
+		marker._check_state_and_apply()
+	board.set_hovered_piece_markers(target_markers, path_markers)
+	
 
-func on_piece_hover_out(piece: Piece, coord: Vector2i, moves: Dictionary) -> void:
-	#var active_markers := board.get_markers_from_moves(moves)
-	#board.reset_markers(active_markers)
-	pass
+func on_piece_hover_out() -> void:
+	print("Hover OUT!")
+	# Reset piece hover conditions
+	var current_markers: Array[TileMarker] = board.hovered_piece_markers
+	board.update_marker_conditions(current_markers, TileMarker.Conditions.TARGET | TileMarker.Conditions.PATH, false)
+	for marker: TileMarker in current_markers:
+		marker._check_state_and_apply()
+	board.clear_hovered_piece_markers()
 	
 func on_piece_selection(piece: Piece, coord: Vector2i, moves: Dictionary) -> void:
-	#board.set_active_piece(piece, moves)
-	#board.change_markers_state(moves)
 	pass
 
 func on_piece_selection_out(piece: Piece, coord: Vector2i, moves: Dictionary) -> void:
-	#board.clear_active_piece()
 	pass
-#func _on_piece_state_changed(piece: Piece, new_state: Enums.States) -> void:
-	## always clear our old highlights first
-	#board.clear_tile_states()
-#
-	#match new_state:
-		#Enums.States.HIGHLIGHTED:
-			## piece is under the cursor: show its legal moves
-			#var moves: Array[Vector2i] = piece.movement_component.generate_moves(
-				#piece.board_pos, piece.move_config, board.piece_map, board
-			#)
-			## highlight path (thin) and targets (bright)
-			#board.show_legal_moves(moves)           # green
-			#board.highlight_targets(moves)          # yellow
-#
-		#Enums.States.SELECTED:
-			## piece was clicked: show everything more emphatically
-			#var moves: Array[Vector2i] = piece.movement_component.generate_moves(
-				#piece.board_pos, piece.move_config, board.piece_map, board
-			#)
-			#board.show_legal_moves(moves, true)     # pass `true` to use a stronger color
-			#board.highlight_targets(moves, true)
-#
-		#_:
-			## on any other state, we leave the board in its occupancy-only state
-			#board.refresh_tile_states(piece.piece_color)

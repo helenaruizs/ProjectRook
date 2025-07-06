@@ -8,7 +8,7 @@ func enter() -> void:
 	# If we re-entered Idle but the mouse is still over us,
 	# go right back to Highlighted.
 	piece.is_hovered = false
-	piece.emit_signal("piece_hovered_exit", piece, piece.board_pos, piece.moves)
+	piece.emit_signal("piece_hovered_exit")
 		
 func handle_condition(cond: int) -> void:
 	if cond == Enums.Conditions.HOVER_ENTER:

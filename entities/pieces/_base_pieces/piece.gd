@@ -3,7 +3,7 @@ class_name Piece
 extends Node3D
 
 signal piece_hovered(piece: Piece, board_pos: Vector2i, moves: Dictionary)
-signal piece_hovered_exit(piece: Piece, board_pos: Vector2i, moves: Dictionary)
+signal piece_hovered_exit()
 signal piece_selected(piece: Piece, board_pos: Vector2i, moves: Dictionary)
 signal piece_selected_exit(piece: Piece, board_pos: Vector2i, moves: Dictionary)
 
