@@ -51,8 +51,8 @@ func change_state(new_state: Enums.States) -> void:
 	previous_state.exit()
 	current_state.enter()
 	# TEST: Printing marker info for debug
-	print(piece.board.active_piece)
-	print(piece.board.active_markers)
+	#print(piece.board.active_piece)
+	#print(piece.board.active_markers)
 	emit_signal("state_changed", piece, new_state)
 
 

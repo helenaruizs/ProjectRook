@@ -2,6 +2,11 @@ class_name TileMarker
 
 extends Node3D
 
+signal marker_hovered(tile_marker: TileMarker)
+signal marker_hovered_out(tile_marker: TileMarker)
+
+@onready var area3d: Area3D = $Area3D
+
 @export_category("Tile Conditions")
 
 # NOTE: This is something called bit flags, and it's kinda like a bar code situation, it makes it so each entry is an on/off switch
@@ -161,19 +166,23 @@ var board : Board
 func _ready() -> void:
 	board = get_parent()
 	_check_state_and_apply()
+	area3d.input_ray_pickable = true
+	area3d.mouse_entered.connect(_on_hover_enter)
+	area3d.mouse_exited.connect(_on_hover_exit)
+	
 
-
-func set_state(new_state: int) -> void:
-	state = new_state
-
-	if state == Enums.TileStates.NORMAL:
-		# Hide the marker entirely
-		mesh.hide()
-	else:
-		# Show the marker and apply the right material
-		mesh.show()
-		var mat: Material = _materials.get(state, mat_normal)
-		mesh.material_override = mat
+#
+#func set_state(new_state: int) -> void:
+	#state = new_state
+#
+	#if state == Enums.TileStates.NORMAL:
+		## Hide the marker entirely
+		#mesh.hide()
+	#else:
+		## Show the marker and apply the right material
+		#mesh.show()
+		#var mat: Material = _materials.get(state, mat_normal)
+		#mesh.material_override = mat
 
 	
 # Condition Helpers
@@ -215,19 +224,30 @@ func _trigger_state(state: Enums.TileStates) -> void:
 		mesh.show()
 		mesh.material_override = _materials.get(state, mat_normal)
 		#
+
+func _on_hover_enter() -> void:
+	print("Tile hovered")
+	hover_overlay.show()
+	#emit_signal("marker_hovered", self)
+
+func _on_hover_exit() -> void:
+	print("Tile UN-hovered")
+	hover_overlay.hide()
+	#emit_signal("marker_hovered_out", self)
+
 #func _update_overlays() -> void:
 	#hover_overlay.visible  = has_condition(Conditions.IS_HOVERED)
 	#select_overlay.visible = has_condition(Conditions.IS_SELECTED)
 
-
-func _on_area_3d_mouse_entered() -> void:
-	hover_overlay.visible = true
-	#TEST: Print tile marker hover
-	print("Marker Hovered!")
-	pass # Replace with function body.
-
-
-func _on_area_3d_mouse_exited() -> void:
-	hover_overlay.visible = false
-	print("Marker UN-Hovered!")
-	pass # Replace with function body.
+#
+#func _on_area_3d_mouse_entered() -> void:
+	#hover_overlay.visible = true
+	##TEST: Print tile marker hover
+	#print("Marker Hovered!")
+	#pass # Replace with function body.
+#
+#
+#func _on_area_3d_mouse_exited() -> void:
+	#hover_overlay.visible = false
+	#print("Marker UN-Hovered!")
+	#pass # Replace with function body.

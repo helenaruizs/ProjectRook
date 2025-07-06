@@ -32,6 +32,9 @@ func _ready() -> void:
 		push_error("Game Manager: Could not find player configs at _ready")
 	
 	_spawn_all_players()
+	var all_markers: Array[TileMarker] = board.tile_markers.values()
+	for marker: TileMarker in all_markers:
+		marker._check_state_and_apply()
 		
 	for child in all_players:
 		if child is PlayerConfig:
@@ -172,14 +175,13 @@ func on_piece_hover(piece: Piece, coord: Vector2i, moves: Dictionary) -> void:
 	var path_markers: Array[TileMarker] = board.get_existing_markers(path_positions)
 	
 	board.update_marker_conditions(target_markers, TileMarker.Conditions.TARGET, true)
-	board.update_marker_conditions(target_markers, TileMarker.Conditions.PATH, true)
+	board.update_marker_conditions(path_markers, TileMarker.Conditions.PATH, true)
 	for marker: TileMarker in target_markers + path_markers:
 		marker._check_state_and_apply()
 	board.set_hovered_piece_markers(target_markers, path_markers)
 	
 
 func on_piece_hover_out() -> void:
-	print("Hover OUT!")
 	# Reset piece hover conditions
 	var current_markers: Array[TileMarker] = board.hovered_piece_markers
 	board.update_marker_conditions(current_markers, TileMarker.Conditions.TARGET | TileMarker.Conditions.PATH, false)

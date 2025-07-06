@@ -1,13 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://l8xlrrql4hsu"]
+[gd_scene load_steps=17 format=3 uid="uid://l8xlrrql4hsu"]
 
 [ext_resource type="Script" uid="uid://de3qo2i3hjxob" path="res://entities/board/tile_marker.gd" id="1_t5obc"]
 [ext_resource type="Material" uid="uid://d4mqtsi86qwrd" path="res://assets/materials/tile_markers/tile_marker_hover_mat.tres" id="2_te6fg"]
 [ext_resource type="Material" uid="uid://cu22j75jdsc5a" path="res://assets/materials/tile_markers/tile_marker_normal_mat.tres" id="2_xnynr"]
+[ext_resource type="Material" uid="uid://jkadjhj6msy1" path="res://assets/materials/tile_markers/tile_marker_target_mat.tres" id="3_6grd0"]
 [ext_resource type="Material" uid="uid://cnhuaxutp88sb" path="res://assets/materials/tile_markers/tile_marker_path_mat.tres" id="3_ibjfw"]
+[ext_resource type="Material" uid="uid://df63vhb3ft51s" path="res://assets/materials/tile_markers/tile_marker_blocked_mat.tres" id="3_wu26u"]
+[ext_resource type="Material" uid="uid://d3vqrpj3yuufh" path="res://assets/materials/tile_markers/tile_marker_enemy_mat.tres" id="4_633x3"]
+[ext_resource type="Material" uid="uid://b35arj46ph2nu" path="res://assets/materials/tile_markers/tile_marker_selected_mat.tres" id="5_ru7yn"]
+[ext_resource type="Material" uid="uid://lhr8uxpj40ol" path="res://assets/materials/tile_markers/tile_marker_player_mat.tres" id="6_ru7yn"]
+[ext_resource type="Material" uid="uid://b4jm0quplgpp6" path="res://assets/materials/tile_markers/tile_marker_enemy_king_mat.tres" id="9_tco1m"]
+[ext_resource type="Material" uid="uid://bf6vc48mrl2wx" path="res://assets/materials/tile_markers/tile_marker_attack_target_mat.tres" id="10_jgspi"]
 [ext_resource type="Material" uid="uid://wgc235k381qe" path="res://assets/materials/tile_markers/tile_marker_select_mat.tres" id="11_n0e7i"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_633x3"]
-size = Vector3(1, 0.00587109, 1)
 
 [sub_resource type="QuadMesh" id="QuadMesh_pl8ar"]
 material = ExtResource("2_xnynr")
@@ -18,16 +22,23 @@ material = ExtResource("2_te6fg")
 [sub_resource type="QuadMesh" id="QuadMesh_wu26u"]
 material = ExtResource("11_n0e7i")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_633x3"]
+size = Vector3(1, 0.0532285, 1)
+
 [node name="TileMarker" type="Node3D"]
 script = ExtResource("1_t5obc")
-mat_normal = ExtResource("2_te6fg")
+mat_normal = ExtResource("2_xnynr")
+mat_available = ExtResource("2_xnynr")
+mat_blocked = ExtResource("3_wu26u")
+mat_has_active_piece = ExtResource("5_ru7yn")
 mat_move_path = ExtResource("3_ibjfw")
-
-[node name="Area3D" type="Area3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00243555, 0)
-shape = SubResource("BoxShape3D_633x3")
+mat_move_target = ExtResource("3_6grd0")
+mat_has_enemy = ExtResource("4_633x3")
+mat_has_player = ExtResource("6_ru7yn")
+mat_has_objective = ExtResource("2_xnynr")
+mat_has_enemy_king = ExtResource("9_tco1m")
+mat_has_player_king = ExtResource("6_ru7yn")
+mat_attack_target = ExtResource("10_jgspi")
 
 [node name="MarkerMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
@@ -44,5 +55,8 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.0
 visible = false
 mesh = SubResource("QuadMesh_wu26u")
 
-[connection signal="mouse_entered" from="Area3D" to="." method="_on_area_3d_mouse_entered"]
-[connection signal="mouse_exited" from="Area3D" to="." method="_on_area_3d_mouse_exited"]
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0261143, 0)
+shape = SubResource("BoxShape3D_633x3")
