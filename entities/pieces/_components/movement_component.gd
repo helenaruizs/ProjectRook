@@ -106,7 +106,9 @@ func get_all_moves(origin: Vector2i) -> Dictionary:
 				break
 				
 			if piece.board.piece_map.has(pos):
-				targets.append(pos)
+				if piece.piece_color == piece.board.enemy_color:
+					targets.append(pos)
+				break
 			else:
 				dir_positions.append(pos)
 		# once done with this dir, move all but last into paths, last into targets
@@ -116,4 +118,4 @@ func get_all_moves(origin: Vector2i) -> Dictionary:
 				paths.append(dir_positions[i])
 			# last is a target
 			targets.append(dir_positions.back())
-	return { "paths": paths, "targets": targets }
+	return { "paths": paths, "targets": targets,}

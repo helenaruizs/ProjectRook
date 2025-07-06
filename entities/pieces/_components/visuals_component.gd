@@ -18,8 +18,8 @@ func _ready() -> void:
 	area3d.input_ray_pickable = false
 	area3d.mouse_entered.connect(_on_hover_enter)
 	area3d.mouse_exited.connect(_on_hover_exit)
-	
-	
+
+
 func set_texture(tex: Texture2D) -> void:
 	sprite.texture = tex
 

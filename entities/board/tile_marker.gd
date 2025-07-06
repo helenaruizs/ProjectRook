@@ -31,6 +31,8 @@ enum Conditions {
 	
 	IS_HOVERED = 1 << 13,
 	IS_SELECTED = 1 << 14,
+	
+	ATTACK_TARGET = 1 << 15,
 }
 
 @export_flags(
@@ -53,7 +55,9 @@ enum Conditions {
 	"Hazard",
 	
 	"Is Hovered",
-	"Is Selected")
+	"Is Selected",
+	
+	"Attack Target")
 	
 var conditions_mask : int = Conditions.NONE # Variable name of the "box" for the flags above ^
 
