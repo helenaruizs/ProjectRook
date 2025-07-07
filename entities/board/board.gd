@@ -22,7 +22,7 @@ var hovered_piece_markers: Array[TileMarker] = []
 
 
 var active_piece: Piece = null
-var active_markers: Dictionary = {}
+var active_markers: Array[TileMarker]
 
 var player_one: PlayerConfig
 var friendly_color: Enums.FactionColor
@@ -103,6 +103,7 @@ func register_piece(piece: Piece, column: int, row: int) -> void:
 	# Connect Marker signals to the pieces
 	marker.connect("marker_hovered", Callable(piece, "_on_piece_hover"))
 	marker.connect("marker_hovered_out", Callable(piece, "_on_piece_hover_out"))
+	marker.connect("marker_selected", Callable(piece, "_on_piece_selected"))
 
 func clear_tile_states() -> void:
 	for marker : TileMarker in tile_markers.values():
@@ -177,7 +178,7 @@ func change_markers_state(moves: Dictionary[Enums.TileStates, Array], selected: 
 # Call this when a piece becomes selected
 func set_active_piece(piece: Piece, moves: Dictionary[int, Array]) -> void:
 	active_piece = piece
-	active_markers = moves.duplicate()
+	active_markers = moves.values().duplicate()
 	#change_markers_state(active_markers)
 
 # Call this when a piece is deselected
@@ -196,27 +197,28 @@ func reset_markers(markers: Array[TileMarker]) -> void:
 	for marker : TileMarker in markers:
 		marker.set_state(Enums.TileStates.NORMAL)
 
-func filter_moves_against_active(moves: Dictionary[Enums.TileStates, Array]) -> Dictionary[Enums.TileStates, Array]:
-	# If nothing is selected, don’t filter
-	if active_piece == null:
-		return moves
-
-	# Flatten all of the active piece’s marker coords into a Set for fast lookup
-	var locked: Array = []
-	for arr: Array in active_markers.values():
-		for pos: Vector2i in arr:
-			if not locked.has(pos):
-				locked.append(pos)
-
-	# Build a new dict, skipping any locked coords
-	var out: Dictionary[Enums.TileStates, Array] = {}
-	for state_key: Enums.TileStates in moves.keys():
-		var filtered: Array[Vector2i] = []
-		for pos: Vector2i in moves[state_key]:
-			if not locked.has(pos):
-				filtered.append(pos)
-		out[state_key] = filtered
-	return out
+#region Deprecated?
+#func filter_moves_against_active(moves: Dictionary[Enums.TileStates, Array]) -> Dictionary[Enums.TileStates, Array]:
+	## If nothing is selected, don’t filter
+	#if active_piece == null:
+		#return moves
+#
+	## Flatten all of the active piece’s marker coords into a Set for fast lookup
+	#var locked: Array = []
+	#for marker: TileMarker in active_markers:
+		#if not locked.has(marker):
+			#locked.append(marker)
+#
+	## Build a new dict, skipping any locked coords
+	#var out: Dictionary[Enums.TileStates, Array] = {}
+	#for state_key: Enums.TileStates in moves.keys():
+		#var filtered: Array[Vector2i] = []
+		#for pos: Vector2i in moves[state_key]:
+			#if not locked.has(pos):
+				#filtered.append(pos)
+		#out[state_key] = filtered
+	#return out
+#endregion
 
 func update_marker_conditions(markers: Array[TileMarker], conditions : int, add: bool = true) -> void:
 	for marker: TileMarker in markers:

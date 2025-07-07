@@ -11,12 +11,10 @@ func enter() -> void:
 
 func exit() -> void:
 	#piece.emit_signal("piece_hovered_exit", piece, piece.board_pos, piece.moves)
-	pass
+	piece.is_hovered = false
 
 func handle_condition(cond: int) -> void:
 	if cond == Enums.Conditions.HOVER_EXIT:
 		machine.change_state(Enums.States.IDLE)
-
-func handle_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed:
+	if cond == Enums.Conditions.SELECTED:
 		machine.change_state(Enums.States.SELECTED)

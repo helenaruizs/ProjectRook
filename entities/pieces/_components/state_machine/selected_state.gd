@@ -5,6 +5,8 @@ extends State
 func enter() -> void:
 	piece.is_selected = true
 	piece.moves = piece.movement.get_all_moves(piece.board_pos)
+	
+	print("This is from the Selected State")
 	piece.emit_signal("piece_selected", piece, piece.board_pos, piece.moves)
 
 func exit() -> void:

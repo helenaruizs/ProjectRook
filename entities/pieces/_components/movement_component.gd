@@ -71,7 +71,10 @@ func get_all_moves(origin: Vector2i) -> Dictionary:
 	if piece.move_pattern == Enums.MovePattern.L_SHAPE:
 		for offset in KNIGHT_OFFSETS:
 			var pos: Vector2i = origin + offset
+			var marker: TileMarker = piece.board.tile_markers.get(pos, null)
 			if not piece.board.tile_grid_positions.has(pos): # Stop within boundaries of the board
+				continue
+			if piece.board.active_markers.has(marker):  # Don't include in new calculations if it's part of the currently selected
 				continue
 			if piece.board.piece_map.has(pos):
 				targets.append(pos)
@@ -102,9 +105,11 @@ func get_all_moves(origin: Vector2i) -> Dictionary:
 		var dir_positions: Array[Vector2i] = []
 		for step in range(1, max_steps + (0 if is_long else 1)):
 			var pos := origin + d * step
+			var marker: TileMarker = piece.board.tile_markers.get(pos, null)
 			if not piece.board.tile_grid_positions.has(pos): # Stop within boundaries of the board
 				break
-				
+			if piece.board.active_markers.has(marker):  # Don't include in new calculations if it's part of the currently selected
+				continue
 			if piece.board.piece_map.has(pos):
 				if piece.piece_color == piece.board.enemy_color:
 					targets.append(pos)

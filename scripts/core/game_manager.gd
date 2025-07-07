@@ -190,7 +190,25 @@ func on_piece_hover_out() -> void:
 	board.clear_hovered_piece_markers()
 	
 func on_piece_selection(piece: Piece, coord: Vector2i, moves: Dictionary) -> void:
-	pass
+	print("This is from the GM")	# From piece's movement calculations
+	var target_positions: Array[Vector2i] = moves["targets"]
+	var path_positions: Array[Vector2i] = moves["paths"]
+	
+	var target_markers: Array[TileMarker] = board.get_existing_markers(target_positions)
+	var path_markers: Array[TileMarker] = board.get_existing_markers(path_positions)
+	
+	board.update_marker_conditions(target_markers, TileMarker.Conditions.TARGET, true)
+	board.update_marker_conditions(path_markers, TileMarker.Conditions.PATH, true)
+	for marker: TileMarker in target_markers + path_markers:
+		marker._check_state_and_apply()
+	#HACK: Getting the currently hovered and resolved markers and using them for the active markers
+	board.active_markers = target_markers + path_markers
+	board.active_piece = piece
 
 func on_piece_selection_out(piece: Piece, coord: Vector2i, moves: Dictionary) -> void:
-	pass
+	board.update_marker_conditions(board.active_markers, TileMarker.Conditions.TARGET | TileMarker.Conditions.PATH, false)
+	for marker: TileMarker in board.active_markers:
+		marker._check_state_and_apply()
+	
+	board.active_markers.clear()
+	board.active_piece = null

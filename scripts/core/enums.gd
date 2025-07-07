@@ -5,7 +5,7 @@ extends Object
 enum Conditions {
 	HOVER_ENTER,
 	HOVER_EXIT,
-	CLICK,
+	SELECTED,
 }
 
 

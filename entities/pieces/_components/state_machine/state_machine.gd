@@ -55,7 +55,12 @@ func change_state(new_state: Enums.States) -> void:
 	#print(piece.board.active_markers)
 	emit_signal("state_changed", piece, new_state)
 
-
+func is_current_state(state_enum: Enums.States) -> bool:
+	# get the StateNode for this enum (or null if it doesn't exist)
+	var node_for_enum : NodePath = state_nodes.get(state_enum, null)
+	# compare to the machine's current_state
+	return get_node(node_for_enum) == current_state
+	
 func _process(delta: float) -> void:
 	if current_state != null:
 		current_state.state_process(delta)

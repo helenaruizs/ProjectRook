@@ -48,7 +48,16 @@ func _on_state_changed(piece: Piece, new_state: Enums.States) -> void:
 	visuals.on_state_changed(new_state)
 
 func _on_piece_hover(tile_marker: TileMarker, piece: Piece) -> void :
-	state_machine.on_condition(Enums.Conditions.HOVER_ENTER)
+	if not state_machine.is_current_state(Enums.States.SELECTED):
+		state_machine.change_state(Enums.States.HIGHLIGHTED)
 	
 func _on_piece_hover_out(tile_marker: TileMarker, piece: Piece) -> void :
-	state_machine.on_condition(Enums.Conditions.HOVER_EXIT)
+	if state_machine.is_current_state(Enums.States.HIGHLIGHTED):
+		state_machine.change_state(Enums.States.IDLE)
+
+func _on_piece_selected() -> void :
+	print("This is from the Piece")
+	state_machine.change_state(Enums.States.SELECTED)
+
+func _on_piece_selected_out() -> void :
+	state_machine.change_state(Enums.States.IDLE)

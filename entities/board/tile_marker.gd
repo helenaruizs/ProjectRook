@@ -4,6 +4,7 @@ extends Node3D
 
 signal marker_hovered(tile_marker: TileMarker, piece: Piece )
 signal marker_hovered_out(tile_marker: TileMarker, piece: Piece)
+signal marker_selected()
 
 @onready var area3d: Area3D = $Area3D
 
@@ -174,22 +175,9 @@ func _ready() -> void:
 	area3d.input_ray_pickable = true
 	area3d.mouse_entered.connect(_on_hover_enter)
 	area3d.mouse_exited.connect(_on_hover_exit)
+	area3d.input_event.connect(_on_marker_input_event)
 	_check_state_and_apply()
 	
-
-#
-#func set_state(new_state: int) -> void:
-	#state = new_state
-#
-	#if state == Enums.TileStates.NORMAL:
-		## Hide the marker entirely
-		#mesh.hide()
-	#else:
-		## Show the marker and apply the right material
-		#mesh.show()
-		#var mat: Material = _materials.get(state, mat_normal)
-		#mesh.material_override = mat
-
 	
 # Condition Helpers
 func add_condition(cond: int) -> void:
@@ -239,19 +227,7 @@ func _on_hover_exit() -> void:
 	hover_overlay.hide()
 	emit_signal("marker_hovered_out", self, occupant)
 
-#func _update_overlays() -> void:
-	#hover_overlay.visible  = has_condition(Conditions.IS_HOVERED)
-	#select_overlay.visible = has_condition(Conditions.IS_SELECTED)
-
-#
-#func _on_area_3d_mouse_entered() -> void:
-	#hover_overlay.visible = true
-	##TEST: Print tile marker hover
-	#print("Marker Hovered!")
-	#pass # Replace with function body.
-#
-#
-#func _on_area_3d_mouse_exited() -> void:
-	#hover_overlay.visible = false
-	#print("Marker UN-Hovered!")
-	#pass # Replace with function body.
+# this method signature matches the engine's signal:
+func _on_marker_input_event(camera: Node, event: InputEvent, position: Vector3, normal: Vector3, shape_idx: int) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		emit_signal("marker_selected")
