@@ -7,15 +7,8 @@
 [ext_resource type="Script" uid="uid://b7mlauncabyke" path="res://entities/pieces/_components/stats_component.gd" id="5_uv57n"]
 [ext_resource type="Script" uid="uid://b6feeqgteiaba" path="res://entities/pieces/_components/modifiers_component.gd" id="6_ya1q1"]
 
-[node name="queen" type="Node3D" node_paths=PackedStringArray("visuals", "movement", "stats", "modifiers", "state_machine") groups=["piece"]]
+[node name="queen" type="Node3D" groups=["piece"]]
 script = ExtResource("1_lhr55")
-piece_type = 5
-visuals = NodePath("VisualsComponent")
-movement = NodePath("MovementComponent")
-stats = NodePath("StatsComponent")
-modifiers = NodePath("ModifiersComponent")
-state_machine = NodePath("StateMachine")
-move_pattern = 3
 
 [node name="MovementComponent" type="Node" parent="."]
 script = ExtResource("4_hxboq")

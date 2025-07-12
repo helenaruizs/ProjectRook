@@ -7,15 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://fkqpt5w4tjhq" path="res://entities/pieces/_components/state_machine/state_machine.tscn" id="6_bsmdl"]
 [ext_resource type="Script" uid="uid://b6feeqgteiaba" path="res://entities/pieces/_components/modifiers_component.gd" id="6_crgke"]
 
-[node name="bishop" type="Node3D" node_paths=PackedStringArray("visuals", "movement", "stats", "modifiers", "state_machine") groups=["piece"]]
+[node name="bishop" type="Node3D" groups=["piece"]]
 script = ExtResource("1_be8hr")
-piece_type = 3
-visuals = NodePath("VisualsComponent")
-movement = NodePath("MovementComponent")
-stats = NodePath("StatsComponent")
-modifiers = NodePath("ModifiersComponent")
-state_machine = NodePath("StateMachine")
-move_pattern = 1
 
 [node name="MovementComponent" type="Node" parent="."]
 script = ExtResource("4_ml8hl")

@@ -17,6 +17,7 @@ texture = ExtResource("2_v8o1n")
 [node name="Area3D" type="Area3D" parent="."]
 collision_layer = 2
 collision_mask = 2
+input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00326538, 0.565918, 0)

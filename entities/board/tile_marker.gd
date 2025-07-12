@@ -2,9 +2,9 @@ class_name TileMarker
 
 extends Node3D
 
-signal marker_hovered(tile_marker: TileMarker, piece: Piece )
-signal marker_hovered_out(tile_marker: TileMarker, piece: Piece)
-signal marker_selected()
+#signal marker_hovered(tile_marker: TileMarker, piece: Piece )
+#signal marker_hovered_out(tile_marker: TileMarker, piece: Piece)
+#signal marker_selected()
 
 @onready var area3d: Area3D = $Area3D
 
@@ -180,6 +180,8 @@ func _ready() -> void:
 	
 	
 # Condition Helpers
+
+
 func add_condition(cond: int) -> void:
 	conditions_mask |= cond
 
@@ -219,15 +221,41 @@ func _trigger_state(state: Enums.TileStates) -> void:
 		mesh.material_override = _materials.get(state, mat_normal)
 		#
 
+#### PUBLIC ######
+func register_occupant(new_piece: Piece) -> void:
+	if new_piece == occupant:
+		return
+	
+	occupant = new_piece
+	
+	remove_condition(
+		Conditions.OCCUPIED |
+		Conditions.HAS_FRIEND |
+		Conditions.HAS_KING
+	)
+	
+	if occupant:
+		add_condition(Conditions.OCCUPIED)
+		if occupant.alliance == Enums.Alliance.FRIEND:
+			add_condition(Conditions.HAS_FRIEND)
+		if occupant.alliance == Enums.Alliance.FOE:
+			add_condition(Conditions.HAS_ENEMY)
+		if occupant.type == Enums.PieceType.KING:
+			add_condition(Conditions.HAS_KING)
+	
+	_check_state_and_apply()
+
+#### SIGNALS #####
+
 func _on_hover_enter() -> void:
 	hover_overlay.show()
-	emit_signal("marker_hovered", self, occupant)
+	SignalBus.emit_signal("marker_hovered", self, occupant)
 
 func _on_hover_exit() -> void:
 	hover_overlay.hide()
-	emit_signal("marker_hovered_out", self, occupant)
+	SignalBus.emit_signal("marker_hovered_out", self, occupant)
 
 # this method signature matches the engine's signal:
 func _on_marker_input_event(camera: Node, event: InputEvent, position: Vector3, normal: Vector3, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
-		emit_signal("marker_selected")
+		SignalBus.emit_signal("marker_selected")

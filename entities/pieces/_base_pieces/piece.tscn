@@ -1,19 +1,20 @@
-[gd_scene load_steps=7 format=3 uid="uid://4stpcb72rks0"]
+[gd_scene load_steps=9 format=3 uid="uid://4stpcb72rks0"]
 
 [ext_resource type="Script" uid="uid://orsjn0r1d61u" path="res://entities/pieces/_base_pieces/piece.gd" id="1_m7oub"]
+[ext_resource type="Script" uid="uid://1bwk1v2c052q" path="res://entities/pieces/_resources/piece_resource.gd" id="2_2h1hi"]
 [ext_resource type="PackedScene" uid="uid://v1xmai71imsv" path="res://entities/pieces/_components/visuals_component.tscn" id="2_mccw4"]
 [ext_resource type="Script" uid="uid://hud2tqdvqysw" path="res://entities/pieces/_components/movement_component.gd" id="4_54wly"]
 [ext_resource type="PackedScene" uid="uid://fkqpt5w4tjhq" path="res://entities/pieces/_components/state_machine/state_machine.tscn" id="5_7j38n"]
 [ext_resource type="Script" uid="uid://b7mlauncabyke" path="res://entities/pieces/_components/stats_component.gd" id="5_gbxwr"]
 [ext_resource type="Script" uid="uid://b6feeqgteiaba" path="res://entities/pieces/_components/modifiers_component.gd" id="6_drro1"]
 
-[node name="Piece" type="Node3D" node_paths=PackedStringArray("visuals", "movement", "stats", "modifiers", "state_machine") groups=["piece"]]
+[sub_resource type="Resource" id="Resource_d613a"]
+script = ExtResource("2_2h1hi")
+metadata/_custom_type_script = "uid://1bwk1v2c052q"
+
+[node name="Piece" type="Node3D" groups=["piece"]]
 script = ExtResource("1_m7oub")
-visuals = NodePath("VisualsComponent")
-movement = NodePath("MovementComponent")
-stats = NodePath("StatsComponent")
-modifiers = NodePath("ModifiersComponent")
-state_machine = NodePath("StateMachine")
+config = SubResource("Resource_d613a")
 
 [node name="MovementComponent" type="Node" parent="."]
 script = ExtResource("4_54wly")

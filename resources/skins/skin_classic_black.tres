@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bqes475goyaxd" path="res://assets/skins/classic_black/pawn.png" id="4_hpaee"]
 [ext_resource type="Texture2D" uid="uid://dq321jbn433k1" path="res://assets/skins/classic_black/queen.png" id="5_4l7bn"]
 [ext_resource type="Texture2D" uid="uid://w4y3fl6d73oo" path="res://assets/skins/classic_black/rook.png" id="6_1kjep"]
-[ext_resource type="Script" uid="uid://xtdjqckwv4bh" path="res://scripts/core/skin_resource.gd" id="7_qriwv"]
+[ext_resource type="Script" uid="uid://xtdjqckwv4bh" path="res://scripts/shared/skin_resource.gd" id="7_qriwv"]
 
 [resource]
 script = ExtResource("7_qriwv")

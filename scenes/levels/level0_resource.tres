@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="LevelResource" load_steps=2 format=3 uid="uid://cnwvsuyp7rp8v"]
+
+[ext_resource type="Script" uid="uid://dcghu4itff4mm" path="res://scenes/levels/level_resource.gd" id="1_521ry"]
+
+[resource]
+script = ExtResource("1_521ry")
+display_name = "Level 0 - Testing Grounds"
+metadata/_custom_type_script = "uid://dcghu4itff4mm"

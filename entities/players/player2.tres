@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="PlayerConfig" load_steps=8 format=3 uid="uid://0bqqb3q4kejy"]
+
+[ext_resource type="Script" uid="uid://eivkyyjgx2y0" path="res://entities/players/player_config.gd" id="1_jxdn2"]
+[ext_resource type="Resource" uid="uid://b05he8bqc6e26" path="res://entities/pieces/piece_data/rook.tres" id="1_kqucl"]
+[ext_resource type="Resource" uid="uid://b6pv6bxw06tsx" path="res://entities/pieces/piece_data/knight.tres" id="2_5aypb"]
+[ext_resource type="Resource" uid="uid://dp8pa33rybvu3" path="res://entities/pieces/piece_data/bishop.tres" id="3_gpl62"]
+[ext_resource type="Resource" uid="uid://btw6qfw2xk3i0" path="res://entities/pieces/piece_data/queen.tres" id="4_hmvv2"]
+[ext_resource type="Resource" uid="uid://dabegmqltv40w" path="res://entities/pieces/piece_data/king.tres" id="5_cfu07"]
+[ext_resource type="Resource" uid="uid://1lt4jmafcnv3" path="res://entities/pieces/piece_data/pawn.tres" id="6_kkrug"]
+
+[resource]
+script = ExtResource("1_jxdn2")
+player_id = 1
+alliance = 1
+skin = 0
+faction = 1
+board_placement = 1
+front_row = Array[Object]([ExtResource("6_kkrug"), ExtResource("6_kkrug"), ExtResource("6_kkrug"), ExtResource("6_kkrug"), ExtResource("6_kkrug"), ExtResource("6_kkrug"), ExtResource("6_kkrug"), ExtResource("6_kkrug")])
+back_row = Array[Object]([ExtResource("1_kqucl"), ExtResource("2_5aypb"), ExtResource("3_gpl62"), ExtResource("4_hmvv2"), ExtResource("5_cfu07"), ExtResource("3_gpl62"), ExtResource("2_5aypb"), ExtResource("1_kqucl")])
+metadata/_custom_type_script = "uid://eivkyyjgx2y0"

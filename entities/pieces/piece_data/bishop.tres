@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="PieceResource" load_steps=6 format=3 uid="uid://dp8pa33rybvu3"]
+
+[ext_resource type="Script" uid="uid://cggsw8ay2gck6" path="res://entities/pieces/_resources/movement_data.gd" id="1_3pmyf"]
+[ext_resource type="Script" uid="uid://dl6v2rg4hl6oh" path="res://entities/pieces/_resources/piece_basic_data.gd" id="2_gu24y"]
+[ext_resource type="Script" uid="uid://1bwk1v2c052q" path="res://entities/pieces/_resources/piece_resource.gd" id="3_scda6"]
+
+[sub_resource type="Resource" id="Resource_wuqkf"]
+script = ExtResource("1_3pmyf")
+style = 0
+pattern = 1
+length = 0
+metadata/_custom_type_script = "uid://cggsw8ay2gck6"
+
+[sub_resource type="Resource" id="Resource_qmhvd"]
+script = ExtResource("2_gu24y")
+type = 3
+display_name = "Bishop"
+metadata/_custom_type_script = "uid://dl6v2rg4hl6oh"
+
+[resource]
+script = ExtResource("3_scda6")
+piece_data = SubResource("Resource_qmhvd")
+movement_data = SubResource("Resource_wuqkf")

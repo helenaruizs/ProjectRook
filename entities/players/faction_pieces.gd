@@ -1,8 +1,11 @@
-class_name FactionPieces
+class_name PiecesRoot
 
 extends Node3D
 
-func clear_faction_node() -> void:
+var player_config: PlayerConfig
+
+
+func clear_pieces() -> void:
 	var placed_pieces: Array[Node] = get_tree().get_nodes_in_group("pieces")
 	for piece_node in placed_pieces:
 		if piece_node is Node:

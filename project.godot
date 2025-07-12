@@ -11,15 +11,17 @@ config_version=5
 [application]
 
 config/name="ProjectRook"
-run/main_scene="uid://l71df52ljrth"
+run/main_scene="uid://crx6lws84l2b0"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
-EventBus="*res://scripts/autoload/event_bus.gd"
-Globals="*res://scripts/autoload/globals.gd"
+Refs="*res://scripts/autoload/refs.tscn"
+SignalBus="*res://scripts/autoload/signal_bus.gd"
+Utils="*res://scripts/autoload/utils.gd"
 SkinManager="*res://scripts/autoload/skin_manager.tscn"
+TurnManager="*res://scripts/autoload/turn_manager.gd"
 
 [debug]
 

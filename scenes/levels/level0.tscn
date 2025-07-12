@@ -1,0 +1,44 @@
+[gd_scene load_steps=12 format=3 uid="uid://l71df52ljrth"]
+
+[ext_resource type="Script" uid="uid://c34063c67yrg2" path="res://scenes/levels/level.gd" id="1_cm1v6"]
+[ext_resource type="Resource" uid="uid://cnwvsuyp7rp8v" path="res://scenes/levels/level0_resource.tres" id="2_vals0"]
+[ext_resource type="Script" uid="uid://3ympm436juyq" path="res://entities/board/board.gd" id="3_gklfi"]
+[ext_resource type="MeshLibrary" uid="uid://cwvi1ov8ydct7" path="res://assets/meshes/mesh_library_tiles.tres" id="4_cm1v6"]
+[ext_resource type="Script" uid="uid://cyih1gg41soko" path="res://scripts/controllers/piece_spawner.gd" id="4_gklfi"]
+[ext_resource type="PackedScene" uid="uid://c3yfcex5p3d5i" path="res://entities/board/spawn_marker.tscn" id="5_wrnl3"]
+[ext_resource type="Resource" uid="uid://dabegmqltv40w" path="res://entities/pieces/piece_data/king.tres" id="6_cm1v6"]
+[ext_resource type="Script" uid="uid://dqnid1wtrrunf" path="res://entities/players/players.gd" id="8_oem7y"]
+[ext_resource type="Script" uid="uid://eivkyyjgx2y0" path="res://entities/players/player_config.gd" id="9_7s2gi"]
+[ext_resource type="Resource" uid="uid://bxmfjwjxaabut" path="res://entities/players/player1.tres" id="10_fj52k"]
+[ext_resource type="Resource" uid="uid://0bqqb3q4kejy" path="res://entities/players/player2.tres" id="11_1t5oo"]
+
+[node name="Level0" type="Node3D" node_paths=PackedStringArray("board", "players", "piece_spawner")]
+script = ExtResource("1_cm1v6")
+level_data = ExtResource("2_vals0")
+board = NodePath("Board")
+players = NodePath("Players")
+piece_spawner = NodePath("PieceSpawner")
+
+[node name="PieceSpawner" type="Node" parent="."]
+script = ExtResource("4_gklfi")
+
+[node name="Board" type="Node3D" parent="." node_paths=PackedStringArray("grid_map")]
+script = ExtResource("3_gklfi")
+grid_map = NodePath("GridMap")
+
+[node name="GridMap" type="GridMap" parent="Board"]
+mesh_library = ExtResource("4_cm1v6")
+cell_size = Vector3(1, 0.01, 1)
+data = {
+"cells": PackedInt32Array(0, 65528, 1, 1, 65529, 1, 2, 65530, 1, 3, 65531, 1, 4, 65532, 1, 5, 65533, 1, 6, 65534, 1, 7, 65535, 1, 2, 65532, 1, 1, 65533, 1, 0, 65534, 1, 4, 65530, 1, 5, 65529, 1, 6, 65528, 1, 3, 65529, 1, 2, 65528, 1, 4, 65528, 1, 0, 65530, 1, 1, 65531, 1, 0, 65532, 1, 1, 65535, 1, 2, 65534, 1, 3, 65533, 1, 3, 65535, 1, 4, 65534, 1, 5, 65535, 1, 7, 65533, 1, 6, 65532, 1, 5, 65531, 1, 7, 65531, 1, 6, 65530, 1, 7, 65529, 1, 0, 65535, 0, 1, 65534, 0, 0, 65533, 0, 1, 65532, 0, 0, 65531, 0, 0, 65529, 0, 1, 65528, 0, 1, 65530, 0, 2, 65529, 0, 2, 65531, 0, 2, 65533, 0, 2, 65535, 0, 3, 65534, 0, 4, 65535, 0, 5, 65534, 0, 4, 65533, 0, 3, 65532, 0, 4, 65531, 0, 3, 65530, 0, 4, 65529, 0, 3, 65528, 0, 5, 65528, 0, 7, 65528, 0, 7, 65530, 0, 6, 65529, 0, 5, 65530, 0, 6, 65531, 0, 7, 65532, 0, 7, 65534, 0, 6, 65535, 0, 6, 65533, 0, 5, 65532, 0)
+}
+
+[node name="SpawnPoints" type="Node3D" parent="Board"]
+
+[node name="SpawnMarker" parent="Board/SpawnPoints" instance=ExtResource("5_wrnl3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, -3.5)
+spawn_piece = ExtResource("6_cm1v6")
+
+[node name="Players" type="Node" parent="."]
+script = ExtResource("8_oem7y")
+player_configs = Array[ExtResource("9_7s2gi")]([ExtResource("10_fj52k"), ExtResource("11_1t5oo")])

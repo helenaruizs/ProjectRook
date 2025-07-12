@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="PieceResource" load_steps=6 format=3 uid="uid://dp4l4dv57jnuw"]
+
+[ext_resource type="Script" uid="uid://1bwk1v2c052q" path="res://entities/pieces/_resources/piece_resource.gd" id="1_13nv2"]
+[ext_resource type="Script" uid="uid://cggsw8ay2gck6" path="res://entities/pieces/_resources/movement_data.gd" id="1_ljh3b"]
+[ext_resource type="Script" uid="uid://dl6v2rg4hl6oh" path="res://entities/pieces/_resources/piece_basic_data.gd" id="2_7u0rb"]
+
+[sub_resource type="Resource" id="Resource_euqwd"]
+script = ExtResource("1_ljh3b")
+style = 0
+pattern = 0
+length = 0
+metadata/_custom_type_script = "uid://cggsw8ay2gck6"
+
+[sub_resource type="Resource" id="Resource_ljh3b"]
+script = ExtResource("2_7u0rb")
+type = 0
+display_name = ""
+metadata/_custom_type_script = "uid://dl6v2rg4hl6oh"
+
+[resource]
+script = ExtResource("1_13nv2")
+piece_data = SubResource("Resource_ljh3b")
+movement_data = SubResource("Resource_euqwd")

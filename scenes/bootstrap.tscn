@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=3 uid="uid://crx6lws84l2b0"]
+
+[ext_resource type="Script" uid="uid://c6m8jg205cjb7" path="res://scripts/controllers/game_manager.gd" id="1_asbmj"]
+[ext_resource type="Script" uid="uid://w8hd8myhdero" path="res://scripts/controllers/level_manager.gd" id="2_bypqq"]
+[ext_resource type="Script" uid="uid://bn6j6k0ct4siw" path="res://scripts/controllers/mouse_input_handler.gd" id="2_ldy74"]
+[ext_resource type="PackedScene" uid="uid://l71df52ljrth" path="res://scenes/levels/level0.tscn" id="2_pslgh"]
+[ext_resource type="Script" uid="uid://du00nos67youy" path="res://scripts/controllers/camera.gd" id="2_yg5h4"]
+[ext_resource type="Script" uid="uid://1c218w87ks3j" path="res://scripts/controllers/stage.gd" id="6_celue"]
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_jyhfs"]
+frustum_focal_length = 100.0
+
+[node name="Bootstrap" type="Node"]
+
+[node name="GameManager" type="Node" parent="."]
+script = ExtResource("1_asbmj")
+
+[node name="LevelManager" type="Node" parent="." node_paths=PackedStringArray("stage")]
+script = ExtResource("2_bypqq")
+initial_level = ExtResource("2_pslgh")
+all_levels = Dictionary[int, PackedScene]({
+1: ExtResource("2_pslgh")
+})
+stage = NodePath("../Stage")
+
+[node name="Controllers" type="Node" parent="."]
+
+[node name="MouseInputHandler" type="Node" parent="Controllers"]
+script = ExtResource("2_ldy74")
+board_path = NodePath("../../Board")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.920621, -0.233746, 0.312762, 0, 0.801014, 0.598646, -0.390458, -0.551126, 0.73743, 14.0547, 19.6589, 20.8963)
+attributes = SubResource("CameraAttributesPhysical_jyhfs")
+current = true
+size = 6.381
+script = ExtResource("2_yg5h4")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.323884, 0.946097, 0, -0.946097, 0.323884, 0.0876713, 6.78015, 0.0436654)
+
+[node name="Stage" type="Node3D" parent="."]
+script = ExtResource("6_celue")
+
+[node name="UIRoot" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0

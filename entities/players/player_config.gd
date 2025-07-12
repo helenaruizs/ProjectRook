@@ -1,29 +1,28 @@
 class_name PlayerConfig
 
-extends Node
+extends Resource
 
 @export var player_id : Enums.Players
 
-@export_category("Pieces Container")
-@export var pieces : FactionPieces
+@export var alliance: Enums.Alliance
 
 @export_category("Skins & Factions")
 
 @export var skin : SkinResource.SkinNames
 
-@export var faction : Enums.FactionColor = Enums.FactionColor.WHITE
+@export var faction : Enums.FactionColor
 
 @export_category("Piece Layout")
 
 @export var board_placement : Enums.BoardPlacement
 
-@export var front_row: Array[Enums.PieceType] = [
-	Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN,
-	Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN, Enums.PieceType.PAWN,
+@export var front_row: Array[PieceResource] = [
+	Refs.PAWN, Refs.PAWN, Refs.PAWN, Refs.PAWN,
+	Refs.PAWN, Refs.PAWN, Refs.PAWN, Refs.PAWN,
 ]
-@export var back_row: Array[Enums.PieceType] = [
-	Enums.PieceType.ROOK,   Enums.PieceType.KNIGHT, Enums.PieceType.BISHOP, Enums.PieceType.QUEEN,
-	Enums.PieceType.KING,   Enums.PieceType.BISHOP, Enums.PieceType.KNIGHT, Enums.PieceType.ROOK,
+@export var back_row: Array[PieceResource] = [
+	Refs.ROOK, Refs.KNIGHT, Refs.BISHOP, Refs.QUEEN,
+	Refs.KING, Refs.BISHOP, Refs.KNIGHT, Refs.ROOK,
 ]
 
 var piece_count: int:

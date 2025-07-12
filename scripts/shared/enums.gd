@@ -91,6 +91,12 @@ enum Players {
 	PLAYER_2
 }
 
+enum Alliance {
+	FRIEND,
+	FOE,
+	NEUTRAL,
+}
+
 enum GameTurn {
 	PLAYER,
 	ENEMY,
@@ -99,6 +105,13 @@ enum GameTurn {
 enum BoardPlacement {
 	FRONT,
 	BACK,
+}
+
+enum Levels {
+	NONE,
+	LEVEL_0,
+	LEVEL_1,
+	LEVEL_2,
 }
 
 static func enum_to_string(enum_dict: Dictionary, value: int) -> String:

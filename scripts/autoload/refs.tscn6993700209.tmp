@@ -1,0 +1,24 @@
+[gd_scene load_steps=11 format=3 uid="uid://bc8y2uxhtldhi"]
+
+[ext_resource type="Script" uid="uid://df8qjwurrd6tj" path="res://scripts/autoload/refs.gd" id="1_26jja"]
+[ext_resource type="PackedScene" uid="uid://l8xlrrql4hsu" path="res://entities/board/tile_marker.tscn" id="2_ainms"]
+[ext_resource type="PackedScene" uid="uid://4stpcb72rks0" path="res://entities/pieces/_base_pieces/piece.tscn" id="3_j4n8i"]
+[ext_resource type="Resource" uid="uid://dp8pa33rybvu3" path="res://entities/pieces/piece_data/bishop.tres" id="3_txyxd"]
+[ext_resource type="PackedScene" uid="uid://b3ax1wa0881wo" path="res://entities/players/player.tscn" id="4_3siwq"]
+[ext_resource type="Resource" uid="uid://dabegmqltv40w" path="res://entities/pieces/piece_data/king.tres" id="4_j4n8i"]
+[ext_resource type="Resource" uid="uid://b6pv6bxw06tsx" path="res://entities/pieces/piece_data/knight.tres" id="5_3siwq"]
+[ext_resource type="Resource" uid="uid://1lt4jmafcnv3" path="res://entities/pieces/piece_data/pawn.tres" id="6_ds3ei"]
+[ext_resource type="Resource" uid="uid://btw6qfw2xk3i0" path="res://entities/pieces/piece_data/queen.tres" id="7_jjbiu"]
+[ext_resource type="Resource" uid="uid://b05he8bqc6e26" path="res://entities/pieces/piece_data/rook.tres" id="8_7f3jk"]
+
+[node name="Refs" type="Node"]
+script = ExtResource("1_26jja")
+tile_marker_scn = ExtResource("2_ainms")
+piece_base_scn = ExtResource("3_j4n8i")
+player_scn = ExtResource("4_3siwq")
+BISHOP = ExtResource("3_txyxd")
+KING = ExtResource("4_j4n8i")
+KNIGHT = ExtResource("5_3siwq")
+PAWN = ExtResource("6_ds3ei")
+QUEEN = ExtResource("7_jjbiu")
+ROOK = ExtResource("8_7f3jk")

@@ -1,12 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://b3upasuhwsrkm"]
+[gd_scene load_steps=3 format=3 uid="uid://b3upasuhwsrkm"]
 
 [ext_resource type="MeshLibrary" uid="uid://cwvi1ov8ydct7" path="res://assets/meshes/mesh_library_tiles.tres" id="1_bll7j"]
 [ext_resource type="Script" uid="uid://3ympm436juyq" path="res://entities/board/board.gd" id="1_m38ap"]
-[ext_resource type="PackedScene" uid="uid://l8xlrrql4hsu" path="res://entities/board/tile_marker.tscn" id="2_k7u3y"]
 
 [node name="Board" type="Node3D"]
 script = ExtResource("1_m38ap")
-tile_marker_scene = ExtResource("2_k7u3y")
 
 [node name="GridMap" type="GridMap" parent="."]
 mesh_library = ExtResource("1_bll7j")

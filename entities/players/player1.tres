@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="PlayerConfig" load_steps=8 format=3 uid="uid://bxmfjwjxaabut"]
+
+[ext_resource type="Script" uid="uid://eivkyyjgx2y0" path="res://entities/players/player_config.gd" id="1_iyq7x"]
+[ext_resource type="Resource" uid="uid://b05he8bqc6e26" path="res://entities/pieces/piece_data/rook.tres" id="1_rybaw"]
+[ext_resource type="Resource" uid="uid://b6pv6bxw06tsx" path="res://entities/pieces/piece_data/knight.tres" id="2_ph142"]
+[ext_resource type="Resource" uid="uid://dp8pa33rybvu3" path="res://entities/pieces/piece_data/bishop.tres" id="3_yeak5"]
+[ext_resource type="Resource" uid="uid://btw6qfw2xk3i0" path="res://entities/pieces/piece_data/queen.tres" id="4_7an7j"]
+[ext_resource type="Resource" uid="uid://dabegmqltv40w" path="res://entities/pieces/piece_data/king.tres" id="5_wmuad"]
+[ext_resource type="Resource" uid="uid://1lt4jmafcnv3" path="res://entities/pieces/piece_data/pawn.tres" id="6_y7w01"]
+
+[resource]
+script = ExtResource("1_iyq7x")
+player_id = 0
+skin = 0
+faction = 0
+board_placement = 0
+front_row = Array[Object]([ExtResource("6_y7w01"), ExtResource("6_y7w01"), ExtResource("6_y7w01"), ExtResource("6_y7w01"), ExtResource("6_y7w01"), ExtResource("6_y7w01"), ExtResource("6_y7w01"), ExtResource("6_y7w01")])
+back_row = Array[Object]([ExtResource("1_rybaw"), ExtResource("2_ph142"), ExtResource("3_yeak5"), ExtResource("4_7an7j"), ExtResource("5_wmuad"), ExtResource("3_yeak5"), ExtResource("2_ph142"), ExtResource("1_rybaw")])
+metadata/_custom_type_script = "uid://eivkyyjgx2y0"
