@@ -40,9 +40,9 @@ func spawn_row(
 		var piece_inst: Piece = piece_spawner.create_piece_instance(piece_res)
 		piece_inst.board_pos = Vector2i(file, rank)
 		piece_inst.move_piece_to_coord(board, piece_inst.board_pos)
+		add_child_piece(piece_inst, player_node)
 		var spawn_marker: TileMarker = board.get_marker(piece_inst.board_pos)
 		spawn_marker.register_occupant(piece_inst)
-		add_child_piece(piece_inst, player_node)
 
 func add_child_piece(piece_instance: Piece, _player_node: PlayerRoot) -> void:
 	var spawn_root: PlayerRoot = _player_node

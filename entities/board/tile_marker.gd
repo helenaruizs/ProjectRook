@@ -5,6 +5,7 @@ extends Node3D
 #signal marker_hovered(tile_marker: TileMarker, piece: Piece )
 #signal marker_hovered_out(tile_marker: TileMarker, piece: Piece)
 #signal marker_selected()
+@onready var debug_label: Label3D = $Label3D # TEST: Marker coord label for dubugging
 
 @onready var area3d: Area3D = $Area3D
 
@@ -231,16 +232,17 @@ func register_occupant(new_piece: Piece) -> void:
 	remove_condition(
 		Conditions.OCCUPIED |
 		Conditions.HAS_FRIEND |
+		Conditions.HAS_ENEMY |
 		Conditions.HAS_KING
 	)
 	
-	if occupant:
+	if new_piece != null:
 		add_condition(Conditions.OCCUPIED)
-		if occupant.alliance == Enums.Alliance.FRIEND:
+		if new_piece.alliance == Enums.Alliance.FRIEND:
 			add_condition(Conditions.HAS_FRIEND)
-		if occupant.alliance == Enums.Alliance.FOE:
+		if new_piece.alliance == Enums.Alliance.FOE:
 			add_condition(Conditions.HAS_ENEMY)
-		if occupant.type == Enums.PieceType.KING:
+		if new_piece.type == Enums.PieceType.KING:
 			add_condition(Conditions.HAS_KING)
 	
 	_check_state_and_apply()
@@ -259,3 +261,10 @@ func _on_hover_exit() -> void:
 func _on_marker_input_event(camera: Node, event: InputEvent, position: Vector3, normal: Vector3, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		SignalBus.emit_signal("marker_selected")
+
+
+#### DEBUG #####
+# TEST: Tile Marker Debug label function 
+func set_debug_label(text: String, show: bool = true) -> void:
+	debug_label.text = text
+	debug_label.visible = show

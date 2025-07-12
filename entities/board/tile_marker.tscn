@@ -60,3 +60,7 @@ mesh = SubResource("QuadMesh_wu26u")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0261143, 0)
 shape = SubResource("BoxShape3D_633x3")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.0305006, 0)
+text = "(9,9)"

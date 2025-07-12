@@ -49,8 +49,9 @@ func scan_tiles() -> void:
 	# then to_global turns that into a world‐space Vector3
 	for cell: Vector3i in used_cells:
 		min_z = min(min_z, cell.z) # Fix for the negative z value (continued)
+		var flipped_y: int = board_size - 1 - (cell.z - min_z)
 		# drop the Y axis—chess is flat
-		var coord2d := Vector2i(cell.x, cell.z - min_z)
+		var coord2d := Vector2i(cell.x, flipped_y)
 		# get world‐space pos
 		var local_pos: Vector3i = grid_map.map_to_local(cell)
 		var world_pos: Vector3 = grid_map.to_global(local_pos)
@@ -81,6 +82,9 @@ func spawn_markers() -> void:
 		marker.name = "Marker_%d_%d" % [coord.x, coord.y]
 		# store it for later lookups
 		tile_markers[coord] = marker
+		
+		# TEST: Debug label setup
+		marker.set_debug_label(str(coord), true)
 
 func get_marker(coord: Vector2i) -> TileMarker:
 	return tile_markers.get(coord, null)
