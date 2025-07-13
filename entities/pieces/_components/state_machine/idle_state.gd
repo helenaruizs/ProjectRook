@@ -2,7 +2,21 @@ class_name IdleState
 
 extends State
 
-#func enter() -> void:
+func enter() -> void:
+	piece.is_piece_hovered(false)
+	piece.is_piece_selected(false)
+	print("Idle")
+
+func handle_interaction(event_type: Enums.InteractionType) -> void:
+	match event_type:
+		Enums.InteractionType.SELECT:
+			machine.change_state(Enums.States.SELECTED)
+		Enums.InteractionType.HOVER_IN:
+			machine.change_state(Enums.States.HIGHLIGHTED)
+		Enums.InteractionType.HOVER_OUT:
+			pass
+		_:
+			pass
 	#if piece.moves.size() != 0:
 		#piece.moves = piece.movement.get_all_moves(piece.board_pos)
 	## If we re-entered Idle but the mouse is still over us,

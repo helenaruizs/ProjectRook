@@ -1,6 +1,5 @@
 extends Node
 
-# TODO: Signal/Event Bus is total placeholder atm
 
 # Piece signals
 signal piece_selected(piece: Piece)

@@ -50,6 +50,7 @@ func change_state(new_state: Enums.States) -> void:
 	current_state = get_node(next_state)
 	previous_state.exit()
 	current_state.enter()
+	piece.update_visuals(new_state)
 	# TEST: Printing marker info for debug
 	#print(piece.board.active_piece)
 	#print(piece.board.active_markers)
@@ -71,6 +72,6 @@ func _input(event: InputEvent) -> void:
 		current_state.handle_input(event)
 
 
-func on_condition(cond: int) -> void:
+func handle_interaction_fsm(event_type: Enums.InteractionType) -> void:
 	# give your current state a chance to handle it
-	current_state.handle_condition(cond)
+	current_state.handle_interaction(event_type)

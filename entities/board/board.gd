@@ -91,8 +91,6 @@ func get_marker(coord: Vector2i) -> TileMarker:
 
 func get_world_position(column: int, row: int) -> Vector3:
 	var key := Vector2i(column, row)
-	print("TILE GRID KEYS:", tile_grid_positions.keys())
-	print("LOOKUP KEY:", key)
 	return tile_grid_positions.get(key, Vector3.ZERO) # NOTE: Safe lookup, the method get() is used in case there is no key in the dict
 
 

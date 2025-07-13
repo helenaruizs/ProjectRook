@@ -15,6 +15,7 @@ enum InteractionType {
 	DRAG,
 	RELEASE,
 	SECONDARY_ACTION, # right-click
+	DESELECT,
 }
 
 enum States {

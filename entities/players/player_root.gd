@@ -6,14 +6,17 @@ var player_config: PlayerConfig
 var player_color: Enums.FactionColor
 var player_skin: SkinResource.SkinNames
 
+var current_selected_piece : Piece = null
+
 @export var pieces_container: Node3D
 
 func _ready() -> void:
-	await owner
+	await owner	
 	if player_config:
 		player_color = player_config.faction
 		player_skin = player_config.skin
 	
+	SignalBus.piece_selected.connect(self.set_selected_piece)
 	
 ### PUBLIC ####
 
@@ -36,3 +39,10 @@ func clear_pieces() -> void:
 	for piece_node in placed_pieces:
 		if piece_node is Node:
 			piece_node.queue_free()
+			
+func set_selected_piece(piece: Piece) -> void:
+	print("SIGNAL RECEIVED")
+	if current_selected_piece != piece:
+		if current_selected_piece:
+			current_selected_piece.desselect()
+		current_selected_piece = piece
