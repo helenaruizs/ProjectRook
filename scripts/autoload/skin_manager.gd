@@ -3,28 +3,11 @@ extends Node
 # drop any new .tres into this folder and it just works.
 @export_dir var skin_dir: String = "res://resources/skins/"
 
-const BISHOP = preload("res://entities/pieces/bishop/bishop.tscn")
-const KING = preload("res://entities/pieces/king/king.tscn")
-const KNIGHT = preload("res://entities/pieces/knight/knight.tscn")
-const PAWN = preload("res://entities/pieces/pawn/pawn.tscn")
-const QUEEN = preload("res://entities/pieces/queen/queen.tscn")
-const ROOK = preload("res://entities/pieces/rook/rook.tscn")
-
-var pieces : Dictionary[Enums.PieceType, PackedScene] = {
-	Enums.PieceType.BISHOP : BISHOP,
-	Enums.PieceType.KING : KING,
-	Enums.PieceType.KNIGHT : KNIGHT,
-	Enums.PieceType.PAWN : PAWN,
-	Enums.PieceType.QUEEN : QUEEN,
-	Enums.PieceType.ROOK : ROOK,
-}
-
 # Internal lookup: (SkinNames, FactionColor) → SkinResource
 var skins: Dictionary[Vector2, SkinResource] = {}
 
 func _ready() -> void:
 	_load_all_skins()
-	print("Loaded piece scenes:", pieces)
 	
 func _load_all_skins() -> void:
 	skins.clear()  # start fresh
@@ -75,8 +58,3 @@ func get_texture(
 		return skin_res.get_texture_for(piece_type)
 	# Otherwise, no texture available
 	return null
-
-
-func get_piece(piece: Enums.PieceType) -> PackedScene :
-	var key: int = piece
-	return pieces.get(key, null)

@@ -12,9 +12,14 @@
 script = ExtResource("2_2h1hi")
 metadata/_custom_type_script = "uid://1bwk1v2c052q"
 
-[node name="Piece" type="Node3D" groups=["piece"]]
+[node name="Piece" type="Node3D" node_paths=PackedStringArray("visuals", "movement", "stats", "modifiers", "state_machine") groups=["piece"]]
 script = ExtResource("1_m7oub")
 config = SubResource("Resource_d613a")
+visuals = NodePath("VisualsComponent")
+movement = NodePath("MovementComponent")
+stats = NodePath("StatsComponent")
+modifiers = NodePath("ModifiersComponent")
+state_machine = NodePath("StateMachine")
 
 [node name="MovementComponent" type="Node" parent="."]
 script = ExtResource("4_54wly")

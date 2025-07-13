@@ -8,6 +8,14 @@ enum Conditions {
 	SELECTED,
 }
 
+enum InteractionType {
+	SELECT,
+	HOVER_IN,
+	HOVER_OUT,
+	DRAG,
+	RELEASE,
+	SECONDARY_ACTION, # right-click
+}
 
 enum States {
 	IDLE,

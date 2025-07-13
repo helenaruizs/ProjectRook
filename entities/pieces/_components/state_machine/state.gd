@@ -45,3 +45,17 @@ func state_process(delta: float) -> void:
 # Condition handler, signal based
 func handle_condition(cond: Enums.Conditions) -> void:
 	pass
+
+
+func handle_interaction(event_type: Enums.InteractionType) -> void:
+	pass
+	#match event_type:
+		#Enums.InteractionType.SELECT:
+			#print("Piece selected: %s" % [self.name])
+			#SignalBus.emit_signal("piece_selected", self)
+		#Enums.InteractionType.HOVER_IN:
+			#print("Piece hovered: %s" % [self.name])
+			#piece.is_hovered = true
+		#Enums.InteractionType.HOVER_OUT:
+			#print("Piece UN-hovered: %s" % [self.name])
+			#piece.is_hovered = false

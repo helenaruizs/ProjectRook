@@ -52,6 +52,7 @@ func add_child_piece(piece_instance: Piece, _player_node: PlayerRoot) -> void:
 	var skin: SkinResource.SkinNames = spawn_root.get_player_skin()
 	piece_instance.set_player_colors(color, skin)
 	piece_instance.set_team(_player_node.player_config.alliance)
+	piece_instance.initialize_visuals()
 
 
 func get_players() -> Array[PlayerRoot]:

@@ -4,8 +4,15 @@ extends Node3D
 
 @export var config: PieceResource
 
-var color : Enums.FactionColor
+@export_subgroup("Basic Nodes Setup")
+@export var visuals : VisualsComponent
+@export var movement : MovementComponent
+@export var stats : StatsComponent
+@export var modifiers : ModifiersComponent
+@export var state_machine : StateMachine
+
 var skin: SkinResource.SkinNames
+var color : Enums.FactionColor
 var type: Enums.PieceType:
 	get:
 		return config.piece_data.type
@@ -21,6 +28,8 @@ var moves_cache:= {}
 var moves_dirty: bool = false
 var has_moved: bool = false # used for the pawns
 
+
+
 func set_config(_config: PieceResource) -> void:
 	config = _config
 
@@ -31,13 +40,26 @@ func set_player_colors(player_color: Enums.FactionColor, player_skin: SkinResour
 func set_team(player_alliance: Enums.Alliance) -> void:
 	alliance = player_alliance
 
+func initialize_visuals() -> void:
+	visuals.get_texture_from_data(skin, color, type)
+
 func move_piece_to_marker(marker: TileMarker) -> void:
 	self.position = marker.position
-
 
 func move_piece_to_coord(board: Board, coord: Vector2i) -> void:
 	self.position = board.get_world_position(coord.x, coord.y)
 
+func handle_tile_input(event_type: Enums.InteractionType, tile: TileMarker) -> void:
+	match event_type:
+		Enums.InteractionType.SELECT:
+			print("Piece selected: %s" % [self.name])
+			SignalBus.emit_signal("piece_selected", self)
+		Enums.InteractionType.HOVER_IN:
+			print("Piece hovered: %s" % [self.name])
+			is_hovered = true
+		Enums.InteractionType.HOVER_OUT:
+			print("Piece UN-hovered: %s" % [self.name])
+			is_hovered = false
 #
 #signal piece_hovered(piece: Piece, board_pos: Vector2i, moves: Dictionary)
 #signal piece_hovered_exit()
