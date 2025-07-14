@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="MovementShapeResource" load_steps=2 format=3 uid="uid://ct2du3yhda7r6"]
+
+[ext_resource type="Script" uid="uid://b57h6b7iuykkg" path="res://entities/pieces/_resources/movement_shapes/movement_shape_resource.gd" id="1_8rspa"]
+
+[resource]
+script = ExtResource("1_8rspa")
+name = "Knight L-Shape"
+steps = Array[int]([0, 0, 3])
+metadata/_custom_type_script = "uid://b57h6b7iuykkg"

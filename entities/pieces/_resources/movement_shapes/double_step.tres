@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="MovementShapeResource" load_steps=2 format=3 uid="uid://dducv0cr0yiip"]
+
+[ext_resource type="Script" uid="uid://b57h6b7iuykkg" path="res://entities/pieces/_resources/movement_shapes/movement_shape_resource.gd" id="1_uj36q"]
+
+[resource]
+script = ExtResource("1_uj36q")
+name = "Double Step"
+steps = Array[int]([0, 0])
+metadata/_custom_type_script = "uid://b57h6b7iuykkg"

@@ -20,27 +20,40 @@ var type: Enums.PieceType:
 var board_pos: Vector2i
 var alliance: Enums.Alliance
 
-var is_hovered: bool = false
-var is_selected: bool = false
+var hovered: bool = false
+var selected: bool = false
 
-var interactable: bool = true
+var player_controlled: bool = false
+
 
 # Status tracking variables
 var moves_cache:= {}
-var moves_dirty: bool = false
+var moves_dirty: bool = true
 var has_moved: bool = false # used for the pawns
 
+var player_root: PlayerRoot
 
 
 func set_config(_config: PieceResource) -> void:
 	config = _config
 
+func initial_setup(_player_root: PlayerRoot, player_color: Enums.FactionColor, player_skin: SkinResource.SkinNames, player_alliance: Enums.Alliance, _board: Board) -> void:
+	set_player_colors(player_color, player_skin)
+	set_team(player_alliance)
+	set_movement_component(_board)
+	initialize_visuals()
+	player_root = _player_root
+	
 func set_player_colors(player_color: Enums.FactionColor, player_skin: SkinResource.SkinNames) -> void:
 	color = player_color
 	skin = player_skin
 
 func set_team(player_alliance: Enums.Alliance) -> void:
 	alliance = player_alliance
+
+func set_movement_component(_board: Board) -> void:
+	movement.get_board(_board)
+	movement.get_move_data(config.movement_data)
 
 func initialize_visuals() -> void:
 	visuals.get_texture_from_data(skin, color, type)
@@ -56,30 +69,33 @@ func move_piece_to_coord(board: Board, coord: Vector2i) -> void:
 
 func handle_tile_input(event_type: Enums.InteractionType, tile: TileMarker) -> void:
 	state_machine.handle_interaction_fsm(event_type)
-	#match event_type:
-		#Enums.InteractionType.SELECT:
-			#print("Piece selected: %s" % [self.name])
-			#SignalBus.emit_signal("piece_selected", self)
-		#Enums.InteractionType.HOVER_IN:
-			#print("Piece hovered: %s" % [self.name])
-			#is_hovered = true
-		#Enums.InteractionType.HOVER_OUT:
-			#print("Piece UN-hovered: %s" % [self.name])
-			#is_hovered = false
+	SignalBus.emit_signal("piece_input", event_type, self)
 
-func is_piece_hovered(answer: bool) -> void:
-	is_hovered = answer
+func is_hovered(answer: bool) -> void:
+	hovered = answer
 
-func is_piece_selected(answer: bool) -> void:
-	is_selected = answer
+func is_selected(answer: bool) -> void:
+	selected = answer
 
 func desselect() -> void:
-	print("Desselected function triggered")
-	is_selected = false
+	selected = false
 	state_machine.handle_interaction_fsm(Enums.InteractionType.DESELECT)
-	
-func is_interactable(answer: bool) -> void:
-	interactable = answer
+
+func set_player_controlled(answer: bool) -> void:
+	player_controlled = answer
+
+func is_friend(reference_alliance: Enums.Alliance) -> bool:
+	return alliance == reference_alliance
+
+func get_forward_dir() -> Vector2i:
+	return player_root.get_forward_dir()
+
+func get_moves() -> Dictionary:
+	if moves_dirty:
+		moves_cache = movement.get_all_moves(board_pos)
+		moves_dirty = false
+	return moves_cache
+
 
 #signal piece_hovered(piece: Piece, board_pos: Vector2i, moves: Dictionary)
 #signal piece_hovered_exit()

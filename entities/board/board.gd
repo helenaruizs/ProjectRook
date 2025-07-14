@@ -10,7 +10,6 @@ var piece_spawner: PieceSpawner
 var players: Players
 var teams: Dictionary[Enums.Alliance, Array] = {} # alliance_id -> Array[PlayerConfig]
 
-var active_piece: Piece = null
 
 # Stores each cell’s grid‐coord → true world‐space origin
 var tile_grid_positions: Dictionary[Vector2i, Vector3] = {}
@@ -21,10 +20,18 @@ var tile_markers: Dictionary[Vector2i, TileMarker] = {}
 # Stores which piece is in which tile, needs to be updated whenever pieces spawn or move
 var piece_map: Dictionary[Vector2i, Piece] = {}
 
-var active_markers: Array[TileMarker]
+var selected_piece: Piece = null
+var active_markers: Array[TileMarker] = []
+var hover_markers: Dictionary = {}
 
 func _ready() -> void:
 	tile_marker_scene = Refs.tile_marker_scn
+	SignalBus.piece_input.connect(self.on_piece_input)
+	#SignalBus.piece_selected.connect(self.on_piece_selected)
+	#SignalBus.piece_deselected.connect(self.on_piece_deselected)
+	#SignalBus.piece_hovered.connect(self.on_piece_hovered)
+	#SignalBus.piece_hovered_out.connect(self.on_piece_hovered_out)
+	#SignalBus.piece_moves_list.connect(self.get_moves_markers)
 
 
 
@@ -127,6 +134,165 @@ func register_teams(player_configs: Array[PlayerConfig]) -> void:
 			teams[player.alliance] = []
 		teams[player.alliance].append(player)
 
+
+#### MOVEMENT HELPERS #####
+func has_tile(pos: Vector2i) -> bool:
+	return tile_grid_positions.has(pos)
+
+func has_marker(marker: TileMarker) -> bool:
+	return active_markers.has(marker)
+
+func has_piece_at(pos: Vector2i) -> bool:
+	return piece_map.has(pos)
+
+func get_piece_at(pos: Vector2i) -> Piece:
+	return piece_map.get(pos, null)
+
+func is_tile_occupied(pos: Vector2i) -> bool:
+	return piece_map.has(pos)
+
+func get_markers_from_moves(moves: Dictionary) -> Dictionary:
+	var move_targets_pos: Array[Vector2i] = moves.get("move_targets", [])
+	var attack_targets_pos: Array[Vector2i] = moves.get("attack_targets", [])
+	var paths_pos: Array[Vector2i] = moves.get("paths", [])
+	
+	var move_target_markers: Array[TileMarker] = []
+	var attack_target_markers: Array[TileMarker] = []
+	var path_markers: Array[TileMarker] = []
+
+	for marker_pos: Vector2i in move_targets_pos:
+		var marker: TileMarker = get_marker(marker_pos)
+		if marker:
+			move_target_markers.append(marker)
+
+	for marker_pos: Vector2i in attack_targets_pos:
+		var marker: TileMarker = get_marker(marker_pos)
+		if marker:
+			attack_target_markers.append(marker)
+
+	for marker_pos: Vector2i in paths_pos:
+		var marker: TileMarker = get_marker(marker_pos)
+		if marker:
+			path_markers.append(marker)
+	
+	return {
+		"paths": path_markers,
+		"move_targets": move_target_markers,
+		"attack_targets": attack_target_markers
+	}
+
+
+func add_marker_conditions(markers: Array, condition: int, skip_markers: Array = []) -> void:
+	for marker: TileMarker in markers:
+		if marker and not skip_markers.has(marker):
+			marker.add_condition(condition)
+			marker._check_state_and_apply()
+			
+func remove_marker_conditions(markers: Array, condition: int, skip_markers: Array = []) -> void:
+	for marker: TileMarker in markers:
+		if marker and not skip_markers.has(marker):
+			marker.remove_condition(condition)
+			marker._check_state_and_apply()
+
+func on_piece_input(event_type: Enums.InteractionType, piece: Piece) -> void:
+	var moves: Dictionary = piece.get_moves()
+	var markers_dict: Dictionary = get_markers_from_moves(moves)
+	
+	match event_type:
+		Enums.InteractionType.HOVER_IN:
+			print("Interaction hover in")
+			add_marker_conditions(markers_dict.get("paths", []), TileMarker.Conditions.PATH, active_markers)
+			add_marker_conditions(markers_dict.get("move_targets", []), TileMarker.Conditions.TARGET, active_markers)
+			add_marker_conditions(markers_dict.get("attack_targets", []), TileMarker.Conditions.ATTACK_TARGET, active_markers)
+		Enums.InteractionType.HOVER_OUT:
+			print("Interaction hover out")
+			remove_marker_conditions(markers_dict.get("paths", []), TileMarker.Conditions.PATH, active_markers)
+			remove_marker_conditions(markers_dict.get("move_targets", []), TileMarker.Conditions.TARGET, active_markers)
+			remove_marker_conditions(markers_dict.get("attack_targets", []), TileMarker.Conditions.ATTACK_TARGET, active_markers)
+		Enums.InteractionType.SELECT:
+			# Apply "selected" conditions
+			add_marker_conditions(markers_dict.get("paths", []), TileMarker.Conditions.PATH)
+			add_marker_conditions(markers_dict.get("move_targets", []), TileMarker.Conditions.TARGET)
+			add_marker_conditions(markers_dict.get("attack_targets", []), TileMarker.Conditions.ATTACK_TARGET)
+
+			# Now store these markers as active
+			active_markers.clear()
+			for array: Array in markers_dict.values():
+				for marker: TileMarker in array:
+					if marker and not active_markers.has(marker):
+						active_markers.append(marker)
+			selected_piece = piece
+
+		Enums.InteractionType.DESELECT:
+			print("DESELECTED")
+			if selected_piece:
+				selected_piece = null
+		_:
+			pass
+
+
+func on_piece_hovered(piece: Piece) -> void:
+	var moves: Dictionary = piece.get_moves()
+	
+	var markers_dict: Dictionary = get_markers_from_moves(moves)
+	
+	add_marker_conditions(markers_dict.get("paths", []), TileMarker.Conditions.PATH, active_markers)
+	add_marker_conditions(markers_dict.get("move_targets", []), TileMarker.Conditions.TARGET, active_markers)
+	add_marker_conditions(markers_dict.get("attack_targets", []), TileMarker.Conditions.ATTACK_TARGET, active_markers)
+
+	hover_markers = markers_dict
+
+func on_piece_hovered_out(piece: Piece) -> void:
+	if not hover_markers.is_empty():
+		clear_hover_markers()
+
+func on_piece_selected(piece: Piece) -> void:
+	clear_active_markers()
+	var moves: Dictionary = piece.get_moves()
+	var markers_dict: Dictionary = get_markers_from_moves(moves)
+	
+	# Apply "selected" conditions
+	add_marker_conditions(markers_dict.get("paths", []), TileMarker.Conditions.PATH)
+	add_marker_conditions(markers_dict.get("move_targets", []), TileMarker.Conditions.TARGET)
+	add_marker_conditions(markers_dict.get("attack_targets", []), TileMarker.Conditions.ATTACK_TARGET)
+
+	# Now store these markers as active
+	active_markers.clear()
+	for array: Array in markers_dict.values():
+		for marker: TileMarker in array:
+			if marker and not active_markers.has(marker):
+				active_markers.append(marker)
+	selected_piece = piece
+
+
+func on_piece_deselected(piece: Piece) -> void:
+	print("DESELECTED")
+	if selected_piece:
+		var moves: Dictionary = selected_piece.get_moves()
+		var markers_dict: Dictionary = get_markers_from_moves(moves)
+		selected_piece = null
+	clear_active_markers()
+	
+	
+func clear_hover_markers() -> void:
+	for array: Array in hover_markers.values():
+		for marker: TileMarker in array:
+			if marker and not active_markers.has(marker):
+				# Remove hover-specific conditions
+				marker.remove_condition(TileMarker.Conditions.TARGET)
+				marker.remove_condition(TileMarker.Conditions.ATTACK_TARGET)
+				marker.remove_condition(TileMarker.Conditions.PATH)
+				marker._check_state_and_apply()
+	hover_markers.clear()
+
+func clear_active_markers() -> void:
+	for marker in active_markers:
+		# Remove all active-specific conditions
+		marker.remove_condition(TileMarker.Conditions.TARGET)
+		marker.remove_condition(TileMarker.Conditions.ATTACK_TARGET)
+		marker.remove_condition(TileMarker.Conditions.PATH)
+		marker._check_state_and_apply()
+	active_markers.clear()
 #var hovered_piece_markers: Array[TileMarker] = []
 #
 #

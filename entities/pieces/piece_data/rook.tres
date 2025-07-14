@@ -7,7 +7,7 @@
 [sub_resource type="Resource" id="Resource_euqwd"]
 script = ExtResource("1_djgee")
 style = 0
-pattern = 1
+pattern = 0
 length = 0
 metadata/_custom_type_script = "uid://cggsw8ay2gck6"
 

@@ -251,20 +251,21 @@ func register_occupant(new_piece: Piece) -> void:
 
 func _on_hover_enter() -> void:
 	hover_overlay.show()
-	if occupant:
+	if occupant and occupant.player_controlled:
 		occupant.handle_tile_input(Enums.InteractionType.HOVER_IN, self)
+		occupant.get_moves()
 	SignalBus.emit_signal("marker_hovered", self)
 
 func _on_hover_exit() -> void:
 	hover_overlay.hide()
-	if occupant:
+	if occupant and occupant.player_controlled:
 		occupant.handle_tile_input(Enums.InteractionType.HOVER_OUT, self)
 	SignalBus.emit_signal("marker_hovered_out", self)
 
 # this method signature matches the engine's signal:
 func _on_marker_input_event(camera: Node, event: InputEvent, position: Vector3, normal: Vector3, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
-		if occupant:
+		if occupant and occupant.player_controlled:
 			occupant.handle_tile_input(Enums.InteractionType.SELECT, self)
 		SignalBus.emit_signal("marker_selected", self)
 

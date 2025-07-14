@@ -95,9 +95,10 @@ enum Ranks {
 	_8,
 }
 
-enum Players {
-	PLAYER_1,
-	PLAYER_2
+enum PlayerType {
+	HUMAN,
+	NPC,
+	REMOTE,
 }
 
 enum Alliance {
@@ -123,9 +124,32 @@ enum Levels {
 	LEVEL_2,
 }
 
+enum Direction {
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT,
+	UP_LEFT,
+	UP_RIGHT,
+	DOWN_LEFT,
+	DOWN_RIGHT
+}
+
 static func enum_to_string(enum_dict: Dictionary, value: int) -> String:
 	for key : String in enum_dict.keys():
 		if enum_dict[key] == value:
 			return key
 	# fallback
 	return str(value)
+
+static func dir_to_vector(dir: Direction) -> Vector2i:
+	match dir:
+		Direction.UP: return Vector2i(0, 1)
+		Direction.DOWN: return Vector2i(0, -1)
+		Direction.LEFT: return Vector2i(-1, 0)
+		Direction.RIGHT: return Vector2i(1, 0)
+		Direction.UP_LEFT: return Vector2i(-1, 1)
+		Direction.UP_RIGHT: return Vector2i(1, 1)
+		Direction.DOWN_LEFT: return Vector2i(-1, -1)
+		Direction.DOWN_RIGHT: return Vector2i(1, -1)
+		_: return Vector2i(0, 0)

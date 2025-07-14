@@ -1,14 +1,16 @@
-[gd_resource type="Resource" script_class="PieceResource" load_steps=6 format=3 uid="uid://b6pv6bxw06tsx"]
+[gd_resource type="Resource" script_class="PieceResource" load_steps=7 format=3 uid="uid://b6pv6bxw06tsx"]
 
 [ext_resource type="Script" uid="uid://cggsw8ay2gck6" path="res://entities/pieces/_resources/movement_data.gd" id="1_ihi2f"]
+[ext_resource type="Resource" uid="uid://ct2du3yhda7r6" path="res://entities/pieces/_resources/movement_shapes/knight_L.tres" id="2_abu0f"]
 [ext_resource type="Script" uid="uid://dl6v2rg4hl6oh" path="res://entities/pieces/_resources/piece_basic_data.gd" id="2_lmfjx"]
 [ext_resource type="Script" uid="uid://1bwk1v2c052q" path="res://entities/pieces/_resources/piece_resource.gd" id="3_abu0f"]
 
 [sub_resource type="Resource" id="Resource_ihi2f"]
 script = ExtResource("1_ihi2f")
 style = 1
-pattern = 2
+pattern = 3
 length = 1
+shape_resource = ExtResource("2_abu0f")
 metadata/_custom_type_script = "uid://cggsw8ay2gck6"
 
 [sub_resource type="Resource" id="Resource_lmfjx"]

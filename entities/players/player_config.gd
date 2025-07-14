@@ -2,7 +2,7 @@ class_name PlayerConfig
 
 extends Resource
 
-@export var player_id : Enums.Players
+@export var player_type : Enums.PlayerType
 
 @export var alliance: Enums.Alliance
 

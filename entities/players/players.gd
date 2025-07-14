@@ -50,9 +50,10 @@ func add_child_piece(piece_instance: Piece, _player_node: PlayerRoot) -> void:
 	pieces_container.add_child(piece_instance)
 	var color: Enums.FactionColor = spawn_root.get_player_color()
 	var skin: SkinResource.SkinNames = spawn_root.get_player_skin()
-	piece_instance.set_player_colors(color, skin)
-	piece_instance.set_team(_player_node.player_config.alliance)
-	piece_instance.initialize_visuals()
+	var alliance: Enums.Alliance = spawn_root.get_player_alliance()
+	piece_instance.initial_setup(spawn_root, color, skin, alliance, board, )
+	if _player_node.player_type == Enums.PlayerType.HUMAN:
+		piece_instance.set_player_controlled(true)
 
 
 func get_players() -> Array[PlayerRoot]:

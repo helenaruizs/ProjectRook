@@ -3,20 +3,21 @@ class_name SelectedState
 extends State
 
 func enter() -> void:
-	print("Selected")
-	piece.is_piece_selected(true)
 	SignalBus.emit_signal("piece_selected", piece)
+	piece.is_selected(true)
 
 
 func handle_interaction(event_type: Enums.InteractionType) -> void:
 	match event_type:
 		Enums.InteractionType.SELECT:
+			SignalBus.emit_signal("piece_hovered", piece)
 			machine.change_state(Enums.States.HIGHLIGHTED)
 		Enums.InteractionType.HOVER_IN:
 			pass
 		Enums.InteractionType.HOVER_OUT:
 			pass
 		Enums.InteractionType.DESELECT:
+			SignalBus.emit_signal("piece_deselected", piece)
 			machine.change_state(Enums.States.IDLE)
 		_:
 			pass

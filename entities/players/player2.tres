@@ -10,7 +10,7 @@
 
 [resource]
 script = ExtResource("1_jxdn2")
-player_id = 1
+player_type = 1
 alliance = 1
 skin = 0
 faction = 1
