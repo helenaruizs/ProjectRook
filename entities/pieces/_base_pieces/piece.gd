@@ -69,7 +69,7 @@ func move_piece_to_coord(board: Board, coord: Vector2i) -> void:
 
 func handle_tile_input(event_type: Enums.InteractionType, tile: TileMarker) -> void:
 	state_machine.handle_interaction_fsm(event_type)
-	SignalBus.emit_signal("piece_input", event_type, self)
+	#SignalBus.emit_signal("piece_input", event_type, self)
 
 func set_hovered(answer: bool) -> void:
 	hovered = answer
