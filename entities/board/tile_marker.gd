@@ -266,6 +266,9 @@ func _on_hover_exit() -> void:
 func _on_marker_input_event(camera: Node, event: InputEvent, position: Vector3, normal: Vector3, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		if occupant and occupant.player_controlled:
+			if occupant.is_selected():
+				occupant.handle_tile_input(Enums.InteractionType.DESELECT, self)
+				return
 			occupant.handle_tile_input(Enums.InteractionType.SELECT, self)
 		SignalBus.emit_signal("marker_selected", self)
 

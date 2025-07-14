@@ -3,7 +3,7 @@ class_name HighlightedState
 extends State
 
 func enter() -> void:
-	piece.is_hovered(true)
+	piece.set_hovered(true)
 #
 #func exit() -> void:
 	##piece.emit_signal("piece_hovered_exit", piece, piece.board_pos, piece.moves)

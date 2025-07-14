@@ -4,7 +4,7 @@ extends State
 
 func enter() -> void:
 	SignalBus.emit_signal("piece_selected", piece)
-	piece.is_selected(true)
+	piece.set_selected(true)
 
 
 func handle_interaction(event_type: Enums.InteractionType) -> void:
@@ -17,7 +17,6 @@ func handle_interaction(event_type: Enums.InteractionType) -> void:
 		Enums.InteractionType.HOVER_OUT:
 			pass
 		Enums.InteractionType.DESELECT:
-			SignalBus.emit_signal("piece_deselected", piece)
 			machine.change_state(Enums.States.IDLE)
 		_:
 			pass

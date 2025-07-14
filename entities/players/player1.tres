@@ -10,7 +10,7 @@
 
 [resource]
 script = ExtResource("1_iyq7x")
-player_id = 0
+player_type = 0
 alliance = 0
 skin = 0
 faction = 0

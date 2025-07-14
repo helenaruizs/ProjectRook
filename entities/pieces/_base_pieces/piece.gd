@@ -71,11 +71,17 @@ func handle_tile_input(event_type: Enums.InteractionType, tile: TileMarker) -> v
 	state_machine.handle_interaction_fsm(event_type)
 	SignalBus.emit_signal("piece_input", event_type, self)
 
-func is_hovered(answer: bool) -> void:
+func set_hovered(answer: bool) -> void:
 	hovered = answer
+	
+func is_hovered() -> bool:
+	return hovered
 
-func is_selected(answer: bool) -> void:
+func set_selected(answer: bool) -> void:
 	selected = answer
+
+func is_selected() -> bool:
+	return selected
 
 func desselect() -> void:
 	selected = false
