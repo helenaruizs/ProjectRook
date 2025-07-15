@@ -119,9 +119,9 @@ func get_all_moves(origin: Vector2i) -> Dictionary:
 						break
 					move_targets.append(pos)
 	return {
-		"paths": paths,
-		"move_targets": move_targets,
-		"attack_targets": attack_targets
+		Enums.HighlightType.PATH: paths,
+		Enums.HighlightType.MOVE: move_targets,
+		Enums.HighlightType.ATTACK: attack_targets
 	}
 	## 1) Knights (L-shape) are a special case
 	#if piece.move_pattern == Enums.MovePattern.L_SHAPE:

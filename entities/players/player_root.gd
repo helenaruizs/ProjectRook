@@ -19,7 +19,7 @@ func _ready() -> void:
 		player_color = player_config.faction
 		player_skin = player_config.skin
 	
-	SignalBus.piece_selected.connect(self.set_selected_piece)
+	SignalBus.piece_select.connect(self.set_selected_piece)
 	
 ### PUBLIC ####
 

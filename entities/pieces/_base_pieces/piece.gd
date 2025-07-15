@@ -68,6 +68,7 @@ func move_piece_to_coord(board: Board, coord: Vector2i) -> void:
 	self.position = board.get_world_position(coord.x, coord.y)
 
 func handle_tile_input(event_type: Enums.InteractionType, tile: TileMarker) -> void:
+	cache_moves()
 	state_machine.handle_interaction_fsm(event_type)
 	#SignalBus.emit_signal("piece_input", event_type, self)
 
@@ -96,12 +97,15 @@ func is_friend(reference_alliance: Enums.Alliance) -> bool:
 func get_forward_dir() -> Vector2i:
 	return player_root.get_forward_dir()
 
-func get_moves() -> Dictionary:
+
+func cache_moves() -> void:
 	if moves_dirty:
+		moves_cache.clear()
 		moves_cache = movement.get_all_moves(board_pos)
 		moves_dirty = false
-	return moves_cache
 
+func get_moves_cache() -> Dictionary:
+	return moves_cache
 
 #signal piece_hovered(piece: Piece, board_pos: Vector2i, moves: Dictionary)
 #signal piece_hovered_exit()

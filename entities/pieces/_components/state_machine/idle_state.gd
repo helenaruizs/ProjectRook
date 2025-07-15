@@ -3,19 +3,18 @@ class_name IdleState
 extends State
 
 func enter() -> void:
-	piece.set_hovered(false)
-	piece.set_selected(false)
+	pass
 
 func handle_interaction(event_type: Enums.InteractionType) -> void:
 	match event_type:
 		Enums.InteractionType.SELECT:
-			SignalBus.emit_signal("piece_input", Enums.InteractionType.SELECT, piece)
+			SignalBus.emit_signal("piece_select", piece)
 			machine.change_state(Enums.States.SELECTED)
 		Enums.InteractionType.HOVER_IN:
-			SignalBus.emit_signal("piece_input", Enums.InteractionType.HOVER_IN, piece)
+			SignalBus.emit_signal("piece_hover", piece)
 			machine.change_state(Enums.States.HIGHLIGHTED)
 		Enums.InteractionType.HOVER_OUT:
-			SignalBus.emit_signal("piece_input", Enums.InteractionType.HOVER_OUT, piece)
+			SignalBus.emit_signal("piece_hover_out", piece)
 		_:
 			pass
 	#if piece.moves.size() != 0:

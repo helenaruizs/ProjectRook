@@ -18,6 +18,17 @@ enum InteractionType {
 	DESELECT,
 }
 
+enum HighlightType {
+	NONE,
+	MOVE,
+	ATTACK,
+	SELECTED,
+	PATH,
+	CHECK,
+	ENEMY,
+	FRIEND,
+}
+
 enum States {
 	IDLE,
 	HIGHLIGHTED,

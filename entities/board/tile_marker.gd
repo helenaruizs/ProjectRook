@@ -139,47 +139,56 @@ var occupant: Piece = null   # ← who sits on this tile, if any
 
 
 @export_category("Materials")
-@export var mat_normal: Material
-@export var mat_available: Material
-@export var mat_blocked: Material
-@export var mat_has_active_piece: Material
-@export var mat_move_path: Material
-@export var mat_move_target: Material
+@export var mat_move: Material
+@export var mat_path: Material
+@export var mat_attack: Material
+@export var mat_check: Material
 @export var mat_has_enemy: Material
-@export var mat_has_player: Material
-@export var mat_has_objective: Material
-@export var mat_has_enemy_king: Material
-@export var mat_has_player_king: Material
-@export var mat_attack_target: Material
+@export var mat_has_friend: Material
 
 # FIXME: This state to material is overkill, leaving it for now for testing
 # Build a lookup once
-@onready var _materials: Dictionary = {
-	Enums.TileStates.NORMAL: mat_normal,
-	Enums.TileStates.AVAILABLE: mat_available,
-	Enums.TileStates.BLOCKED: mat_blocked,
-	Enums.TileStates.HAS_ACTIVE_PIECE: mat_has_active_piece,
-	Enums.TileStates.MOVE_PATH: mat_move_path,
-	Enums.TileStates.MOVE_TARGET: mat_move_target,
-	Enums.TileStates.HAS_ENEMY: mat_has_enemy,
-	Enums.TileStates.HAS_FRIEND: mat_has_player,
-	Enums.TileStates.OBJECTIVE: mat_has_objective,
-	Enums.TileStates.HAS_ENEMY_KING: mat_has_enemy_king,
-	Enums.TileStates.HAS_PLAYER_KING: mat_has_player_king,
-	Enums.TileStates.ATTACK_TARGET: mat_attack_target,
+@onready var highlight_materials: Dictionary = {
+	Enums.HighlightType.PATH: mat_path,
+	Enums.HighlightType.ATTACK: mat_attack,
+	Enums.HighlightType.MOVE: mat_move,
+	Enums.HighlightType.CHECK: mat_check,
+	Enums.HighlightType.ENEMY: mat_has_enemy,
+	Enums.HighlightType.FRIEND: mat_has_friend,
 }
 
 var board : Board
 
+
+
 func _ready() -> void:
-	board = get_parent()
 	area3d.input_ray_pickable = true
 	area3d.mouse_entered.connect(_on_hover_enter)
 	area3d.mouse_exited.connect(_on_hover_exit)
 	area3d.input_event.connect(_on_marker_input_event)
-	_check_state_and_apply()
+	#_check_state_and_apply()
 	
+
+#### VISUAL STATES #####
+
+func apply_tile_highlight(highlight_type: Enums.HighlightType) -> void:
+	if highlight_type == Enums.HighlightType.NONE:
+		mesh.material_override = null
+		mesh.hide()
+		return
 	
+	var _material: Material = highlight_materials.get(highlight_type, null)
+	
+	if _material:
+		mesh.material_override = _material
+		mesh.show()
+	
+	else:
+		mesh.material_override = null
+		mesh.hide()
+		push_warning("No material assigned for highlight type: %s" % [highlight_type])
+
+
 # Condition Helpers
 
 
@@ -219,7 +228,6 @@ func _trigger_state(state: Enums.TileStates) -> void:
 		mesh.hide()
 	else:
 		mesh.show()
-		mesh.material_override = _materials.get(state, mat_normal)
 		#
 
 #### PUBLIC ######
@@ -252,13 +260,15 @@ func register_occupant(new_piece: Piece) -> void:
 func _on_hover_enter() -> void:
 	hover_overlay.show()
 	if occupant and occupant.player_controlled:
+		occupant.set_hovered(true)
 		occupant.handle_tile_input(Enums.InteractionType.HOVER_IN, self)
-		occupant.get_moves()
+		#occupant.get_moves_cache()
 	SignalBus.emit_signal("marker_hovered", self)
 
 func _on_hover_exit() -> void:
 	hover_overlay.hide()
 	if occupant and occupant.player_controlled:
+		occupant.set_hovered(false)
 		occupant.handle_tile_input(Enums.InteractionType.HOVER_OUT, self)
 	SignalBus.emit_signal("marker_hovered_out", self)
 
