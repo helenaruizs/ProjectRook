@@ -9,14 +9,12 @@ func enter() -> void:
 func handle_interaction(event_type: Enums.InteractionType) -> void:
 	match event_type:
 		Enums.InteractionType.SELECT:
-			SignalBus.emit_signal("piece_deselect",piece)
 			machine.change_state(Enums.States.HIGHLIGHTED)
 		Enums.InteractionType.HOVER_IN:
-			SignalBus.emit_signal("piece_hover", piece)
+			pass
 		Enums.InteractionType.HOVER_OUT:
-			SignalBus.emit_signal("piece_hover_out", piece)
+			pass
 		Enums.InteractionType.DESELECT:
-			SignalBus.emit_signal("piece_deselect", piece)
 			machine.change_state(Enums.States.IDLE)
 		_:
 			pass

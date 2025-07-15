@@ -49,7 +49,7 @@ func clear_pieces() -> void:
 func set_selected_piece(piece: Piece) -> void:
 	if current_selected_piece != piece:
 		if current_selected_piece:
-			SignalBus.emit_signal("piece_deselect", current_selected_piece)
+			#SignalBus.emit_signal("piece_deselect", current_selected_piece)
 			current_selected_piece.desselect()
 		current_selected_piece = piece
 

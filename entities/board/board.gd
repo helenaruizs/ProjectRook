@@ -17,7 +17,7 @@ var piece_map: Dictionary[Vector2i, Piece] = {}
 # State
 var selected_piece: Piece = null
 var active_markers: Dictionary[Enums.HighlightType, Array] = {}
-var hover_markers: Array[TileMarker] = []
+var hover_markers: Dictionary[Enums.HighlightType, Array] = {}
 
 func _ready() -> void:
 	tile_marker_scene = Refs.tile_marker_scn
@@ -160,6 +160,8 @@ func get_piece_markers(moves: Dictionary, marker_type: Enums.HighlightType) -> A
 # ----------- MARKER CONDITION/STATE MANAGEMENT -----------
 
 func on_piece_hover(piece: Piece) -> void:
+	if piece == selected_piece:
+		return #TODO: behaviour for hovering a selected piece
 	var piece_moves: Dictionary = piece.get_moves_cache()
 	var path_markers: Array[TileMarker] = get_piece_markers(piece_moves, Enums.HighlightType.PATH)
 	var move_markers: Array[TileMarker] = get_piece_markers(piece_moves, Enums.HighlightType.MOVE)
@@ -170,54 +172,60 @@ func on_piece_hover(piece: Piece) -> void:
 		move_markers = _filter_from_selected(move_markers, Enums.HighlightType.MOVE)
 		attack_markers = _filter_from_selected(attack_markers, Enums.HighlightType.ATTACK)
 	
-	hover_markers.append_array(path_markers)
-	hover_markers.append_array(move_markers)
-	hover_markers.append_array(attack_markers)
+	hover_markers = {
+		Enums.HighlightType.PATH: path_markers,
+		Enums.HighlightType.MOVE: move_markers,
+		Enums.HighlightType.ATTACK: attack_markers,
+	}
 
 	highlight_markers(path_markers, Enums.HighlightType.PATH)
 	highlight_markers(move_markers, Enums.HighlightType.MOVE)
 	highlight_markers(attack_markers, Enums.HighlightType.ATTACK)
 	
 func on_piece_hover_out(piece: Piece) -> void:
+	if piece == selected_piece:
+		return
 	if hover_markers.size() != 0:
 		clear_marker_highlights(hover_markers)
 		hover_markers.clear()
-	pass
 
 func highlight_markers(markers: Array[TileMarker], highlight_type: Enums.HighlightType) -> void:
 	for marker: TileMarker in markers:
 		marker.apply_tile_highlight(highlight_type)
 
-func clear_marker_highlights(markers: Array[TileMarker]) -> void:
-	for marker: TileMarker in markers:
+func clear_marker_highlights(hover_markers: Dictionary) -> void:
+	var all_hover_markers: Array = Utils.flatten_dict_of_arrays(hover_markers)
+	for marker: TileMarker in all_hover_markers:
 		marker.apply_tile_highlight(Enums.HighlightType.NONE)
 
 func on_piece_select(piece: Piece) -> void:
 	if piece == selected_piece:
 		on_piece_deselect(piece)
+		return
 	else:
 		if selected_piece:
 			on_piece_deselect(selected_piece)
 		
+		active_markers = hover_markers.duplicate()
+		selected_piece = piece
+
+		# Re-apply highlights for the new selection!
+		for highlight_type: Enums.HighlightType in active_markers.keys():
+			highlight_markers(active_markers[highlight_type], highlight_type)
 
 func on_piece_deselect(piece: Piece) -> void:
 	if piece == selected_piece:
 		selected_piece = null
+		clear_marker_highlights(active_markers)
 		active_markers.clear()
 		if piece.is_hovered():
 			on_piece_hover(piece)
 		return
 	
-	var path_markers: Array[TileMarker] = get_piece_markers(active_markers, Enums.HighlightType.PATH)
-	var move_markers: Array[TileMarker] = get_piece_markers(active_markers, Enums.HighlightType.MOVE)
-	var attack_markers: Array[TileMarker] = get_piece_markers(active_markers, Enums.HighlightType.ATTACK)
-	
-	clear_marker_highlights(path_markers)
-	clear_marker_highlights(move_markers)
-	clear_marker_highlights(attack_markers)
+	clear_marker_highlights(active_markers)
 
 	active_markers.clear()
-	
+	selected_piece = null
 	
 #func on_piece_input(event_type: Enums.InteractionType, piece: Piece) -> void:
 	#var moves: Dictionary = piece.get_moves()

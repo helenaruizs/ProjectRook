@@ -19,3 +19,9 @@ func randi_range(min: int, max: int) -> int:
 
 func clamp_int(value: int, min: int, max: int) -> int:
 	return clamp(value, min, max)
+
+func flatten_dict_of_arrays(dict: Dictionary) -> Array:
+	var result: Array = []
+	for arr: Array in dict.values():
+		result.append_array(arr)
+	return result

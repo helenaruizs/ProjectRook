@@ -260,7 +260,6 @@ func register_occupant(new_piece: Piece) -> void:
 func _on_hover_enter() -> void:
 	hover_overlay.show()
 	if occupant and occupant.player_controlled:
-		occupant.set_hovered(true)
 		occupant.handle_tile_input(Enums.InteractionType.HOVER_IN, self)
 		#occupant.get_moves_cache()
 	SignalBus.emit_signal("marker_hovered", self)
@@ -268,7 +267,6 @@ func _on_hover_enter() -> void:
 func _on_hover_exit() -> void:
 	hover_overlay.hide()
 	if occupant and occupant.player_controlled:
-		occupant.set_hovered(false)
 		occupant.handle_tile_input(Enums.InteractionType.HOVER_OUT, self)
 	SignalBus.emit_signal("marker_hovered_out", self)
 
