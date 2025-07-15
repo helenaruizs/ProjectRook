@@ -253,7 +253,7 @@ func register_occupant(new_piece: Piece) -> void:
 		if new_piece.type == Enums.PieceType.KING:
 			add_condition(Conditions.HAS_KING)
 	
-	_check_state_and_apply()
+	#_check_state_and_apply()
 
 #### SIGNALS #####
 
@@ -274,7 +274,7 @@ func _on_hover_exit() -> void:
 
 # this method signature matches the engine's signal:
 func _on_marker_input_event(camera: Node, event: InputEvent, position: Vector3, normal: Vector3, shape_idx: int) -> void:
-	if event is InputEventMouseButton and event.pressed:
+	if event is InputEventMouseButton and event.is_released():
 		if occupant and occupant.player_controlled:
 			#if occupant.is_selected():
 				#occupant.handle_tile_input(Enums.InteractionType.DESELECT, self)

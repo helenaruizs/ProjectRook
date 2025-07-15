@@ -146,7 +146,7 @@ func is_tile_occupied(pos: Vector2i) -> bool:
 	#}
 
 func get_piece_markers(moves: Dictionary, marker_type: Enums.HighlightType) -> Array[TileMarker]:
-	var marker_pos: Array[Vector2i] = moves.get(marker_type, [])
+	var marker_pos: Array = moves.get(marker_type, [])
 	var piece_markers: Array[TileMarker] = []
 	for pos: Vector2i in marker_pos:
 		var marker: TileMarker = get_marker(pos)
@@ -193,10 +193,32 @@ func clear_marker_highlights(markers: Array[TileMarker]) -> void:
 		marker.apply_tile_highlight(Enums.HighlightType.NONE)
 
 func on_piece_select(piece: Piece) -> void:
-	pass
+	if piece == selected_piece:
+		on_piece_deselect(piece)
+	else:
+		if selected_piece:
+			on_piece_deselect(selected_piece)
+		
 
 func on_piece_deselect(piece: Piece) -> void:
-	pass
+	if piece == selected_piece:
+		selected_piece = null
+		active_markers.clear()
+		if piece.is_hovered():
+			on_piece_hover(piece)
+		return
+	
+	var path_markers: Array[TileMarker] = get_piece_markers(active_markers, Enums.HighlightType.PATH)
+	var move_markers: Array[TileMarker] = get_piece_markers(active_markers, Enums.HighlightType.MOVE)
+	var attack_markers: Array[TileMarker] = get_piece_markers(active_markers, Enums.HighlightType.ATTACK)
+	
+	clear_marker_highlights(path_markers)
+	clear_marker_highlights(move_markers)
+	clear_marker_highlights(attack_markers)
+
+	active_markers.clear()
+	
+	
 #func on_piece_input(event_type: Enums.InteractionType, piece: Piece) -> void:
 	#var moves: Dictionary = piece.get_moves()
 	#var markers_dict: Dictionary = get_markers_from_moves(moves)
