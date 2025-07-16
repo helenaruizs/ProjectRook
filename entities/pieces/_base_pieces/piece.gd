@@ -66,6 +66,7 @@ func move_piece_to_marker(marker: TileMarker) -> void:
 
 func move_piece_to_coord(board: Board, coord: Vector2i) -> void:
 	self.position = board.get_world_position(coord.x, coord.y)
+	board.register_piece(self, coord)
 
 func handle_tile_input(event_type: Enums.InteractionType, tile: TileMarker) -> void:
 	cache_moves()

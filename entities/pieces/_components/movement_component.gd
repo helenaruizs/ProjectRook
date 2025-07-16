@@ -62,7 +62,7 @@ func get_all_moves(origin: Vector2i) -> Dictionary:
 	var move_targets: Array[Vector2i] = []
 	var attack_targets: Array[Vector2i] = []
 	
-	var vectors: Array[Vector2i]
+	var vectors: Array[Vector2i] = []
 	var is_custom_shape: bool = move_data.shape_resource != null
 	var is_first_move: bool = !piece.has_moved
 	var pattern := move_data.pattern
@@ -105,19 +105,29 @@ func get_all_moves(origin: Vector2i) -> Dictionary:
 				
 		Enums.MoveStyle.SLIDE:
 			var max_steps: int = board.get_size() if move_data.length == Enums.MoveLength.LONG else 1
-
 			for vector in vectors:
+				var breadcrumbs: Array[Vector2i] = []
 				for step in range(1, max_steps + 1):
 					var pos: Vector2i = origin + vector * step
 					if not board.has_tile(pos):
 						break
-					paths.append(pos)
+					breadcrumbs.append(pos)
 					if board.has_piece_at(pos):
 						var occupant: Piece = board.get_piece_at(pos)
-						if not occupant.is_friend(piece.alliance):
+						print("Encountered piece at:", pos, "| Occupant alliance:", occupant.alliance, "| Current piece alliance:", piece.alliance)
+						if occupant.is_friend(piece.alliance):
+							# Friendly: previous breadcrumb (if any) is a move target
+							if breadcrumbs.size() >= 2:
+								move_targets.append(breadcrumbs[-2])
+							# Stop in this direction
+							break
+						else:
+							# Enemy: this position is an attack target
 							attack_targets.append(pos)
-						break
-					move_targets.append(pos)
+							# Stop in this direction
+							break
+				# Optionally, collect paths if you want a visual trail up to last checked position
+				paths.append_array(breadcrumbs)
 	return {
 		Enums.HighlightType.PATH: paths,
 		Enums.HighlightType.MOVE: move_targets,

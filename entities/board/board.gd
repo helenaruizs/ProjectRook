@@ -99,6 +99,11 @@ func register_teams(player_configs: Array[PlayerConfig]) -> void:
 			teams[player.alliance] = []
 		teams[player.alliance].append(player)
 
+func register_piece(piece: Piece, pos: Vector2i) -> void:
+	var key := pos
+	var value := piece
+	piece_map[key] = value
+
 # ----------- MOVEMENT HELPERS -----------
 func has_tile(pos: Vector2i) -> bool:
 	return tile_grid_positions.has(pos)
