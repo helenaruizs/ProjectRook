@@ -114,7 +114,6 @@ func get_all_moves(origin: Vector2i) -> Dictionary:
 					breadcrumbs.append(pos)
 					if board.has_piece_at(pos):
 						var occupant: Piece = board.get_piece_at(pos)
-						print("Encountered piece at:", pos, "| Occupant alliance:", occupant.alliance, "| Current piece alliance:", piece.alliance)
 						if occupant.is_friend(piece.alliance):
 							# Friendly: previous breadcrumb (if any) is a move target
 							if breadcrumbs.size() >= 2:
