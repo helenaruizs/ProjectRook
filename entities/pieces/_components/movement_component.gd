@@ -84,6 +84,11 @@ func get_all_moves(origin: Vector2i) -> Dictionary:
 	
 	else:
 		if is_custom_shape:
+			var dir_vec: Vector2i
+			for dir: Enums.Direction in Enums.Direction.values():
+				dir_vec = Enums.dir_to_vector(dir)
+				vectors = move_data.shape_resource.get_vectors()
+				
 			vectors = move_data.shape_resource.get_vectors()
 		# NOTE: Optionally, rotate/mirror these for all valid directions here if needed
 		else:

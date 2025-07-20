@@ -8,7 +8,12 @@ extends Resource
 
 #### HELPERS ####
 func get_vectors() -> Array[Vector2i]:
+	var origin: Vector2i = Vector2i(0,0)
 	var vectors: Array[Vector2i] =[]
+	var dir_vector: Vector2i
 	for dir: Enums.Direction in steps:
-		vectors.append(Enums.dir_to_vector(dir))
+		dir_vector = Enums.dir_to_vector(dir)
+	for step in range(1, steps.size()):
+		var pos: Vector2i = origin + dir_vector * step
+		vectors.append(pos)
 	return vectors
